@@ -50,6 +50,12 @@ export const navigation: FuseNavigation[] = [
                 url      : '/admin/admin-users',
             },
             {
+                id       : 'admin-regions',
+                title    : 'Regions',
+                type     : 'item',
+                url      : '/admin/admin-regions',
+            },
+            {
                 id       : 'ctor-documents',
                 title    : 'Constructor of documents',
                 translate: 'NAV.CTOR_DOCUMENTS',

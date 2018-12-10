@@ -16,6 +16,10 @@ namespace PortalApp.API.Data
         public DbSet<Like> Likes { get; set; }
         public DbSet<Message> Messages { get; set; }
 
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<DepartmentV> DepartmentVs { get; set; }
+        public DbSet<Region> Regions { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

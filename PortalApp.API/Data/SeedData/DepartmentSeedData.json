@@ -1,0 +1,23 @@
+[
+    {
+        "KeyIndex": "Dep 1",
+        "DepartmentVs": [
+            {"Name": "DepartmentV_1"},
+            {"Name": "DepartmentV_2"}
+        ]
+    },
+    {
+        "KeyIndex": "Dep 2",
+        "DepartmentVs": [
+            {"Name": "DepartmentV_2_1 "},
+            {"Name": "DepartmentV_2_2"}
+        ]
+    },
+    {
+        "KeyIndex": "Dep 3",
+        "DepartmentVs": [
+            {"Name": "DepartmentV_3_1"},
+            {"Name": "DepartmentV_3_2"}
+        ]
+    }
+]
