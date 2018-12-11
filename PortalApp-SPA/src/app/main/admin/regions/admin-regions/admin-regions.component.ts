@@ -18,7 +18,7 @@ import { takeUntil } from 'rxjs/internal/operators';
 export class AdminRegionsComponent implements OnInit {
 
   dataSource: FilesDataSource | null;
-   displayedColumns: string[] = ['id', 'username'];
+   displayedColumns: string[] = ['nameRu', 'nameEn', 'nameKz'];
    //  dataSource = ELEMENT_DATA;
  
    @ViewChild(MatPaginator)
@@ -79,14 +79,14 @@ export class AdminRegionsComponent implements OnInit {
      //  * @param {MatSort} _matSort
      //  */
      constructor(
-         private _adminUsersService: AdminRegionsService,
+         private _adminRegionsService: AdminRegionsService,
          private _matPaginator: MatPaginator,
          private _matSort: MatSort
      )
      {
          super();
  
-         this.filteredData = this._adminUsersService.users;
+         this.filteredData = this._adminRegionsService.regions;
          
          
      }
@@ -99,7 +99,7 @@ export class AdminRegionsComponent implements OnInit {
      connect(): Observable<any[]>
      {
          const displayDataChanges = [
-             this._adminUsersService.onUsersChanged,
+             this._adminRegionsService.onRegionsChanged,
              this._matPaginator.page,
              this._filterChange,
              this._matSort.sortChange
@@ -108,7 +108,7 @@ export class AdminRegionsComponent implements OnInit {
          return merge(...displayDataChanges)
              .pipe(
                  map(() => {
-                         let data = this._adminUsersService.users.slice();
+                         let data = this._adminRegionsService.regions.slice();
  
                          data = this.filterData(data);
  
@@ -187,11 +187,17 @@ export class AdminRegionsComponent implements OnInit {
  
              switch ( this._matSort.active )
              {
-                 case 'id':
-                     [propertyA, propertyB] = [a.id, b.id];
+                //  case 'id':
+                //      [propertyA, propertyB] = [a.id, b.id];
+                //      break;
+                 case 'nameRu':
+                     [propertyA, propertyB] = [a.nameRu, b.nameRu];
                      break;
-                 case 'username':
-                     [propertyA, propertyB] = [a.username, b.username];
+                 case 'nameEn':
+                     [propertyA, propertyB] = [a.nameEn, b.nameEn];
+                     break;
+                 case 'nameKz':
+                     [propertyA, propertyB] = [a.nameKz, b.nameKz];
                      break;
                 //  case 'city':
                 //      [propertyA, propertyB] = [a.city, b.city];

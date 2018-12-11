@@ -8,13 +8,13 @@ import { environment } from 'environments/environment';
   providedIn: 'root'
 })
 export class AdminRegionsService implements Resolve<any> {
-  baseUrl = environment.apiUrl + 'users/';
-  users: any[];
-  onUsersChanged: BehaviorSubject<any>;
+  baseUrl = environment.apiUrl + 'region/';
+  regions: any[];
+  onRegionsChanged: BehaviorSubject<any>;
 
 
   constructor(private _httpClient: HttpClient) { 
-    this.onUsersChanged = new BehaviorSubject({});
+    this.onRegionsChanged = new BehaviorSubject({});
     
   }
 
@@ -27,10 +27,12 @@ export class AdminRegionsService implements Resolve<any> {
   //    */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {
+        console.log('regions');
+        
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getUsers()
+                this.getRegions()
             ]).then(
                 () => {
                     resolve();
@@ -45,15 +47,15 @@ export class AdminRegionsService implements Resolve<any> {
     //  *
     //  * @returns {Promise<any>}
     //  */
-    getUsers(): Promise<any>
+    getRegions(): Promise<any>
     {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(this.baseUrl + 'getAllUsers/')
+            this._httpClient.get(this.baseUrl + 'getRegions/')
                 .subscribe((response: any) => {
-                    this.users = response;
-                    // console.log(this.users);
+                    this.regions = response;
+                    console.log(this.regions);
                     
-                    this.onUsersChanged.next(this.users);
+                    this.onRegionsChanged.next(this.regions);
                     resolve(response);
                 }, reject);
         });

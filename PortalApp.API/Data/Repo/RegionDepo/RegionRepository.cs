@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,14 @@ namespace PortalApp.API.Data.Repo.RegionDepo
         {
             _context = context;
         }
+
+        public async Task<Region> GetRegion(Guid id)
+        {
+            var region = await _context.Regions
+            .Include(r=> r.DepartmentVs).FirstOrDefaultAsync(d=> d.Id == id);
+            return region;
+        }
+
         public async Task<IEnumerable<Region>> GetRegions()
         {
            var regions = await _context.Regions

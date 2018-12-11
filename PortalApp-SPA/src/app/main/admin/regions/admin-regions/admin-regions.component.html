@@ -36,9 +36,9 @@
  
           <!-- ADD BUTTON -->
           <button mat-raised-button
-                  [routerLink]="'/apps/e-commerce/products/new'"
+                  [routerLink]="'/admin/admin-regions/new'"
                   class="add-product-button fuse-white mt-24 mt-md-0">
-              <span>ADD NEW PRODUCT</span>
+              <span>ADD NEW REGION</span>
           </button>
           <!-- / ADD BUTTON -->
  
@@ -57,50 +57,43 @@
           <!--- Note that these columns can be defined in any order.
                 The actual rendered columns are set as a property on the row definition" -->
 
-           <!-- ID Column -->
-           <!-- <ng-container matColumnDef="position">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>No. </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                <p class="text-truncate">{{element.position}}</p>
-            </mat-cell>
-        </ng-container> -->
-        <ng-container matColumnDef="id">
+        <!-- <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header>No. </mat-header-cell>
             <mat-cell *matCellDef="let element">
                 <p class="text-truncate">{{element.id}}</p>
             </mat-cell>
-        </ng-container>
+        </ng-container> -->
 
-        <ng-container matColumnDef="username">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Name </mat-header-cell>
+        <ng-container matColumnDef="nameRu">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Name Ru </mat-header-cell>
           <mat-cell *matCellDef="let element">
-              <p class="text-truncate">{{element.username}}</p>
+              <p class="text-truncate">{{element.nameRu}}</p>
           </mat-cell>
       </ng-container>
 
       
 
-      <ng-container matColumnDef="city">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>city </mat-header-cell>
+      <ng-container matColumnDef="nameEn">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>name En </mat-header-cell>
         <mat-cell *matCellDef="let element">
-            <p class="text-truncate">{{element.city}}</p>
+            <p class="text-truncate">{{element.nameEn}}</p>
         </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="country">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>country </mat-header-cell>
+    <ng-container matColumnDef="nameKz">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>name Kz </mat-header-cell>
       <mat-cell *matCellDef="let element">
-          <p class="text-truncate">{{element.country}}</p>
+          <p class="text-truncate">{{element.nameKz}}</p>
       </mat-cell>
   </ng-container>
         
 
           <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
 
-          <mat-row *matRowDef="let user; columns: displayedColumns;"
+          <mat-row *matRowDef="let region; columns: displayedColumns;"
                    class="product"
                    matRipple
-                   [routerLink]="'/admin/admin-users/'+ user.id">
+                   [routerLink]="'/admin/admin-regions/'+ region.id">
           </mat-row>
         </mat-table >
 

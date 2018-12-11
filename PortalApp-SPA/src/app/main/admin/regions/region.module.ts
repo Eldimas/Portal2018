@@ -20,6 +20,8 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseWidgetModule } from '@fuse/components';
 import { AdminRegionsComponent } from './admin-regions/admin-regions.component';
 import { AdminRegionsService } from './admin-regions/admin-regions.service';
+import { AdminRegionService } from './admin-region/admin-region.service';
+import { AdminRegionComponent } from './admin-region/admin-region.component';
 
 
 
@@ -33,9 +35,9 @@ const routes: Routes = [
     },
     {
         path     : 'admin-regions/:id',
-        component: AdminRegionsComponent,
+        component: AdminRegionComponent,
         resolve  : {
-            data: AdminRegionsService
+            data: AdminRegionService
         }
     },
 ];
@@ -60,7 +62,7 @@ const routes: Routes = [
     ],
     declarations: [
         AdminRegionsComponent,
-        AdminRegionsComponent
+        AdminRegionComponent
     ]
 })
 export class AdminRegionModule {}
