@@ -31,5 +31,6 @@ namespace PortalApp.API.Models
         public ICollection<User> Users { get; set; }
 
         public Guid DepartmentId { get; set; }
+        public Department Department { get; set; }
     }
 }

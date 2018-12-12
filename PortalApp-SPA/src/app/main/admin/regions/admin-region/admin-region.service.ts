@@ -30,13 +30,13 @@ export class AdminRegionService implements Resolve<any> {
         this.routeParams = route.params;
 
         return new Promise((resolve, reject) => {
-            Promise.all([this.getProduct()]).then(() => {
+            Promise.all([this.getRegion()]).then(() => {
                 resolve();
             }, reject);
         });
     }
 
-    getProduct(): Promise<any>
+    getRegion(): Promise<any>
     {
         return new Promise((resolve, reject) => {
             if ( this.routeParams.id === 'new' )
@@ -49,6 +49,7 @@ export class AdminRegionService implements Resolve<any> {
                 this._httpClient.get(this.baseUrl +  this.routeParams.id)
                     .subscribe((response: any) => {
                         this.region = response;
+                        // console.log(this.region);
                         
                         this.onRegionChanged.next(this.region);
                         resolve(response);

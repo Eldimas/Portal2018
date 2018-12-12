@@ -8,6 +8,27 @@ export class AdminRegion
     nameRu: string;
     nameEn: string;
     nameKz: string;
+    departmentVs: [
+        {
+            'created': string,
+            'departmentId': string,
+            'disabled': boolean,
+            'displayNameEng': string,
+            'displayNameKaz': string,
+            'displayNameRus': string,
+            'fromNameEng': string,
+            'fromNameKaz': string,
+            'fromNameRus': string,
+            'id': string,
+            'name': string,
+            'priority': number,
+            'regionId': string,
+            'shortName': string,
+            'toNameEng': string,
+            'toNameKaz': string,
+            'toNameRus': string
+        }
+    ];
     // photos: [
     //     {
     //        'id': number, 
@@ -32,6 +53,7 @@ export class AdminRegion
         this.nameRu = region.nameRu || '';
         this.nameEn = region.nameEn || '';
         this.nameKz = region.nameKz || '';
+        this.departmentVs = region.departmentVs || [];
         
     }
 

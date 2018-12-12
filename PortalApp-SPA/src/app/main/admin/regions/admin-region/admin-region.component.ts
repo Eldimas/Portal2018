@@ -43,7 +43,11 @@ export class AdminRegionComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(region => {
         if ( region) {
+          console.log('region001: ', region);
+          
           this.adminRegion = new AdminRegion(region);
+          console.log('adminRegion: ', this.adminRegion);
+          
           this.pageType = 'edit';
         }
         else  {
