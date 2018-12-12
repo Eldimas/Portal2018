@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PortalApp.API.Models;
@@ -8,5 +9,7 @@ namespace PortalApp.API.Data.Repo.DepartmentRepo
     {
          Task<IEnumerable<Department>> GetDepartments();
          Task<IEnumerable<DepartmentV>> GetDepartmentVs();
+
+         Task<Department> GetDepartment(Guid id);
     }
 }

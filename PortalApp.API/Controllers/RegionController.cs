@@ -45,14 +45,14 @@ namespace PortalApp.API.Controllers
         public async Task<IActionResult> GetRegion(Guid id)
         {
             // var isCurrentUser = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) == id;
-            var isCurrentUser = false;
+            // var isCurrentUser = false;
 
-            var user = await _regionRepo.GetRegion(id);
+            var region = await _regionRepo.GetRegion(id);
 
             // var userToReturn = _mapper.Map<UserForDetailedDto>(user);
 
             // return Ok(userToReturn);
-            return Ok(user);
+            return Ok(region);
         }
 
         [Authorize(Policy = "RequireAdminRole")]
@@ -88,7 +88,6 @@ namespace PortalApp.API.Controllers
         }
 
        
-        // [HttpDelete("{id}", Name = "remove")]
         [Authorize(Policy = "RequireAdminRole")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> RemoveRegion(Guid id)

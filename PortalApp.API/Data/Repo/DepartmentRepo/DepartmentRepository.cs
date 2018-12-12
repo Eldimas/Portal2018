@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,12 @@ namespace PortalApp.API.Data.Repo.DepartmentRepo
         {
             _context = context;
         }
+
+        public async Task<Department> GetDepartment(Guid id)
+        {
+            return await _context.Departments.FirstOrDefaultAsync(d => d.Id == id);
+        }
+
         public async Task<IEnumerable<Department>> GetDepartments()
         {
 

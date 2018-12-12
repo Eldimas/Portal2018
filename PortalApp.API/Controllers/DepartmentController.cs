@@ -1,21 +1,29 @@
+using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PortalApp.API.Data;
 using PortalApp.API.Data.Repo.DepartmentRepo;
+using PortalApp.API.Dtos;
+using PortalApp.API.Models;
 
 namespace PortalApp.API.Controllers
 {
-    [AllowAnonymous]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class DepartmentController : ControllerBase
     {
         private readonly IPortalRepository _repo;
         private readonly IDepartmentRepository _depRepo;
+        private readonly IMapper _mapper;
 
-        public DepartmentController(IPortalRepository repo, IDepartmentRepository depRepo)
+        public DepartmentController(IPortalRepository repo, 
+        IDepartmentRepository depRepo, 
+        IMapper mapper)
         {
+            _mapper = mapper;
             _repo = repo;
             _depRepo = depRepo;
         }
@@ -35,6 +43,21 @@ namespace PortalApp.API.Controllers
             return Ok(departments);
         }
 
+        [HttpGet("getDepartment/{id}")]
+        public async Task<IActionResult> GetDepartment(Guid id)
+        {
+            // var isCurrentUser = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) == id;
+            // var isCurrentUser = false;
+
+            var department = await _depRepo.GetDepartment(id);
+
+            // var userToReturn = _mapper.Map<UserForDetailedDto>(user);
+
+            // return Ok(userToReturn);
+            return Ok(department);
+        }
+
+
         [HttpGet("getDepartmentVs")]
         public async Task<IActionResult> GetDepartmentVs()
         {
@@ -47,6 +70,57 @@ namespace PortalApp.API.Controllers
                 return NotFound();
 
             return Ok(departmentVs);
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateDepartment(Guid id, DepartmentForUpdateDto departmentForUpdateDto)
+        {
+            var depFromRepo = await _depRepo.GetDepartment(id);
+
+            _mapper.Map(departmentForUpdateDto, depFromRepo);
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            throw new Exception($"Updating department {id} failed on save");
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("addDepartment")]
+        public async Task<IActionResult> AddDepartment(DepartmentForUpdateDto departmentForUpdateDto)
+        {
+            var depToCreate = _mapper.Map<Department>(departmentForUpdateDto);
+            _repo.Add(depToCreate);
+
+            if (await _repo.SaveAll())
+            {
+                return Ok(depToCreate);
+            }
+                
+
+
+           return BadRequest();
+            //return Ok();
+        }
+
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveDepartment(Guid id)
+        {
+            var regionToRemove = await _depRepo.GetDepartment(id);
+            _repo.Delete(regionToRemove);
+
+            if (await _repo.SaveAll())
+            {
+                return Ok();
+            }
+                
+
+
+           return BadRequest();
+            //return Ok();
         }
     }
 }
