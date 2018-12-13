@@ -30,6 +30,7 @@ namespace PortalApp.API.Helpers
 
             CreateMap<RegionForUpdateDto, Region>();
             CreateMap<DepartmentForUpdateDto, Department>();
+            CreateMap<DepartmentVForUpdateDto, DepartmentV>();
             
             // CreateMap<Message, MessageToReturnDto>()
             //     .ForMember(m => m.SenderPhotoUrl, opt => opt

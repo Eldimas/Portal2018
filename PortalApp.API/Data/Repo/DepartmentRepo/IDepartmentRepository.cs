@@ -9,6 +9,7 @@ namespace PortalApp.API.Data.Repo.DepartmentRepo
     {
          Task<IEnumerable<Department>> GetDepartments();
          Task<IEnumerable<DepartmentV>> GetDepartmentVs();
+         Task<DepartmentV> GetDepartmentV(Guid id);
 
          Task<Department> GetDepartment(Guid id);
     }

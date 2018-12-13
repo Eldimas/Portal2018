@@ -1,0 +1,223 @@
+<!-- <mat-accordion> -->
+<mat-expansion-panel
+    (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false"
+>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            <b>{{ depV.name }}</b>
+        </mat-panel-title>
+        <mat-panel-description> {{ depV.created }} </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <form
+        name="regionForm"
+        [formGroup]="depVForm"
+        class="user w-100-p"
+        fxLayout="column"
+        fxFlex
+    >
+        <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-100-p"
+        >
+            <mat-label>Name</mat-label>
+            <input
+                matInput
+                placeholder="Name"
+                formControlName="name"
+                required
+            />
+        </mat-form-field>
+
+        <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-100-p"
+        >
+            <mat-label>Created</mat-label>
+            <input
+                matInput
+                placeholder="Created"
+                formControlName="created"
+                required
+            />
+        </mat-form-field>
+
+        <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-100-p"
+        >
+            <mat-label>Short Name</mat-label>
+            <input
+                matInput
+                placeholder="Short Name"
+                formControlName="shortName"
+                required
+            />
+        </mat-form-field>
+
+        <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-100-p"
+        >
+            <mat-label>displayNameRus</mat-label>
+            <input
+                matInput
+                placeholder="displayNameRus"
+                formControlName="displayNameRus"
+                required
+            />
+        </mat-form-field>
+
+        <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-100-p"
+        >
+            <mat-label>displayNameEng</mat-label>
+            <input
+                matInput
+                placeholder="displayNameEng"
+                formControlName="displayNameEng"
+                required
+            />
+        </mat-form-field>
+
+        <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-100-p"
+        >
+            <mat-label>displayNameKaz</mat-label>
+            <input
+                matInput
+                placeholder="displayNameKaz"
+                formControlName="displayNameKaz"
+                required
+            />
+        </mat-form-field>
+
+        <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-100-p"
+        >
+            <mat-label>fromNameRus</mat-label>
+            <input
+                matInput
+                placeholder="fromNameRus"
+                formControlName="fromNameRus"
+            />
+        </mat-form-field>
+
+        <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-100-p"
+        >
+            <mat-label>fromNameEng</mat-label>
+            <input
+                matInput
+                placeholder="fromNameEng"
+                formControlName="fromNameEng"
+            />
+        </mat-form-field>
+
+        <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-100-p"
+        >
+            <mat-label>fromNameKaz</mat-label>
+            <input
+                matInput
+                placeholder="fromNameKaz"
+                formControlName="fromNameKaz"
+            />
+        </mat-form-field>
+
+        <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-100-p"
+        >
+            <mat-label>toNameRus</mat-label>
+            <input
+                matInput
+                placeholder="toNameRus"
+                formControlName="toNameRus"
+            />
+        </mat-form-field>
+
+        <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-100-p"
+        >
+            <mat-label>toNameEng</mat-label>
+            <input
+                matInput
+                placeholder="toNameEng"
+                formControlName="toNameEng"
+            />
+        </mat-form-field>
+
+        <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-100-p"
+        >
+            <mat-label>toNameKaz</mat-label>
+            <input
+                matInput
+                placeholder="toNameKaz"
+                formControlName="toNameKaz"
+            />
+        </mat-form-field>
+
+        <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-100-p"
+        >
+            <mat-label>priority</mat-label>
+            <input matInput placeholder="priority" formControlName="priority" />
+        </mat-form-field>
+
+        <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-100-p"
+        >
+            <mat-label>disabled</mat-label>
+            <input matInput placeholder="disabled" formControlName="disabled" />
+        </mat-form-field>
+
+        <!-- [disabled]="depVForm.invalid || depVForm.pristine" -->
+        <button
+            *ngIf="depVForm.value.id.length > 0"
+            mat-raised-button
+            class="save-user-button"
+            [disabled]="depVForm.invalid || depVForm.pristine"
+            (click)="saveDepV()"
+        >
+            <span>SAVE</span>
+        </button>
+
+        <button
+            *ngIf="depVForm.value.id.length == 0"
+            mat-raised-button
+            class="save-user-button"
+            [disabled]="depVForm.invalid || depVForm.pristine"
+            (click)="addDepV(depVForm.value)"
+        >
+            <span>ADD</span>
+        </button>
+    </form>
+</mat-expansion-panel>
+
+<!-- </mat-accordion> -->

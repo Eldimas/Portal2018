@@ -18,7 +18,9 @@ namespace PortalApp.API.Data.Repo.DepartmentRepo
 
         public async Task<Department> GetDepartment(Guid id)
         {
-            return await _context.Departments.FirstOrDefaultAsync(d => d.Id == id);
+            return await _context.Departments
+            .Include(x => x.DepartmentVs)
+            .FirstOrDefaultAsync(d => d.Id == id);
         }
 
         public async Task<IEnumerable<Department>> GetDepartments()
@@ -39,6 +41,11 @@ namespace PortalApp.API.Data.Repo.DepartmentRepo
              .ToListAsync();
 
             return departments;
+        }
+
+        public async Task<DepartmentV> GetDepartmentV(Guid id)
+        {
+            return await _context.DepartmentVs.FirstOrDefaultAsync(v =>v.Id == id);
         }
 
         public async Task<IEnumerable<DepartmentV>> GetDepartmentVs()

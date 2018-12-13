@@ -36,6 +36,7 @@ namespace PortalApp.API.Controllers
             //     return Unauthorized();
 
             var departments = await _depRepo.GetDepartments();
+            
 
             if (departments == null)
                 return NotFound();
@@ -115,6 +116,54 @@ namespace PortalApp.API.Controllers
             if (await _repo.SaveAll())
             {
                 return Ok();
+            }
+                
+
+
+           return BadRequest();
+            //return Ok();
+        }
+
+
+        /////////////////////DepV
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPut("depv/update/{id}")]
+        public async Task<IActionResult> UpdateDepV(Guid id, DepartmentVForUpdateDto departmentVForUpdateDto)
+        {
+            var depVFromRepo = await _depRepo.GetDepartmentV(id);
+
+            _mapper.Map(departmentVForUpdateDto, depVFromRepo);
+
+            try
+            {
+                 if (await _repo.SaveAll())
+                return NoContent();
+
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                throw;
+            }
+           
+            throw new Exception($"Updating departmentV {id} failed on save");
+            
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("depv/add")]
+        public async Task<IActionResult> AddDepV(DepartmentVForUpdateDto departmentVForUpdateDto)
+        {
+
+            var depToCreate = _mapper.Map<DepartmentV>(departmentVForUpdateDto);
+            depToCreate.Id = Guid.NewGuid();
+            depToCreate.RegionId = new Guid("EE8D5BB2-99C4-4071-887E-84F4CAF01CF7");
+            depToCreate.Created = DateTime.Now;
+            _repo.Add(depToCreate);
+
+            if (await _repo.SaveAll())
+            {
+                return Ok(depToCreate);
             }
                 
 

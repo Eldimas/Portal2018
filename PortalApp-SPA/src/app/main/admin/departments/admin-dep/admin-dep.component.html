@@ -53,28 +53,34 @@
             </div>
             <!-- / APP TITLE -->
 
-            
-                <button mat-raised-button
-                        class="save-user-button"
-                        [disabled]="depForm.invalid"
-                        *ngIf="pageType ==='new'" (click)="addDepartment()">
-                    <span>ADD</span>
-                </button>
-           
+            <button
+                mat-raised-button
+                class="save-user-button"
+                [disabled]="depForm.invalid"
+                *ngIf="pageType === 'new'"
+                (click)="addDepartment()"
+            >
+                <span>ADD</span>
+            </button>
 
-            
-                 <button mat-raised-button
-                        class="save-user-button"
-                        [disabled]="depForm.invalid || depForm.pristine"
-                        *ngIf="pageType ==='edit'" (click)="saveDepartment()">
-                    <span>SAVE</span>
-                </button>
+            <button
+                mat-raised-button
+                class="save-user-button"
+                [disabled]="depForm.invalid || depForm.pristine"
+                *ngIf="pageType === 'edit'"
+                (click)="saveDepartment()"
+            >
+                <span>SAVE</span>
+            </button>
 
-                <button mat-raised-button color="warn"
-                        *ngIf="pageType ==='edit'" (click)="removeDepartment()">
-                    <span>REMOVE</span>
-                </button>
-           
+            <button
+                mat-raised-button
+                color="warn"
+                *ngIf="pageType === 'edit'"
+                (click)="removeDepartment()"
+            >
+                <span>REMOVE</span>
+            </button>
         </div>
         <!-- / HEADER -->
 
@@ -107,47 +113,31 @@
                                     />
                                 </mat-form-field>
 
-                                <!-- <mat-form-field
-                                    appearance="outline"
-                                    floatLabel="always"
-                                    class="w-100-p"
-                                >
-                                    <mat-label>Name En</mat-label>
-                                    <input
-                                        matInput
-                                        placeholder="Name En"
-                                        name="nameEn"
-                                        formControlName="nameEn"
-                                        required
-                                    />
-                                </mat-form-field> -->
 
-                                <!-- <mat-form-field
-                                    appearance="outline"
-                                    floatLabel="always"
-                                    class="w-100-p"
-                                >
-                                    <mat-label>Name Kz</mat-label>
-                                    <input
-                                        matInput
-                                        placeholder="Name Kz"
-                                        name="nameKz"
-                                        formControlName="nameKz"
-                                        required
-                                    />
-                                </mat-form-field> -->
-
-                                <pre>{{ adminDepartment | json }}</pre>
-                                
+                                <!-- <pre>{{ adminDepartment | json }}</pre> -->
                             </div>
                         </mat-tab>
 
-                        <mat-tab label="Departments">
-                            <div class="tab-content p-24" fusePerfectScrollbar>
-                                    <p>Department</p>
-                                    <!-- <pre>{{ adminRegion.departmentVs | json }}</pre> -->
-                            </div>
-                        </mat-tab>
+                        
+
+                        <mat-tab label="Versions">
+                                <div class="tab-content p-24" fusePerfectScrollbar>
+                                    <p>DepartmentVs</p>
+                                    <button
+                                    mat-raised-button
+                                    class="save-user-button"
+                                    (click)="addDepV()"
+                                >
+                                    <span>ADD VERSION</span>
+                                </button>
+                                    <mat-accordion>
+                                    <app-admin-dep-vs-accord *ngFor="let depV of adminDepartment.departmentVs"
+                                        [depV]="depV"
+                                        [department] = "adminDepartment"
+                                    ></app-admin-dep-vs-accord>
+                                    </mat-accordion>
+                                </div>
+                            </mat-tab>
 
                         <!--
                             <mat-tab label="user Images">

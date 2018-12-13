@@ -10,6 +10,7 @@ import { AuthService } from 'app/_services/auth.service';
 import { Router } from '@angular/router';
 import { AdminDepartment } from './admin-dep.model';
 import { AdminDepService } from './admin-dep.service';
+import { AdminDepV } from '../models/admin-dep-vs.model';
 
 
 @Component({
@@ -22,6 +23,7 @@ import { AdminDepService } from './admin-dep.service';
 export class AdminDepComponent implements OnInit, OnDestroy {
 
   adminDepartment: AdminDepartment;
+  adminDepV: AdminDepV;
   depForm: FormGroup;
   pageType: string;
   // Private
@@ -35,6 +37,7 @@ export class AdminDepComponent implements OnInit, OnDestroy {
     private _location: Location,
     private authService: AuthService) { 
       this.adminDepartment = new AdminDepartment();
+      this.adminDepV = new AdminDepV();
       this._unsubscribeAll = new Subject();
     }
 
@@ -46,6 +49,7 @@ export class AdminDepComponent implements OnInit, OnDestroy {
             console.log('dep001: ', dep);
             
             this.adminDepartment = new AdminDepartment(dep);
+            this.adminDepartment.departmentVs.sort((a, b) => b.created.localeCompare(a.created));
             console.log('adminDep: ', this.adminDepartment);
             
             this.pageType = 'edit';
@@ -141,6 +145,11 @@ export class AdminDepComponent implements OnInit, OnDestroy {
 
                 this.router.navigate(['/admin/admin-deps/']);
             });
+    }
+
+    addDepV(): void {
+     this.adminDepV.name = 'New Version';
+     this.adminDepartment.departmentVs.push(this.adminDepV);
     }
 
 

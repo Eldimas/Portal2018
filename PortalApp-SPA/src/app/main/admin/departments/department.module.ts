@@ -13,7 +13,9 @@ import {
     MatSnackBarModule,
     MatTabsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatMenuModule,
+    MatExpansionModule
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -22,6 +24,8 @@ import { AdminDepsComponent } from './admin-deps/admin-deps.component';
 import { AdminDepComponent } from './admin-dep/admin-dep.component';
 import { AdminDepsService } from './admin-deps/admin-deps.service';
 import { AdminDepService } from './admin-dep/admin-dep.service';
+import { AdminDepVsComponent } from './admin-dep-vs/admin-dep-vs.component';
+import { AdminDepVsAccordComponent } from './admin-dep-vs-accord/admin-dep-vs-accord.component';
 // import { AdminRegionsComponent } from './admin-regions/admin-regions.component';
 // import { AdminRegionsService } from './admin-regions/admin-regions.service';
 // import { AdminRegionService } from './admin-region/admin-region.service';
@@ -62,11 +66,15 @@ const routes: Routes = [
         MatSnackBarModule,
         MatTabsModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        MatMenuModule,
+        MatExpansionModule
     ],
     declarations: [
         AdminDepsComponent,
-        AdminDepComponent
+        AdminDepComponent,
+        AdminDepVsComponent,
+        AdminDepVsAccordComponent
         // AdminRegionsComponent,
         // AdminRegionComponent
     ]

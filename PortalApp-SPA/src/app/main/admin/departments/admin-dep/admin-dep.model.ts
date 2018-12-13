@@ -8,27 +8,27 @@ export class AdminDepartment
     keyIndex: string;
     // nameEn: string;
     // nameKz: string;
-    // departmentVs: [
-    //     {
-    //         'created': string,
-    //         'departmentId': string,
-    //         'disabled': boolean,
-    //         'displayNameEng': string,
-    //         'displayNameKaz': string,
-    //         'displayNameRus': string,
-    //         'fromNameEng': string,
-    //         'fromNameKaz': string,
-    //         'fromNameRus': string,
-    //         'id': string,
-    //         'name': string,
-    //         'priority': number,
-    //         'regionId': string,
-    //         'shortName': string,
-    //         'toNameEng': string,
-    //         'toNameKaz': string,
-    //         'toNameRus': string
-    //     }
-    // ];
+    departmentVs: [
+        {
+            'id': string,
+            'name': string,
+            'created': string,
+            'departmentId': string,
+            'disabled': boolean,
+            'displayNameEng': string,
+            'displayNameKaz': string,
+            'displayNameRus': string,
+            'fromNameEng': string,
+            'fromNameKaz': string,
+            'fromNameRus': string,
+            'priority': number,
+            'regionId': string,
+            'shortName': string,
+            'toNameEng': string,
+            'toNameKaz': string,
+            'toNameRus': string
+        }
+    ];
     
 
     /**
@@ -40,6 +40,7 @@ export class AdminDepartment
         dep = dep || {};
         this.id = dep.id || '';
         this.keyIndex = dep.keyIndex || '';
+        this.departmentVs = dep.departmentVs || [];
         
     }
 
