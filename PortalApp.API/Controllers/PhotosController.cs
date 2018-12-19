@@ -82,10 +82,10 @@ namespace PortalApp.API.Controllers
 
             var photo = _mapper.Map<Photo>(photoForCreationDto);
 
-            if (!userFromRepo.Photos.Any(u => u.IsMain))
-                photo.IsMain = true;
+            // if (!userFromRepo.Photos.Any(u => u.IsMain))
+            //     photo.IsMain = true;
 
-            userFromRepo.Photos.Add(photo);
+            // userFromRepo.Photos.Add(photo);
 
             if (await _repo.SaveAll())
             {
@@ -104,8 +104,8 @@ namespace PortalApp.API.Controllers
 
             var user = await _repo.GetUser(userId, true);
 
-            if (!user.Photos.Any(p => p.Id == id))
-                return Unauthorized();
+            // if (!user.Photos.Any(p => p.Id == id))
+            //     return Unauthorized();
 
             var photoFromRepo = await _repo.GetPhoto(id);
 
@@ -131,8 +131,8 @@ namespace PortalApp.API.Controllers
 
             var user = await _repo.GetUser(userId, true);
 
-            if (!user.Photos.Any(p => p.Id == id))
-                return Unauthorized();
+            // if (!user.Photos.Any(p => p.Id == id))
+            //     return Unauthorized();
 
             var photoFromRepo = await _repo.GetPhoto(id);
 
