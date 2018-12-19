@@ -47,7 +47,10 @@ namespace PortalApp.API.Data
 
         public async Task<User> GetUser(int id, bool isCurrentUser)
         {
-            var query = _context.Users.Include(p => p.Photos).AsQueryable();
+            var query = _context.Users
+            .Include(r =>r.UserRoles)
+                .ThenInclude(r => r.Role)
+            .Include(p => p.Photos).AsQueryable();
 
             if (isCurrentUser)
                 query = query.IgnoreQueryFilters();

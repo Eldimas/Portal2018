@@ -139,7 +139,10 @@ export class AppComponent implements OnInit, OnDestroy {
         this._authService.checkAdminMenu();
 
         const token = localStorage.getItem('token');
+        
+        
         const user: User = JSON.parse(localStorage.getItem('user'));
+        console.log('user: ', user);
 
         if (token) {
             this._authService.decodedToken = this.jwtHelper.decodeToken(token);

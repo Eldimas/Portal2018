@@ -27,7 +27,7 @@ namespace PortalApp.API.Controllers
             _regionRepo = regionRepo;
         }
 
-
+        // [AllowAnonymous]
         [HttpGet("getRegions")]
         public async Task<IActionResult> GetRegions()
         {
