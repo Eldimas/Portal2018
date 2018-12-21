@@ -22,7 +22,9 @@ namespace PortalApp.API.Models
         // public ICollection<Like> Likees { get; set; }
         // public ICollection<Message> MessagesSent { get; set; }
         // public ICollection<Message> MessagesReceived { get; set; }
-        public Guid DepartmentVId { get; set; }
+        // public Guid DepartmentVId { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
+
+        public ICollection<UserV> UserVs { get; set; }
     }
 }

@@ -147,77 +147,6 @@ namespace PortalApp.API.Migrations
                     b.ToTable("DepartmentVs");
                 });
 
-            modelBuilder.Entity("PortalApp.API.Models.Like", b =>
-                {
-                    b.Property<int>("LikerId");
-
-                    b.Property<int>("LikeeId");
-
-                    b.HasKey("LikerId", "LikeeId");
-
-                    b.HasIndex("LikeeId");
-
-                    b.ToTable("Likes");
-                });
-
-            modelBuilder.Entity("PortalApp.API.Models.Message", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Content");
-
-                    b.Property<DateTime?>("DateRead");
-
-                    b.Property<bool>("IsRead");
-
-                    b.Property<DateTime>("MessageSent");
-
-                    b.Property<bool>("RecipientDeleted");
-
-                    b.Property<int>("RecipientId");
-
-                    b.Property<bool>("SenderDeleted");
-
-                    b.Property<int>("SenderId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipientId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("PortalApp.API.Models.Photo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateAdded");
-
-                    b.Property<string>("Description");
-
-                    b.Property<bool>("IsApproved");
-
-                    b.Property<bool>("IsMain");
-
-                    b.Property<string>("PublicId");
-
-                    b.Property<string>("Url");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Photos");
-                });
-
             modelBuilder.Entity("PortalApp.API.Models.Region", b =>
                 {
                     b.Property<Guid>("Id")
@@ -267,39 +196,21 @@ namespace PortalApp.API.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("City");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<string>("Country");
-
                     b.Property<DateTime>("Created");
-
-                    b.Property<DateTime>("DateOfBirth");
-
-                    b.Property<Guid>("DepartmentVId");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("Gender");
-
-                    b.Property<string>("Interests");
-
-                    b.Property<string>("Introduction");
-
-                    b.Property<string>("KnownAs");
-
                     b.Property<DateTime>("LastActive");
 
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("LookingFor");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -321,8 +232,6 @@ namespace PortalApp.API.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DepartmentVId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -346,6 +255,113 @@ namespace PortalApp.API.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("PortalApp.API.Models.UserTemp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Cabinet");
+
+                    b.Property<string>("DepartmentName");
+
+                    b.Property<string>("DeputyUserName");
+
+                    b.Property<bool?>("Disabled");
+
+                    b.Property<string>("DisplayNameEng");
+
+                    b.Property<string>("DisplayNameKaz");
+
+                    b.Property<string>("DisplayNameRus");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("FromNameEng");
+
+                    b.Property<string>("FromNameKaz");
+
+                    b.Property<string>("FromNameRus");
+
+                    b.Property<DateTime?>("LastLogin");
+
+                    b.Property<string>("Mobile");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Phone");
+
+                    b.Property<string>("Position");
+
+                    b.Property<string>("PositionEng");
+
+                    b.Property<string>("PositionKaz");
+
+                    b.Property<string>("PositionRus");
+
+                    b.Property<string>("PrefferedCulture");
+
+                    b.Property<int?>("Priority");
+
+                    b.Property<string>("RegionString");
+
+                    b.Property<string>("Roles");
+
+                    b.Property<byte[]>("TimeStamp");
+
+                    b.Property<string>("ToNameEng");
+
+                    b.Property<string>("ToNameKaz");
+
+                    b.Property<string>("ToNameRus");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserTemps");
+                });
+
+            modelBuilder.Entity("PortalApp.API.Models.UserV", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<Guid>("DepartmentVId");
+
+                    b.Property<bool>("Disabled");
+
+                    b.Property<string>("DisplayNameEng");
+
+                    b.Property<string>("DisplayNameKaz");
+
+                    b.Property<string>("DisplayNameRus");
+
+                    b.Property<string>("FromNameEng");
+
+                    b.Property<string>("FromNameKaz");
+
+                    b.Property<string>("FromNameRus");
+
+                    b.Property<int>("Priority");
+
+                    b.Property<string>("ToNameEng");
+
+                    b.Property<string>("ToNameKaz");
+
+                    b.Property<string>("ToNameRus");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentVId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserVs");
                 });
 
             modelBuilder.Entity("PortalApp.API.Models.Value", b =>
@@ -395,7 +411,7 @@ namespace PortalApp.API.Migrations
 
             modelBuilder.Entity("PortalApp.API.Models.DepartmentV", b =>
                 {
-                    b.HasOne("PortalApp.API.Models.Department")
+                    b.HasOne("PortalApp.API.Models.Department", "Department")
                         .WithMany("DepartmentVs")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -403,48 +419,6 @@ namespace PortalApp.API.Migrations
                     b.HasOne("PortalApp.API.Models.Region")
                         .WithMany("DepartmentVs")
                         .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("PortalApp.API.Models.Like", b =>
-                {
-                    b.HasOne("PortalApp.API.Models.User", "Likee")
-                        .WithMany("Likers")
-                        .HasForeignKey("LikeeId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("PortalApp.API.Models.User", "Liker")
-                        .WithMany("Likees")
-                        .HasForeignKey("LikerId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("PortalApp.API.Models.Message", b =>
-                {
-                    b.HasOne("PortalApp.API.Models.User", "Recipient")
-                        .WithMany("MessagesReceived")
-                        .HasForeignKey("RecipientId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("PortalApp.API.Models.User", "Sender")
-                        .WithMany("MessagesSent")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("PortalApp.API.Models.Photo", b =>
-                {
-                    b.HasOne("PortalApp.API.Models.User", "User")
-                        .WithMany("Photos")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("PortalApp.API.Models.User", b =>
-                {
-                    b.HasOne("PortalApp.API.Models.DepartmentV")
-                        .WithMany("Users")
-                        .HasForeignKey("DepartmentVId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -457,6 +431,19 @@ namespace PortalApp.API.Migrations
 
                     b.HasOne("PortalApp.API.Models.User", "User")
                         .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PortalApp.API.Models.UserV", b =>
+                {
+                    b.HasOne("PortalApp.API.Models.DepartmentV", "DepartmentV")
+                        .WithMany("UserVs")
+                        .HasForeignKey("DepartmentVId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PortalApp.API.Models.User", "User")
+                        .WithMany("UserVs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

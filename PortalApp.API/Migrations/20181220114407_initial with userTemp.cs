@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PortalApp.API.Migrations
 {
-    public partial class initialDb : Migration
+    public partial class initialwithuserTemp : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,20 +43,77 @@ namespace PortalApp.API.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Gender = table.Column<string>(nullable: true),
-                    DateOfBirth = table.Column<DateTime>(nullable: false),
-                    KnownAs = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
-                    LastActive = table.Column<DateTime>(nullable: false),
-                    Introduction = table.Column<string>(nullable: true),
-                    LookingFor = table.Column<string>(nullable: true),
-                    Interests = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    Country = table.Column<string>(nullable: true)
+                    LastActive = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    KeyIndex = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Regions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    NameRu = table.Column<string>(nullable: true),
+                    NameEn = table.Column<string>(nullable: true),
+                    NameKz = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Regions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserTemps",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Position = table.Column<string>(nullable: true),
+                    DepartmentName = table.Column<string>(nullable: true),
+                    DeputyUserName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Roles = table.Column<string>(nullable: true),
+                    PrefferedCulture = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    Mobile = table.Column<string>(nullable: true),
+                    Cabinet = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    DisplayNameRus = table.Column<string>(nullable: true),
+                    FromNameRus = table.Column<string>(nullable: true),
+                    ToNameRus = table.Column<string>(nullable: true),
+                    DisplayNameEng = table.Column<string>(nullable: true),
+                    FromNameEng = table.Column<string>(nullable: true),
+                    ToNameEng = table.Column<string>(nullable: true),
+                    TimeStamp = table.Column<byte[]>(nullable: true),
+                    Priority = table.Column<int>(nullable: true),
+                    Disabled = table.Column<bool>(nullable: true),
+                    LastLogin = table.Column<DateTime>(nullable: true),
+                    PositionRus = table.Column<string>(nullable: true),
+                    PositionKaz = table.Column<string>(nullable: true),
+                    PositionEng = table.Column<string>(nullable: true),
+                    DisplayNameKaz = table.Column<string>(nullable: true),
+                    FromNameKaz = table.Column<string>(nullable: true),
+                    ToNameKaz = table.Column<string>(nullable: true),
+                    RegionString = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTemps", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -179,80 +236,75 @@ namespace PortalApp.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Likes",
+                name: "DepartmentVs",
                 columns: table => new
                 {
-                    LikerId = table.Column<int>(nullable: false),
-                    LikeeId = table.Column<int>(nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    ShortName = table.Column<string>(nullable: true),
+                    DisplayNameRus = table.Column<string>(nullable: true),
+                    DisplayNameEng = table.Column<string>(nullable: true),
+                    DisplayNameKaz = table.Column<string>(nullable: true),
+                    FromNameRus = table.Column<string>(nullable: true),
+                    FromNameEng = table.Column<string>(nullable: true),
+                    FromNameKaz = table.Column<string>(nullable: true),
+                    ToNameRus = table.Column<string>(nullable: true),
+                    ToNameEng = table.Column<string>(nullable: true),
+                    ToNameKaz = table.Column<string>(nullable: true),
+                    Priority = table.Column<int>(nullable: false),
+                    Disabled = table.Column<bool>(nullable: false),
+                    RegionId = table.Column<Guid>(nullable: false),
+                    DepartmentId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Likes", x => new { x.LikerId, x.LikeeId });
+                    table.PrimaryKey("PK_DepartmentVs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Likes_AspNetUsers_LikeeId",
-                        column: x => x.LikeeId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_DepartmentVs_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Likes_AspNetUsers_LikerId",
-                        column: x => x.LikerId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_DepartmentVs_Regions_RegionId",
+                        column: x => x.RegionId,
+                        principalTable: "Regions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Messages",
+                name: "UserVs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SenderId = table.Column<int>(nullable: false),
-                    RecipientId = table.Column<int>(nullable: false),
-                    Content = table.Column<string>(nullable: true),
-                    IsRead = table.Column<bool>(nullable: false),
-                    DateRead = table.Column<DateTime>(nullable: true),
-                    MessageSent = table.Column<DateTime>(nullable: false),
-                    SenderDeleted = table.Column<bool>(nullable: false),
-                    RecipientDeleted = table.Column<bool>(nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false),
+                    DisplayNameRus = table.Column<string>(nullable: true),
+                    DisplayNameEng = table.Column<string>(nullable: true),
+                    DisplayNameKaz = table.Column<string>(nullable: true),
+                    FromNameRus = table.Column<string>(nullable: true),
+                    FromNameEng = table.Column<string>(nullable: true),
+                    FromNameKaz = table.Column<string>(nullable: true),
+                    ToNameRus = table.Column<string>(nullable: true),
+                    ToNameEng = table.Column<string>(nullable: true),
+                    ToNameKaz = table.Column<string>(nullable: true),
+                    Priority = table.Column<int>(nullable: false),
+                    Disabled = table.Column<bool>(nullable: false),
+                    UserId = table.Column<int>(nullable: false),
+                    DepartmentVId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.PrimaryKey("PK_UserVs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Messages_AspNetUsers_RecipientId",
-                        column: x => x.RecipientId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_UserVs_DepartmentVs_DepartmentVId",
+                        column: x => x.DepartmentVId,
+                        principalTable: "DepartmentVs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Messages_AspNetUsers_SenderId",
-                        column: x => x.SenderId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Photos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Url = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    DateAdded = table.Column<DateTime>(nullable: false),
-                    IsMain = table.Column<bool>(nullable: false),
-                    PublicId = table.Column<string>(nullable: true),
-                    IsApproved = table.Column<bool>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Photos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Photos_AspNetUsers_UserId",
+                        name: "FK_UserVs_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -299,23 +351,23 @@ namespace PortalApp.API.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Likes_LikeeId",
-                table: "Likes",
-                column: "LikeeId");
+                name: "IX_DepartmentVs_DepartmentId",
+                table: "DepartmentVs",
+                column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Messages_RecipientId",
-                table: "Messages",
-                column: "RecipientId");
+                name: "IX_DepartmentVs_RegionId",
+                table: "DepartmentVs",
+                column: "RegionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Messages_SenderId",
-                table: "Messages",
-                column: "SenderId");
+                name: "IX_UserVs_DepartmentVId",
+                table: "UserVs",
+                column: "DepartmentVId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Photos_UserId",
-                table: "Photos",
+                name: "IX_UserVs_UserId",
+                table: "UserVs",
                 column: "UserId");
         }
 
@@ -337,13 +389,10 @@ namespace PortalApp.API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Likes");
+                name: "UserTemps");
 
             migrationBuilder.DropTable(
-                name: "Messages");
-
-            migrationBuilder.DropTable(
-                name: "Photos");
+                name: "UserVs");
 
             migrationBuilder.DropTable(
                 name: "Values");
@@ -352,7 +401,16 @@ namespace PortalApp.API.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "DepartmentVs");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
+
+            migrationBuilder.DropTable(
+                name: "Regions");
         }
     }
 }

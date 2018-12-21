@@ -134,9 +134,17 @@ namespace PortalApp.API
 
             // app.UseHttpsRedirection();
             
-            seeder.SeedRegions();
-            seeder.SeedDepartments();
+            // seeder.SeedRegions();
+            // seeder.SeedDepartments();
+            // seeder.SeedUsers();
+            // seeder.SeedUserV();
+
+            seeder.SeedRegionsSql();
+            seeder.SeedDepartmentsSql();
+            seeder.SeedUserTempSql();
             seeder.SeedUsers();
+            seeder.SeedUserV();
+
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseAuthentication();
             app.UseDefaultFiles();

@@ -19,6 +19,8 @@ namespace PortalApp.API.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<DepartmentV> DepartmentVs { get; set; }
         public DbSet<Region> Regions { get; set; }
+        public DbSet<UserV> UserVs { get; set; }
+        public DbSet<UserTemp> UserTemps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
