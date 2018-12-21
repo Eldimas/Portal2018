@@ -87,17 +87,23 @@ export class AdminUserComponent implements OnInit, OnDestroy {
       return this._formBuilder.group({
         id: [this.adminUser.id],
         userName: [this.adminUser.userName],
-        gender: [this.adminUser.gender],
-        dateOfBirth: [this.adminUser.dateOfBirth],
-        knownAs: [this.adminUser.knownAs],
+        email: [this.adminUser.email],
+        phoneNumber: [this.adminUser.phoneNumber],
         created: [this.adminUser.created],
-        lastActive: [this.adminUser.lastActive],
-        introduction: [this.adminUser.introduction],
-        lookingFor: [this.adminUser.lookingFor],
-        interests: [this.adminUser.interests],
-        city: [this.adminUser.city],
-        country: [this.adminUser.country],
-        photos: [this.adminUser.photos]
+        lastActive: [this.adminUser.lastActive]
+        // vCreated: [this.adminUser.vCreated],
+        // vDisplayNameRus: [this.adminUser.vDisplayNameRus],
+        // vDisplayNameEng: [this.adminUser.vDisplayNameEng],
+        // vDisplayNameKaz: [this.adminUser.vDisplayNameKaz],
+        // vFromNameRus: [this.adminUser.vFromNameRus],
+        // vFromNameEng: [this.adminUser.vFromNameEng],
+        // vFromNameKaz: [this.adminUser.vFromNameKaz],
+        // vToNameRus: [this.adminUser.vToNameRus],
+        // vToNameEng: [this.adminUser.vToNameEng],
+        // vToNameKaz: [this.adminUser.vToNameKaz],
+        // vPriority: [this.adminUser.vPriority],
+        // vDisabled: [this.adminUser.vDisabled]
+        
       });
     }
 

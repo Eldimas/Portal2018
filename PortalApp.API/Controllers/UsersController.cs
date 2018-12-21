@@ -72,7 +72,8 @@ namespace PortalApp.API.Controllers
 
             var user = await _repo.GetUser(id, isCurrentUser);
 
-            var userToReturn = _mapper.Map<UserForDetailedDto>(user);
+            // var userToReturn = _mapper.Map<UserForDetailedDto>(user);
+            var userToReturn = _mapper.Map<UserDetailsDto>(user);
 
             // return Ok(userToReturn);
              return Ok(user);

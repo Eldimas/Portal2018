@@ -28,6 +28,9 @@ namespace PortalApp.API.Helpers
           
             CreateMap<UserForRegisterDto, User>();
 
+            CreateMap<UserDetailsDto, User>();
+            CreateMap<User, UserDetailsDto>();
+
             CreateMap<RegionForUpdateDto, Region>();
             CreateMap<DepartmentForUpdateDto, Department>();
             CreateMap<DepartmentVForUpdateDto, DepartmentV>();

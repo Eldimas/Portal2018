@@ -53,6 +53,7 @@ namespace PortalApp.API.Data
             var query = _context.Users
             .Include(r =>r.UserRoles)
                 .ThenInclude(r => r.Role)
+            .Include(r => r.UserVs)
             // .Include(p => p.Photos)
             .AsQueryable();
 

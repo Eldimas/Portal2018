@@ -73,34 +73,41 @@
                           </mat-form-field>
 
                           <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                              <mat-label>Gender</mat-label>
-                              <input matInput placeholder="Gender"
-                                     name="gender"
-                                     formControlName="gender">
+                              <mat-label>email</mat-label>
+                              <input matInput placeholder="email"
+                                     name="email"
+                                     formControlName="email">
                             </mat-form-field>
 
                             <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                <mat-label>City</mat-label>
-                                <input matInput placeholder="City"
-                                       name="city"
-                                       formControlName="city">
+                                <mat-label>phoneNumber</mat-label>
+                                <input matInput placeholder="phoneNumber"
+                                       name="phoneNumber"
+                                       formControlName="phoneNumber">
                               </mat-form-field>
 
                               <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                  <mat-label>Country</mat-label>
-                                  <input matInput placeholder="Country"
-                                         name="country"
-                                         formControlName="country">
+                                  <mat-label>created</mat-label>
+                                  <input matInput placeholder="created"
+                                         name="created"
+                                         formControlName="created">
                                 </mat-form-field>
 
-                          <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                              <mat-label>User Introduction</mat-label>
-                              <textarea matInput placeholder="User Introduction"
-                                        name="introduction"
-                                        formControlName="introduction"
+                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                    <mat-label>lastActive</mat-label>
+                                    <input matInput placeholder="lastActive"
+                                           name="lastActive"
+                                           formControlName="lastActive">
+                                  </mat-form-field>
+
+                          <!-- <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                              <mat-label>lastActive</mat-label>
+                              <textarea matInput placeholder="lastActive"
+                                        name="lastActive"
+                                        formControlName="lastActive"
                                         rows="3">
                               </textarea>
-                          </mat-form-field>
+                          </mat-form-field> -->
                         </div>
 
                       </mat-tab>
@@ -109,7 +116,16 @@
 
                         <div class="tab-content p-24" fusePerfectScrollbar>
                         <h2>Roles</h2> 
-                            <pre>{{adminUser | json}}</pre>
+                            <pre>{{adminUser.userRoles | json}}</pre>
+                        </div>
+
+                      </mat-tab>
+
+                      <mat-tab label="Versions">
+
+                        <div class="tab-content p-24" fusePerfectScrollbar>
+                        <h2>Versions</h2> 
+                            <pre>{{adminUser.userVs | json}}</pre>
                         </div>
 
                       </mat-tab>
