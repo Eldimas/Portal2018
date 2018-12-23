@@ -118,6 +118,22 @@ namespace PortalApp.API.Data
                     _roleManager.CreateAsync(role).Wait();
                 }
 
+                var adminUser = new User
+                {
+                    UserName = "Admin",
+                    PhoneNumber = "+7 707 1209095",
+                    Email = "admin@agp.com.kz"
+                    // DepartmentVId=departmentId
+                };
+
+                IdentityResult result = _userManager.CreateAsync(adminUser, "password").Result;
+
+                if (result.Succeeded)
+                {
+                    var admin = _userManager.FindByNameAsync("Admin").Result;
+                    _userManager.AddToRolesAsync(admin, new[] { "Admin", "Moderator" }).Wait();
+                }
+
                 // var departmentId = _context.DepartmentVs.FirstOrDefault(x => x.Name == "DepartmentV_2_2").Id;
 
                 var userTemps = _context.UserTemps.ToList();
@@ -153,21 +169,7 @@ namespace PortalApp.API.Data
 
                 }
 
-                var adminUser = new User
-                {
-                    UserName = "Admin",
-                    PhoneNumber = "+7 707 1209095",
-                    Email = "admin@agp.com.kz"
-                    // DepartmentVId=departmentId
-                };
-
-                IdentityResult result = _userManager.CreateAsync(adminUser, "password").Result;
-
-                if (result.Succeeded)
-                {
-                    var admin = _userManager.FindByNameAsync("Admin").Result;
-                    _userManager.AddToRolesAsync(admin, new[] { "Admin", "Moderator" }).Wait();
-                }
+                
             }
         }
 
@@ -258,6 +260,8 @@ namespace PortalApp.API.Data
                             {
                                 departmentId = depV.Id;
                             }
+                        }else {
+                            departmentId = _context.DepartmentVs.FirstOrDefault().Id;
                         }
 
 

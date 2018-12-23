@@ -10,7 +10,13 @@ export class AdminUser
     phoneNumber: string;
     created: string;
     lastActive: string;
-    userRoles: [];
+    userRoles: [
+        {
+            role: {
+                name: string;
+            } 
+        }
+    ];
     userVs: [];
     // vCreated: string;
     // vDisplayNameRus: string;

@@ -13,7 +13,8 @@ import {
     MatSnackBarModule,
     MatTabsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatCheckboxModule
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -57,7 +58,8 @@ const routes: Routes = [
         MatSnackBarModule,
         MatTabsModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        MatCheckboxModule
     ],
     declarations: [
         AdminUsersComponent,

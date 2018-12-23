@@ -5,9 +5,12 @@ import { AdminUserService } from './admin-user.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Observable, noop } from 'rxjs';
 import { AdminUser } from './admin-user.model';
 import { AuthService } from 'app/_services/auth.service';
+import { environment } from 'environments/environment';
+import { createHttpObservable } from 'app/utils/util';
+import { Role } from 'app/_models/role.model';
 
 @Component({
   selector: 'app-admin-user',
@@ -17,10 +20,11 @@ import { AuthService } from 'app/_services/auth.service';
   animations   : fuseAnimations
 })
 export class AdminUserComponent implements OnInit, OnDestroy {
-
+  baseUrl = environment.apiUrl;
   adminUser: AdminUser;
   userForm: FormGroup;
   pageType: string;
+  allRoles: Role[];
    // Private
    private _unsubscribeAll: Subject<any>;
    
@@ -49,6 +53,42 @@ export class AdminUserComponent implements OnInit, OnDestroy {
 
         this.userForm = this.createUserForm();
       });
+
+      ///////////////////////////////////////
+
+      const http$ = createHttpObservable(this.baseUrl + 'role/getAllRoles');
+
+      // const http$ = Observable.create(observer => {
+      //   fetch(this.baseUrl + '/role/getAllRoles')
+      //   .then(response => {
+      //     return response.json();
+      //   })
+      //   .then(body => {
+      //     observer.next(body);
+      //     observer.complete();
+      //   })
+      //   .catch(err => {
+      //     observer.error(err);
+      //   });
+      // });
+
+      http$.subscribe(
+        roles => {
+          console.log(roles);
+          this.allRoles = roles;
+          this.allRoles.forEach(role => {
+            (this.adminUser.userRoles).forEach(aUser => {
+              if (role.name.toUpperCase() === aUser.role.name.toUpperCase() ){
+                console.log('aUser', aUser);
+                role.isUserRole = true;
+
+              }
+            });
+          });
+        },
+        noop,
+        () => console.log('completed')
+      );
   }
 
   ngOnDestroy(): void

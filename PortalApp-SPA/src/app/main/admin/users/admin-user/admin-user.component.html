@@ -115,8 +115,16 @@
                       <mat-tab label="Roles">
 
                         <div class="tab-content p-24" fusePerfectScrollbar>
-                        <h2>Roles</h2> 
+                        <!-- <h2>Roles</h2> 
                             <pre>{{adminUser.userRoles | json}}</pre>
+                        <h2>All Roles</h2> 
+                            <pre>{{allRoles | json}}</pre> -->
+                            <div *ngFor="let role of allRoles" >
+                                <mat-checkbox [checked]="role.isUserRole" class="example-margin" >
+                                  {{role.name}}
+                                </mat-checkbox>
+                             </div>
+                        
                         </div>
 
                       </mat-tab>
