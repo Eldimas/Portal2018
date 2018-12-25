@@ -1,0 +1,4 @@
+[
+    { "Name": "Approved" }, { "Name": "Rejected" }, { "Name": "Redirected" }, { "Name": "Unknown" }, { "Name": "Ended" }, { "Name": "Readed" },
+    { "Name": "InWork" }, { "Name": "Overdue" }, { "Name": "Wait" }, { "Name": "WaitCheck" }, { "Name": "WaitingForConfirmation" }
+]

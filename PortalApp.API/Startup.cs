@@ -25,8 +25,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using PortalApp.API.Data.Repo.RegionDepo;
 using PortalApp.API.Data.Repo.DepartmentRepo;
+using PortalApp.API.Data.Repo.RegionDepo;
 
 namespace PortalApp.API
 {
@@ -98,10 +98,12 @@ namespace PortalApp.API
             Mapper.Reset();
             services.AddAutoMapper();
             services.AddTransient<Seed>();
-           services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IRegionRepository, RegionRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IPortalRepository, PortalRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddScoped<LogUserActivity>();
         }
 
@@ -132,10 +134,14 @@ namespace PortalApp.API
             }
 
             // app.UseHttpsRedirection();
+            seeder.SeedWfProcessIteration();
+            seeder.SeedWfProcessResult();
+            seeder.SeedWfProcessType();
+            seeder.SeedDocumentConfigs();
             seeder.SeedRegions();
             seeder.SeedDepartments();
             seeder.SeedUsers();
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseAuthentication();
             app.UseDefaultFiles();
             app.UseStaticFiles();

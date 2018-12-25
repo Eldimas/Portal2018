@@ -12,18 +12,32 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PortalApp.API.Controllers
 {
+    
     [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly IPortalRepository _repo;
+        private readonly IUserRepository _userRepo;
         private readonly IMapper _mapper;
+        
 
-        public UsersController(IPortalRepository repo, IMapper mapper)
+        public UsersController(IPortalRepository repo, IUserRepository userRepo, IMapper mapper)
         {
-            _mapper = mapper;
+           _mapper = mapper;
             _repo = repo;
+            _userRepo = userRepo;
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpGet("getAllUsers")]
+        public async Task<IActionResult> GetAllUsers() {
+            // var ni = ClaimTypes.NameIdentifier;
+            var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var users = await _userRepo.GetAllUsers();
+            var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+            return Ok(usersToReturn);
         }
 
         [HttpGet]
@@ -35,10 +49,10 @@ namespace PortalApp.API.Controllers
 
             userParams.UserId = currentUserId;
 
-            // if (string.IsNullOrEmpty(userParams.Gender))
-            // {
-            //     userParams.Gender = userFromRepo.Gender == "male" ? "female" : "male";
-            // }
+            if (string.IsNullOrEmpty(userParams.Gender))
+            {
+                // userParams.Gender = userFromRepo.Gender == "male" ? "female" : "male";
+            }
 
             var users = await _repo.GetUsers(userParams);
 
@@ -53,22 +67,23 @@ namespace PortalApp.API.Controllers
         [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var isCurrentUser = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) == id;
-            
+            // var isCurrentUser = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) == id;
+            var isCurrentUser = false;
+
             var user = await _repo.GetUser(id, isCurrentUser);
 
-            var userToReturn = _mapper.Map<UserForDetailedDto>(user);
+            // var userToReturn = _mapper.Map<UserForDetailedDto>(user);
+            var userToReturn = _mapper.Map<UserDetailsDto>(user);
 
-            return Ok(userToReturn);
+            // return Ok(userToReturn);
+             return Ok(user);
         }
 
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
         {
-            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                return Unauthorized();
-
-            var userFromRepo = await _repo.GetUser(id, true);
+           var userFromRepo = await _repo.GetUser(id, true);
 
             _mapper.Map(userForUpdateDto, userFromRepo);
 
@@ -78,32 +93,32 @@ namespace PortalApp.API.Controllers
             throw new Exception($"Updating user {id} failed on save");
         }
 
-        // [HttpPost("{id}/like/{recipientId}")]
-        // public async Task<IActionResult> LikeUser(int id, int recipientId)
-        // {
-        //     if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-        //         return Unauthorized();
+        [HttpPost("{id}/like/{recipientId}")]
+        public async Task<IActionResult> LikeUser(int id, int recipientId)
+        {
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
 
-        //     var like = await _repo.GetLike(id, recipientId);
+            var like = await _repo.GetLike(id, recipientId);
 
-        //     if (like != null)
-        //         return BadRequest("You already like this user");
-            
-        //     if (await _repo.GetUser(recipientId, false) == null)
-        //         return NotFound();
+            if (like != null)
+                return BadRequest("You already like this user");
 
-        //     like = new Like
-        //     {
-        //         LikerId = id,
-        //         LikeeId = recipientId
-        //     };
+            if (await _repo.GetUser(recipientId, false) == null)
+                return NotFound();
 
-        //     _repo.Add<Like>(like);
+            like = new Like
+            {
+                LikerId = id,
+                LikeeId = recipientId
+            };
 
-        //     if (await _repo.SaveAll())
-        //         return Ok();
-            
-        //     return BadRequest("Failed to like user");
-        // }
+            _repo.Add<Like>(like);
+
+            if (await _repo.SaveAll())
+                return Ok();
+
+            return BadRequest("Failed to like user");
+        }
     }
 }

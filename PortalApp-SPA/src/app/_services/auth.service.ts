@@ -72,6 +72,7 @@ export class AuthService {
 
     // tslint:disable-next-line:typedef
     register(user: User) {
+        console.log('service register: ', user);
         return this.http.post(this.baseUrl + 'register', user);
     }
 

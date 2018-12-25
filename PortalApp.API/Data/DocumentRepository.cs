@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using PortalApp.API.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
+
 namespace PortalApp.API.Data
 {
     public class DocumentRepository : IDocumentRepository
@@ -13,11 +15,12 @@ namespace PortalApp.API.Data
             _context = context;
         }
 
-         public async Task<DocumentConfig> GetDocumentConfig(string documentType)
+        public async Task<DocumentConfigVs> GetDocumentConfig(string documentType)
         {
             var config = await _context.DocumentConfigs.FirstOrDefaultAsync(x=>x.DocumentType == documentType);
-
-            return config;
+            IAsyncEnumerable<DocumentConfigVs> theLatestVersionOfDocumentConfig = _context.DocumentConfigVs.OrderByDescending(x=>x.Created).FirstOrDefaultAsync().ToAsyncEnumerable();
+            var docV = await theLatestVersionOfDocumentConfig.SingleOrDefault();
+            return docV;
         }
 
         public async Task SaveDocumentConfig(DocumentConfig conf)

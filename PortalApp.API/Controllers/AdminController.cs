@@ -41,7 +41,8 @@ namespace PortalApp.API.Controllers
             _cloudinary = new Cloudinary(acc);
         }
 
-        [Authorize(Policy = "RequireAdminRole")]
+        // [Authorize(Policy = "RequireAdminRole")]
+        [Authorize]
         [HttpGet("usersWithRoles")]
         public async Task<IActionResult> GetUsersWithRoles()
         {
@@ -84,71 +85,71 @@ namespace PortalApp.API.Controllers
             return Ok(await _userManager.GetRolesAsync(user));
         }
 
-        // [Authorize(Policy = "ModeratePhotoRole")]
-        // [HttpGet("photosForModeration")]
-        // public async Task<IActionResult> GetPhotosForModeration()
-        // {
-        //     var photos = await _context.Photos
-        //         .Include(u => u.User)
-        //         .IgnoreQueryFilters()
-        //         .Where(p => p.IsApproved == false)
-        //         .Select(u => new
-        //         {
-        //             Id = u.Id,
-        //             UserName = u.User.UserName,
-        //             Url = u.Url,
-        //             IsApproved = u.IsApproved
-        //         }).ToListAsync();
+        [Authorize(Policy = "ModeratePhotoRole")]
+        [HttpGet("photosForModeration")]
+        public async Task<IActionResult> GetPhotosForModeration()
+        {
+            var photos = await _context.Photos
+                .Include(u => u.User)
+                .IgnoreQueryFilters()
+                .Where(p => p.IsApproved == false)
+                .Select(u => new
+                {
+                    Id = u.Id,
+                    UserName = u.User.UserName,
+                    Url = u.Url,
+                    IsApproved = u.IsApproved
+                }).ToListAsync();
 
-        //     return Ok(photos);
-        // }
+            return Ok(photos);
+        }
 
-        // [Authorize(Policy = "ModeratePhotoRole")]
-        // [HttpPost("approvePhoto/{photoId}")]
-        // public async Task<IActionResult> ApprovePhoto(int photoId)
-        // {
-        //     var photo = await _context.Photos
-        //         .IgnoreQueryFilters()
-        //         .FirstOrDefaultAsync(p => p.Id == photoId);
+        [Authorize(Policy = "ModeratePhotoRole")]
+        [HttpPost("approvePhoto/{photoId}")]
+        public async Task<IActionResult> ApprovePhoto(int photoId)
+        {
+            var photo = await _context.Photos
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(p => p.Id == photoId);
 
-        //     photo.IsApproved = true;
+            photo.IsApproved = true;
 
-        //     await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-        //     return Ok();
-        // }
+            return Ok();
+        }
 
-        // [Authorize(Policy = "ModeratePhotoRole")]
-        // [HttpPost("rejectPhoto/{photoId}")]
-        // public async Task<IActionResult> RejectPhoto(int photoId)
-        // {
-        //     var photo = await _context.Photos
-        //         .IgnoreQueryFilters()
-        //         .FirstOrDefaultAsync(p => p.Id == photoId);
+        [Authorize(Policy = "ModeratePhotoRole")]
+        [HttpPost("rejectPhoto/{photoId}")]
+        public async Task<IActionResult> RejectPhoto(int photoId)
+        {
+            var photo = await _context.Photos
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(p => p.Id == photoId);
 
-        //     if (photo.IsMain)
-        //         return BadRequest("You cannot reject the main photo");
+            if (photo.IsMain)
+                return BadRequest("You cannot reject the main photo");
 
-        //     if (photo.PublicId != null)
-        //     {
-        //         var deleteParams = new DeletionParams(photo.PublicId);
+            if (photo.PublicId != null)
+            {
+                var deleteParams = new DeletionParams(photo.PublicId);
 
-        //         var result = _cloudinary.Destroy(deleteParams);
+                var result = _cloudinary.Destroy(deleteParams);
 
-        //         if (result.Result == "ok")
-        //         {
-        //             _context.Photos.Remove(photo);
-        //         }
-        //     }
+                if (result.Result == "ok")
+                {
+                    _context.Photos.Remove(photo);
+                }
+            }
 
-        //     if (photo.PublicId == null)
-        //     {
-        //         _context.Photos.Remove(photo);
-        //     }
+            if (photo.PublicId == null)
+            {
+                _context.Photos.Remove(photo);
+            }
 
-        //     await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-        //     return Ok();
-        // }
+            return Ok();
+        }
     }
 }

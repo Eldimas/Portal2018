@@ -42,8 +42,9 @@ namespace PortalApp.API.Controllers
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
-
-            var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
+            // var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
+                _userManager.CreateAsync(userToCreate, userForRegisterDto.Password).Wait();
+                var result = await _userManager.AddToRoleAsync(userToCreate, "Member");
 
             var userToReturn = _mapper.Map<UserForDetailedDto>(userToCreate);
 
@@ -54,21 +55,24 @@ namespace PortalApp.API.Controllers
             }
 
             return BadRequest(result.Errors);
+            return Ok();
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
             var user = await _userManager.FindByNameAsync(userForLoginDto.Username);
+            // if(user == null) {
+            //     return Unauthorized();
+            // }
 
             var result = await _signInManager
                 .CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
 
             if (result.Succeeded)
             {
-                // var appUser = await _userManager.Users.Include(p => p.Photos)
-                //     .FirstOrDefaultAsync(u => u.NormalizedUserName == userForLoginDto.Username.ToUpper());
-                 var appUser = await _userManager.Users
+                var appUser = await _userManager.Users
+                // .Include(p => p.Photos)
                     .FirstOrDefaultAsync(u => u.NormalizedUserName == userForLoginDto.Username.ToUpper());
 
                 var userToReturn = _mapper.Map<UserForListDto>(appUser);
@@ -88,8 +92,7 @@ namespace PortalApp.API.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim("Email", user.Email)
+                new Claim(ClaimTypes.Name, user.UserName)
             };
 
             var roles = await _userManager.GetRolesAsync(user);

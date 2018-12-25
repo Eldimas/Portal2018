@@ -19,6 +19,13 @@ import { fuseConfig } from 'app/fuse-config';
 import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
 import { SampleModule } from 'app/main/sample/sample.module';
+import { JwtModule } from '@auth0/angular-jwt';
+import { HomeModule } from './main/home/home.module';
+
+// tslint:disable-next-line:typedef
+export function tokenGetter() {
+    return localStorage.getItem('token');
+}
 
 const appRoutes: Routes = [
    
@@ -30,14 +37,18 @@ const appRoutes: Routes = [
         path        : 'apps',
         loadChildren: './main/apps/apps.module#AppsModule'
     },
-    // {
-    //     path      : '**',
-    //     redirectTo: 'sample'
-    // },
+    {
+        path        : 'admin',
+        loadChildren: './main/admin/admin.module#AdminModule'
+    },
     {
         path      : '**',
-        redirectTo: '/pages/auth/login-2'
-    }
+        redirectTo: 'home'
+    },
+    // {
+    //     path      : '**',
+    //     redirectTo: '/pages/auth/login-2'
+    // }
 ];
 
 @NgModule({
@@ -69,7 +80,15 @@ const appRoutes: Routes = [
 
         // App modules
         LayoutModule,
-        SampleModule
+        SampleModule,
+        HomeModule,
+        JwtModule.forRoot({
+          config: {
+            tokenGetter: tokenGetter,
+            whitelistedDomains: ['localhost:5000'],
+            blacklistedRoutes: ['localhost:5000/api/auth']
+          }
+        })
     ],
     bootstrap   : [
         AppComponent

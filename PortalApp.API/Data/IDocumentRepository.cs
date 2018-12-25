@@ -6,7 +6,7 @@ namespace PortalApp.API.Data
 {
     public interface IDocumentRepository
     {
-        Task<DocumentConfig> GetDocumentConfig(string documentName);
+        Task<DocumentConfigVs> GetDocumentConfig(string documentName);
 
         Task SaveDocumentConfig(DocumentConfig conf);
 

@@ -11,18 +11,20 @@ namespace PortalApp.API.Data
     {
         public DataContext(DbContextOptions<DataContext>  options) : base (options) {}
 
-
-       public DbSet<Department> Departments { get; set; }
-       public DbSet<DepartmentV> DepartmentVs { get; set; }
-       public DbSet<Region> Regions { get; set; }
-       public DbSet<Value> Values { get; set; }
-       public DbSet<DocumentConfig> DocumentConfigs { get; set; }
-       public DbSet<WfConfigsSerialized> WfConfigsSerializeds { get; set; }
-
-        // public DbSet<Photo> Photos { get; set; }
-        // public DbSet<Like> Likes { get; set; }
-        // public DbSet<Message> Messages { get; set; }
-
+        public DbSet<Value> Values { get; set; }
+        public DbSet<Photo> Photos { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<DepartmentV> DepartmentVs { get; set; }
+        public DbSet<Region> Regions { get; set; }
+        public DbSet<DocumentConfig> DocumentConfigs { get; set; }
+        public DbSet<DocumentConfigVs> DocumentConfigVs { get; set; }
+        public DbSet<WfConfigsSerialized> WfConfigsSerialized { get; set; }
+        public DbSet<ContentConfigsSerialized> ContentConfigsSerialized { get; set; }
+        public DbSet<WfProcessType> WfProcessType { get; set; }
+        public DbSet<WfProcessIteration> WfProcessIteration { get; set; }
+        public DbSet<WfProcessResult> WfProcessResult { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -42,32 +44,32 @@ namespace PortalApp.API.Data
                     .IsRequired();
             });
 
-            // builder.Entity<Like>()
-            //     .HasKey(k => new {k.LikerId, k.LikeeId});
+            builder.Entity<Like>()
+                .HasKey(k => new {k.LikerId, k.LikeeId});
 
-            // builder.Entity<Like>()
-            //     .HasOne(u => u.Likee)
-            //     .WithMany(u => u.Likers)
-            //     .HasForeignKey(u => u.LikeeId)
-            //     .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Like>()
+                .HasOne(u => u.Likee)
+                .WithMany(u => u.Likers)
+                .HasForeignKey(u => u.LikeeId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            // builder.Entity<Like>()
-            //     .HasOne(u => u.Liker)
-            //     .WithMany(u => u.Likees)
-            //     .HasForeignKey(u => u.LikerId)
-            //     .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Like>()
+                .HasOne(u => u.Liker)
+                .WithMany(u => u.Likees)
+                .HasForeignKey(u => u.LikerId)
+                .OnDelete(DeleteBehavior.Restrict);
             
-            // builder.Entity<Message>()
-            //     .HasOne(u => u.Sender)
-            //     .WithMany(m => m.MessagesSent)
-            //     .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Message>()
+                .HasOne(u => u.Sender)
+                .WithMany(m => m.MessagesSent)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            // builder.Entity<Message>()
-            //     .HasOne(u => u.Recipient)
-            //     .WithMany(m => m.MessagesReceived)
-            //     .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Message>()
+                .HasOne(u => u.Recipient)
+                .WithMany(m => m.MessagesReceived)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            
+            builder.Entity<Photo>().HasQueryFilter(p => p.IsApproved);
         }
     }
 }

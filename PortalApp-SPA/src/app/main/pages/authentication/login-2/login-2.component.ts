@@ -32,8 +32,8 @@ export class Login2Component implements OnInit
     loginForm: FormGroup;
     submitted = false;
 
-    horizontalPosition: MatSnackBarHorizontalPosition = 'right';
-    verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
 
     countries: Countries[] = [
         {value: 'ru', viewValue: 'Россия'},
@@ -108,15 +108,15 @@ export class Login2Component implements OnInit
         this.authService.login(this.loginForm.value).subscribe(next => {
             // this.alertify.success('Logged in successfully');
             console.log('Logged in successfully');
-            this. openSnackBar('Logged in successfully');
+            this.openSnackBar('Logged in successfully');
           }, error => {
             // this.alertify.error(error);
             console.log(error);
-            this. openSnackBar(error);
+            this.openSnackBar(error);
             console.log(error);
             
           }, () => {
-            this.router.navigate(['/sample']);
+            this.router.navigate(['/home']);
           });
     }
 

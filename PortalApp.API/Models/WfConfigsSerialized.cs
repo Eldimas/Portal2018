@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PortalApp.API.Dtos;
 
 namespace PortalApp.API.Models
 {
@@ -9,12 +10,12 @@ namespace PortalApp.API.Models
 
         public int Priority { get; set; }
 
-        public int ProcessType { get; set; }
+        public WfProcessType ProcessType { get; set; }
 
         public string Computed { get; set; }
 
         public bool Editable { get; set; }
 
-        public ICollection<User> Ous { get; set; }
+        public ICollection<UserForListDto> Ous { get; set; }
     }
 }

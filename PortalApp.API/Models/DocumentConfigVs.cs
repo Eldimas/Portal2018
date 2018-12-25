@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using PortalApp.API.Dtos;
 
 namespace PortalApp.API.Models
 {
-    public class DocumentConfigV
+    public class DocumentConfigVs
     {
         public Guid Id { get; set; }
 
@@ -13,11 +14,11 @@ namespace PortalApp.API.Models
 
         public string TitleGeneration { get; set; }
 
-        public ICollection<WfConfigsSerialized> WfConfigsSerialized { get; set; }
+        public ICollection<DocumentWfConfig> WfConfigsSerialized { get; set; }
 
         public ICollection<ContentConfigsSerialized> ContentConfigsSerialized { get; set; }
 
-        public ICollection<User> Author { get; set; }
+        public User Author { get; set; }
 
         public DateTime Created { get; set; }
 

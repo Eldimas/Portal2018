@@ -1,0 +1,5 @@
+[
+    { "Name": "Approval" }, { "Name": "TopApproval" }, { "Name": "FormatApproval" }, { "Name": "Copy" }, { "Name": "Sender" }, { "Name": "Receiver" },
+    { "Name": "Registration" }, { "Name": "Assignment" }, { "Name": "Approval" }, { "Name": "Action" }, { "Name": "Supervisor" }, { "Name": "Consulting" },
+    { "Name": "Informed" }, { "Name": "Any" }, { "Name": "Executor" }, { "Name": "Control" }, { "Name": "Coexecutor" }, { "Name": "ForInformation" }
+]

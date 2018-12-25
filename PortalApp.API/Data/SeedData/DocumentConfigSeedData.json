@@ -1,0 +1,60 @@
+[
+    {
+        "DocumentType": "InboundLetterGup",
+        "DocumentConfigVs": [
+            {"NeedRegister": "true", "Category": "Letters", "TitleGeneration": "ConfigName+Author", "Title": "Входящее письмо ГУП", "ReadOnly": "false", 
+                "CopyDocumentFunction": "true", "CloseDocumentFunction": "true", "CreateControlCardFunction": "false", "WfConfigsSerializeds": [
+                    { "Priority": "1", "ProcessType" : "Sender", "Computed": "myDepartment", "Editable": "true", "Ous": "" },
+                    { "Priority": "2", "ProcessType" : "Approval", "Computed": "", "Editable": "true", "Ous": "" },
+                    { "Priority": "3", "ProcessType" : "Registration", "Computed": "", "Editable": "true", "Ous": "m.konysbek" },
+                    { "Priority": "4", "ProcessType" : "Receiver", "Computed": "", "Editable": "true", "Ous": "" }
+                ]},
+            {"NeedRegister": "true", "Category": "Letters / Письма", "TitleGeneration": "Title", "Title": "Входящее письмо ГУП", "ReadOnly": "false", 
+                "CopyDocumentFunction": "true", "CloseDocumentFunction": "true", "CreateControlCardFunction": "false", "WfConfigsSerializeds": [
+                    { "Priority": "1", "ProcessType" : "Sender", "Computed": "myDepartment", "Editable": "true", "Ous": "" },
+                    { "Priority": "2", "ProcessType" : "Approval", "Computed": "", "Editable": "true", "Ous": "" },
+                    { "Priority": "3", "ProcessType" : "Registration", "Computed": "", "Editable": "true", "Ous": "m.konysbek" },
+                    { "Priority": "4", "ProcessType" : "Receiver", "Computed": "", "Editable": "true", "Ous": "" }
+                ]}
+        ]
+    },
+    {
+        "DocumentType": "OutboundLetterGup",
+        "DocumentConfigVs": [
+            {"NeedRegister": "true", "Category": "Letters", "TitleGeneration": "ConfigName+Author", "Title": "Исходящее письмо ГУП", "ReadOnly": "false", 
+                "CopyDocumentFunction": "true", "CloseDocumentFunction": "true", "CreateControlCardFunction": "false","WfConfigsSerializeds": [
+                    { "Priority": "1", "ProcessType" : "Sender", "Computed": "myDepartment", "Editable": "true", "Ous": "" },
+                    { "Priority": "2", "ProcessType" : "Approval", "Computed": "", "Editable": "true", "Ous": "" },
+                    { "Priority": "3", "ProcessType" : "Registration", "Computed": "", "Editable": "true", "Ous": "m.konysbek" },
+                    { "Priority": "4", "ProcessType" : "Receiver", "Computed": "", "Editable": "true", "Ous": "" }
+                ]},
+            {"NeedRegister": "true", "Category": "Letters / Письма", "TitleGeneration": "Title", "Title": "Исходящее письмо ГУП", "ReadOnly": "false", 
+                "CopyDocumentFunction": "true", "CloseDocumentFunction": "true", "CreateControlCardFunction": "false", "WfConfigsSerializeds": [
+                    { "Priority": "1", "ProcessType" : "Sender", "Computed": "myDepartment", "Editable": "true", "Ous": "" },
+                    { "Priority": "2", "ProcessType" : "Approval", "Computed": "", "Editable": "true", "Ous": "" },
+                    { "Priority": "3", "ProcessType" : "Registration", "Computed": "", "Editable": "true", "Ous": "m.konysbek" },
+                    { "Priority": "4", "ProcessType" : "Receiver", "Computed": "", "Editable": "true", "Ous": "" }
+                ]}
+        ]
+    },
+    {
+        "DocumentType": "InboundLetterAup",
+        "DocumentConfigVs": [
+            {"NeedRegister": "true", "Category": "Letters", "TitleGeneration": "ConfigName+Author", "Title": "Входящее письмо АУП", "ReadOnly": "false", 
+                "CopyDocumentFunction": "true", "CloseDocumentFunction": "true", "CreateControlCardFunction": "false",
+            "WfConfigsSerializeds": [
+                { "Priority": "1", "ProcessType" : "Sender", "Computed": "myDepartment", "Editable": "true", "Ous": "" },
+                { "Priority": "2", "ProcessType" : "Approval", "Computed": "", "Editable": "true", "Ous": "" },
+                { "Priority": "3", "ProcessType" : "Registration", "Computed": "", "Editable": "true", "Ous": "m.konysbek" },
+                { "Priority": "4", "ProcessType" : "Receiver", "Computed": "", "Editable": "true", "Ous": "" }
+            ] },
+            {"NeedRegister": "true", "Category": "Letters / Письма", "TitleGeneration": "Title", "Title": "Входящее письмо АУП", "ReadOnly": "false", 
+                "CopyDocumentFunction": "true", "CloseDocumentFunction": "true", "CreateControlCardFunction": "false", "WfConfigsSerializeds": [
+                    { "Priority": "1", "ProcessType" : "Sender", "Computed": "myDepartment", "Editable": "true", "Ous": "" },
+                    { "Priority": "2", "ProcessType" : "Approval", "Computed": "", "Editable": "true", "Ous": "" },
+                    { "Priority": "3", "ProcessType" : "Registration", "Computed": "", "Editable": "true", "Ous": "m.konysbek" },
+                    { "Priority": "4", "ProcessType" : "Receiver", "Computed": "", "Editable": "true", "Ous": "" }
+                ]}
+        ]
+    }
+]

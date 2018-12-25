@@ -1,40 +1,73 @@
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PortalApp.API.Data;
-using PortalApp.API.Data.Repo.DepartmentRepo;
+using PortalApp.API.Dtos;
 using PortalApp.API.Models;
-using System.Collections.Generic;
 
 namespace PortalApp.API.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    
 
-    public class DocumentController
+    public class DocumentController : ControllerBase
     {
         private readonly IDocumentRepository _documentRepo;
-
-        public DocumentController(IDocumentRepository documentRepo)
+        private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepo;
+        public DocumentController(IDocumentRepository documentRepo, IMapper mapper, IUserRepository userRepo)
         {
             _documentRepo = documentRepo;
+            _mapper = mapper;
+            _userRepo = userRepo;
         }
 
-        public async Task SaveDocumentConfig(DocumentConfig conf)
+        public async Task<IActionResult> SaveDocumentConfig(DocumentConfig conf)
         {
             await _documentRepo.SaveDocumentConfig(conf);
+            return Ok();
         }
 
-        public async Task<DocumentConfig> GetDocumentConfig(string documentType)
+        public async Task<IActionResult> GetDocumentConfig(string documentType)
         {
-            return await _documentRepo.GetDocumentConfig(documentType);
+            var documentConfig = await _documentRepo.GetDocumentConfig(documentType);
+            return Ok(documentConfig);
         }
 
-        public async Task<ICollection<DocumentConfig>> GetDocumentConfigs()
+        public async Task<IActionResult> GetDocumentConfigs()
         {
-            return await _documentRepo.GetDocumentConfigs();
+            var configs =  await _documentRepo.GetDocumentConfigs();
+            return Ok(configs);
+        }
+
+        public async Task<IActionResult> CreateEditableDocument(Guid id, string docType)
+        {
+            var config = await _documentRepo.GetDocumentConfig(docType);
+            var editable = new DocumentEditable();
+            var currentUser = await _userRepo.GetCurrentUser(User.Identity.Name);
+            editable.Author = currentUser;
+            editable.Created = DateTime.Now;
+            editable.DocumentConfigVsId = config.Id;
+            editable.WfConfigs = config.WfConfigsSerialized;
+            editable.Content = new DocumentContent();
+            editable.Title = config.Title;
+            foreach(var wfconfig in editable.WfConfigs)
+            {
+                if(!String.IsNullOrEmpty(wfconfig.Computed)){
+                    switch(wfconfig.Computed){
+                        case "MyDepartment":
+                            var user = _userRepo.GetCurrentUserProfile(User.Identity.Name);
+                            break;
+                        case "MyAuthor":
+                            
+                            break;
+                    }
+                }
+            }
         }
 
     }

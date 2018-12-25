@@ -149,7 +149,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         if (user) {
             this._authService.currentUser = user;
-            this._authService.changeMemberPhoto(user.photoUrl);
+            // this._authService.changeMemberPhoto(user.photoUrl);
         }
 
         // Subscribe to config changes

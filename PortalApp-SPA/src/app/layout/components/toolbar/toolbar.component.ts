@@ -174,6 +174,10 @@ export class ToolbarComponent implements OnInit, OnDestroy
         this._router.navigate(['pages/auth/login-2']);
     }
 
+    goToRegister(): void {
+        this._router.navigate(['pages/auth/register-2']);
+    }
+
     loggedIn(): boolean {
         const token = localStorage.getItem('token');
         return !!token;

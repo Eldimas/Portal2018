@@ -7,33 +7,24 @@ namespace PortalApp.API.Models
 {
     public class User : IdentityUser<int>
     {
-        public string PrefferedCulture { get; set; }
-        public string Phone { get; set; }
-        public string Mobile { get; set; }
-        public string ImagePath { get; set; }
-        public string Cabinet { get; set; }
-
-        public string DisplayNameRus { get; set; }
-        public string DisplayNameEng { get; set; }
-        public string DisplayNameKaz { get; set; }
-
-        public string FromNameRus { get; set; }
-        public string FromNameEng { get; set; }
-        public string FromNameKaz { get; set; }
-
-        public string ToNameRus { get; set; }
-        public string ToNameEng { get; set; }
-        public string ToNameKaz { get; set; }
-
-        public string PositionRus { get; set; }
-        public string PositionEng { get; set; }
-        public string PositionKaz { get; set; }
-        
+        // public string Gender { get; set; }
+        // public DateTime DateOfBirth { get; set; }
+        // public string KnownAs { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastActive { get; set; }
-        
-        public Guid DepartmentVId { get; set; }
-        
+        // public string Introduction { get; set; }
+        // public string LookingFor { get; set; }
+        // public string Interests { get; set; }
+        // public string City { get; set; }
+        // public string Country { get; set; }
+        // public ICollection<Photo> Photos { get; set; }
+        // public ICollection<Like> Likers { get; set; }
+        // public ICollection<Like> Likees { get; set; }
+        // public ICollection<Message> MessagesSent { get; set; }
+        // public ICollection<Message> MessagesReceived { get; set; }
+        // public Guid DepartmentVId { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
+
+        public ICollection<UserV> UserVs { get; set; }
     }
 }

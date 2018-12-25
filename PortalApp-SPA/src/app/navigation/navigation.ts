@@ -7,7 +7,7 @@ export const navigation: FuseNavigation[] = [
         translate: 'NAV.MAIN_PAGE',
         type     : 'item',
         icon     : 'home',
-        url      : '/dashboard'
+        url      : '/home'
     },
     {
         id       : 'tasks',
@@ -43,6 +43,24 @@ export const navigation: FuseNavigation[] = [
         type     : 'collapsable',
         icon     : 'edit',
         children : [
+            {
+                id       : 'admin-users',
+                title    : 'Users',
+                type     : 'item',
+                url      : '/admin/admin-users',
+            },
+            {
+                id       : 'admin-regions',
+                title    : 'Regions',
+                type     : 'item',
+                url      : '/admin/admin-regions',
+            },
+            {
+                id       : 'admin-deps',
+                title    : 'Departments',
+                type     : 'item',
+                url      : '/admin/admin-deps',
+            },
             {
                 id       : 'ctor-documents',
                 title    : 'Constructor of documents',

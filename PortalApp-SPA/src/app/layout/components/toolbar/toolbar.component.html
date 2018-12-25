@@ -46,6 +46,14 @@
                 </div>
             </button>
 
+            <!-- <button  *ngIf="!loggedIn()" mat-button class="user-button" (click)="goToRegister()">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <span class="username mr-12" fxHide fxShow.gt-sm
+                        >REGISTER</span
+                    >
+                </div>
+            </button> -->
+
             <button  *ngIf="loggedIn()"
                 mat-button
                 [matMenuTriggerFor]="userMenu"
