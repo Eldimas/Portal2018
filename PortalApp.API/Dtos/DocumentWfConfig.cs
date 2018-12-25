@@ -5,7 +5,7 @@ namespace PortalApp.API.Dtos
 {
     public class DocumentWfConfig
     {
-        public List<UserForListDto> Ous { get; set; }
+        public ICollection<OUForListDto> Ous { get; set; }
         public int Priority { get; set; }
         public WfProcessType ProcessType { get; set; }
         public string Computed { get; set; }

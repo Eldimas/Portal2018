@@ -43,7 +43,7 @@ namespace PortalApp.API.Controllers
             var configs =  await _documentRepo.GetDocumentConfigs();
             return Ok(configs);
         }
-        
+
         public async Task<IActionResult> CreateEditableDocument(Guid id, string docType)
         {
             var config = await _documentRepo.GetDocumentConfig(docType);
@@ -64,7 +64,8 @@ namespace PortalApp.API.Controllers
                     switch(wfconfig.Computed)
                     {
                         case "MyDepartment":
-
+                            var dep = await _userRepo.GetCurrentUsersDepartment(User.Identity.Name);
+                            wfconfig.Ous.Add(dep);
                             break;
                         case "MyAuthor":
                             var user = await _userRepo.GetCurrentUser(User.Identity.Name);

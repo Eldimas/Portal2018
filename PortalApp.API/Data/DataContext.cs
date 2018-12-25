@@ -25,6 +25,8 @@ namespace PortalApp.API.Data
         public DbSet<WfProcessType> WfProcessType { get; set; }
         public DbSet<WfProcessIteration> WfProcessIteration { get; set; }
         public DbSet<WfProcessResult> WfProcessResult { get; set; }
+        public DbSet<UserV> UserVs { get; set; }
+        public DbSet<UserTemp> UserTemps { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

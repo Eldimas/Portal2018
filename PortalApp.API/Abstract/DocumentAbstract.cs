@@ -9,7 +9,7 @@ namespace PortalApp.API.Abstract
         public Guid Id { get; set; }
 
         [Required]
-        public UserForListDto Author { get; set; }
+        public OUForListDto Author { get; set; }
 
         [Required]
         public DateTime? Created { get; set; }

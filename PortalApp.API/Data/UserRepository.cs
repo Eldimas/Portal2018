@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -20,12 +21,12 @@ namespace PortalApp.API.Data
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<UserForListDto> GetCurrentUser(string name)
+        public async Task<OUForListDto> GetCurrentUser(string name)
         {
             var user = await _context.Users.SingleOrDefaultAsync(x=>x.UserName == name);
-            var userForList = new UserForListDto();
-            userForList.Id = user.Id;
-            userForList.Username = user.UserName;
+            var userForList = new OUForListDto();
+            //userForList.Id = user.Id;
+            userForList.Name = user.UserName;
             return userForList;
         }
 
@@ -37,5 +38,20 @@ namespace PortalApp.API.Data
             userForList.Name = user.UserName;
             return userForList;
         }
+
+        public async Task<OUForListDto> GetCurrentUsersDepartment(string name)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(x=>x.UserName == name);
+            Guid depId = Guid.Empty;
+            foreach(var u in user.UserVs){
+                depId = u.DepartmentVId;
+            }
+            var dep = await _context.DepartmentVs.SingleOrDefaultAsync(x=>x.Id == depId);
+            var depForList = new OUForListDto();
+            depForList.Id = dep.Id;
+            depForList.Name = dep.Name;
+            return depForList;
+        }
+
     }
 }
