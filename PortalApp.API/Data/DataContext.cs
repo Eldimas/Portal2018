@@ -44,7 +44,7 @@ namespace PortalApp.API.Data
                     .IsRequired();
             });
 
-            builder.Entity<Like>()
+/*             builder.Entity<Like>()
                 .HasKey(k => new {k.LikerId, k.LikeeId});
 
             builder.Entity<Like>()
@@ -69,7 +69,7 @@ namespace PortalApp.API.Data
                 .WithMany(m => m.MessagesReceived)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Photo>().HasQueryFilter(p => p.IsApproved);
+            builder.Entity<Photo>().HasQueryFilter(p => p.IsApproved); */
         }
     }
 }

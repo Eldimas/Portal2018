@@ -43,7 +43,7 @@ namespace PortalApp.API.Controllers
             var configs =  await _documentRepo.GetDocumentConfigs();
             return Ok(configs);
         }
-
+        
         public async Task<IActionResult> CreateEditableDocument(Guid id, string docType)
         {
             var config = await _documentRepo.GetDocumentConfig(docType);
@@ -55,19 +55,25 @@ namespace PortalApp.API.Controllers
             editable.WfConfigs = config.WfConfigsSerialized;
             editable.Content = new DocumentContent();
             editable.Title = config.Title;
+            editable.Id = Guid.NewGuid();
+            editable.Status = DocumentStatus.Draft;
             foreach(var wfconfig in editable.WfConfigs)
             {
-                if(!String.IsNullOrEmpty(wfconfig.Computed)){
-                    switch(wfconfig.Computed){
+                if(!String.IsNullOrEmpty(wfconfig.Computed))
+                {
+                    switch(wfconfig.Computed)
+                    {
                         case "MyDepartment":
-                            var user = _userRepo.GetCurrentUserProfile(User.Identity.Name);
+
                             break;
                         case "MyAuthor":
-                            
+                            var user = await _userRepo.GetCurrentUser(User.Identity.Name);
+                            wfconfig.Ous.Add(user);
                             break;
                     }
                 }
             }
+            return Ok(editable);
         }
 
     }
