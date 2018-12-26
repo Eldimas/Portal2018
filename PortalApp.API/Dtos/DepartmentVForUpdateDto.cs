@@ -1,4 +1,5 @@
 using System;
+using PortalApp.API.Models;
 
 namespace PortalApp.API.Dtos
 {
@@ -26,10 +27,10 @@ namespace PortalApp.API.Dtos
         public int Priority { get; set; }
         public bool Disabled { get; set; }
         
-        // public Guid RegionId { get; set; }
+        public Guid RegionId { get; set; }
         // public ICollection<User> Users { get; set; }
 
         public Guid DepartmentId { get; set; }
-        // public Department Department { get; set; }
+        public Department Department { get; set; }
     }
 }

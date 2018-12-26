@@ -28,6 +28,7 @@ namespace PortalApp.API.Models
         public bool Disabled { get; set; }
         
         public Guid RegionId { get; set; }
+        public Region Region { get; set; }
         // public ICollection<User> Users { get; set; }
         public ICollection<UserV> UserVs { get; set; }
 

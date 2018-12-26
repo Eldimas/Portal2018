@@ -26,6 +26,8 @@ import { AdminDepsService } from './admin-deps/admin-deps.service';
 import { AdminDepService } from './admin-dep/admin-dep.service';
 import { AdminDepVsComponent } from './admin-dep-vs/admin-dep-vs.component';
 import { AdminDepVsAccordComponent } from './admin-dep-vs-accord/admin-dep-vs-accord.component';
+import { AdminDepVsTabComponent } from './admin-dep-vs-tab/admin-dep-vs-tab.component';
+import { DatePipe, CommonModule } from '@angular/common';
 // import { AdminRegionsComponent } from './admin-regions/admin-regions.component';
 // import { AdminRegionsService } from './admin-regions/admin-regions.service';
 // import { AdminRegionService } from './admin-region/admin-region.service';
@@ -68,13 +70,15 @@ const routes: Routes = [
         MatFormFieldModule,
         MatInputModule,
         MatMenuModule,
-        MatExpansionModule
+        MatExpansionModule,
+        CommonModule
     ],
     declarations: [
         AdminDepsComponent,
         AdminDepComponent,
         AdminDepVsComponent,
-        AdminDepVsAccordComponent
+        AdminDepVsAccordComponent,
+        AdminDepVsTabComponent
         // AdminRegionsComponent,
         // AdminRegionComponent
     ]

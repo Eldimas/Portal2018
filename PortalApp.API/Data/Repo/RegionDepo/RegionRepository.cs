@@ -45,6 +45,12 @@ namespace PortalApp.API.Data.Repo.RegionDepo
             return region;
         }
 
+        public async Task<IEnumerable<Region>> GetRegionsForSelect()
+        {
+            var regions = await _context.Regions.ToListAsync();
+            return regions;
+        }
+
         public async Task<IEnumerable<Region>> GetRegions()
         {
            var regions = await _context.Regions

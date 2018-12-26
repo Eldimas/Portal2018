@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy, LOCALE_ID, Inject } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
-import { Location } from '@angular/common';
+import { Location, DatePipe, formatDate } from '@angular/common';
 import { FuseUtils } from '@fuse/utils';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 import { AdminDepartment } from './admin-dep.model';
 import { AdminDepService } from './admin-dep.service';
 import { AdminDepV } from '../models/admin-dep-vs.model';
+import { RegionService } from 'app/_services/region.service';
+import { RegionForSelection } from 'app/_models/region.model';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class AdminDepComponent implements OnInit, OnDestroy {
   adminDepV: AdminDepV;
   depForm: FormGroup;
   pageType: string;
+  regions: RegionForSelection[];
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -35,9 +38,12 @@ export class AdminDepComponent implements OnInit, OnDestroy {
     private _matSnackBar: MatSnackBar,
     private router: Router,
     private _location: Location,
-    private authService: AuthService) { 
+    private authService: AuthService,
+    @Inject(LOCALE_ID) private locale: string,
+    private _regionService: RegionService) { 
       this.adminDepartment = new AdminDepartment();
       this.adminDepV = new AdminDepV();
+      this.regions = new Array<RegionForSelection>();
       this._unsubscribeAll = new Subject();
     }
 
@@ -60,6 +66,24 @@ export class AdminDepComponent implements OnInit, OnDestroy {
   
           this.depForm = this.createDepForm();
         });
+
+        const http$ = this._regionService.getRegions();
+
+        http$
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe(
+            regs => {
+                // console.log('regionszzz: ', regs);
+                regs.forEach(region => {
+                  const regForSel = new RegionForSelection(region);
+                  this.regions.push(regForSel);
+                });
+                // this.regions = regs;
+            },
+            err => console.log(err),
+            () => console.log('completed')
+
+        );
     }
 
     ngOnDestroy(): void
@@ -149,7 +173,9 @@ export class AdminDepComponent implements OnInit, OnDestroy {
 
     addDepV(): void {
      this.adminDepV.name = 'New Version';
-     this.adminDepartment.departmentVs.push(this.adminDepV);
+    //  this.adminDepV.created = this.datePipe.transform(Date.now(), 'yyyy-MM-dd');
+    this.adminDepV.created = formatDate(Date.now(), 'yyyy-MM-dd', this.locale);
+     this.adminDepartment.departmentVs.unshift(this.adminDepV);
     }
 
 

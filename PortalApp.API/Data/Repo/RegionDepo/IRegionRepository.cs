@@ -9,5 +9,6 @@ namespace PortalApp.API.Data.Repo.RegionDepo
     {
          Task<IEnumerable<Region>> GetRegions();
          Task<Region> GetRegion(Guid id);
+         Task<IEnumerable<Region>> GetRegionsForSelect();
     }
 }

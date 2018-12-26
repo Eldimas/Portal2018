@@ -157,7 +157,7 @@ namespace PortalApp.API.Controllers
 
             var depToCreate = _mapper.Map<DepartmentV>(departmentVForUpdateDto);
             depToCreate.Id = Guid.NewGuid();
-            depToCreate.RegionId = new Guid("EE8D5BB2-99C4-4071-887E-84F4CAF01CF7");
+            // depToCreate.RegionId = new Guid("121d5630-83b2-4cf7-8d17-244147238b4e");
             depToCreate.Created = DateTime.Now;
             _repo.Add(depToCreate);
 

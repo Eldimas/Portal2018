@@ -113,31 +113,52 @@
                                     />
                                 </mat-form-field>
 
-
                                 <!-- <pre>{{ adminDepartment | json }}</pre> -->
                             </div>
                         </mat-tab>
 
-                        
-
                         <mat-tab label="Versions">
-                                <div class="tab-content p-24" fusePerfectScrollbar>
-                                    <p>DepartmentVs</p>
-                                    <button
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+                                <p>DepartmentVs</p>
+                                <button
                                     mat-raised-button
                                     class="save-user-button"
                                     (click)="addDepV()"
                                 >
                                     <span>ADD VERSION</span>
                                 </button>
-                                    <mat-accordion>
+
+                                <mat-tab-group mat-stretch-tabs>
+                                    <mat-tab
+                                        *ngFor="
+                                            let depV of adminDepartment.departmentVs
+                                        "
+                                        label="{{
+                                            depV.created | date: 'dd/MM/yyyy'
+                                        }}"
+                                    >
+                                        <!-- <pre>{{depV | json}}</pre> -->
+                                        <div
+                                            class="tab-content p-24"
+                                            fusePerfectScrollbar
+                                        >
+                                        <!-- <pre>{{regions | json}}</pre> -->
+                                            <app-admin-dep-vs-tab
+                                                [depV]="depV"
+                                                [department]="adminDepartment"
+                                                [regions]= "regions"
+                                            ></app-admin-dep-vs-tab>
+                                        </div>
+                                    </mat-tab>
+                                </mat-tab-group>
+                                <!-- <mat-accordion>
                                     <app-admin-dep-vs-accord *ngFor="let depV of adminDepartment.departmentVs"
                                         [depV]="depV"
                                         [department] = "adminDepartment"
                                     ></app-admin-dep-vs-accord>
-                                    </mat-accordion>
-                                </div>
-                            </mat-tab>
+                                    </mat-accordion> -->
+                            </div>
+                        </mat-tab>
 
                         <!--
                             <mat-tab label="user Images">

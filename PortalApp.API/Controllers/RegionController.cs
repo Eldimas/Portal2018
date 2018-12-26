@@ -41,6 +41,19 @@ namespace PortalApp.API.Controllers
             return Ok(regions);
         }
 
+        [HttpGet("getRegionsForSelect")]
+        public async Task<IActionResult> GetRegionsForSelect()
+        {
+
+            var regions = await _regionRepo.GetRegionsForSelect();
+
+            if (regions == null)
+            {
+                return NotFound();
+            }
+            return Ok(regions);
+        }
+
         [HttpGet("{id}", Name = "GetRegion")]
         public async Task<IActionResult> GetRegion(Guid id)
         {

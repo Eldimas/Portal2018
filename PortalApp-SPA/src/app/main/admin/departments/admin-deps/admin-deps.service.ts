@@ -53,7 +53,7 @@ export class AdminDepsService implements Resolve<any> {
             this._httpClient.get(this.baseUrl + 'getDepartments/')
                 .subscribe((response: any) => {
                     this.departments = response;
-                    console.log(this.departments);
+                    // console.log(this.departments);
                     
                     this.onDepartmentsChanged.next(this.departments);
                     resolve(response);
