@@ -18,6 +18,8 @@ import { locale as navigationRussian } from 'app/navigation/i18n/ru';
 import { AuthService } from './_services/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from './_models/user';
+import { NavigService } from './_services/navig.service';
+import { Navig } from './_models/navig';
 
 @Component({
     selector: 'app',
@@ -27,6 +29,7 @@ import { User } from './_models/user';
 export class AppComponent implements OnInit, OnDestroy {
     fuseConfig: any;
     navigation: any;
+    navigs: Navig[] = [];
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -53,7 +56,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
         private _platform: Platform,
-        private _authService: AuthService
+        private _authService: AuthService,
+        private _navigService: NavigService
     ) {
         // Get default navigation
         this.navigation = navigation;
@@ -63,6 +67,37 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // Set the main navigation as our current navigation
         this._fuseNavigationService.setCurrentNavigation('main');
+
+
+        const http$ = this._navigService.getNavig();
+        http$
+            .subscribe(
+                navigs => {
+                    console.log('navig: ', navigs);
+                    // this.navigs = navigs;
+
+                    
+
+                    navigs.forEach(navig => {
+                      const nav = new Navig(navig);
+                      this.navigs.push(nav);
+                    });
+
+                    // console.log('last navig: ', this.navigs);
+
+                    // // Register the new navigation
+                    this._fuseNavigationService.register('navig', navigs);
+
+                    // // Set the current navigation
+                    this._fuseNavigationService.setCurrentNavigation('navig');
+
+                    
+                },
+                err => console.log(err),
+                () => console.log('completed')
+            );
+
+
 
         // Add languages
         this._translateService.addLangs(['en', 'ru', 'kz']);

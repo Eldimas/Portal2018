@@ -296,5 +296,43 @@ namespace PortalApp.API.Data
                 _context.SaveChanges();
             }
         }
+    
+        public void SeedMenu() {
+            
+            if(!_context.Navigs.Any()) {
+
+                var navig = new Navig() {
+                    Title = "Admin aaa",
+                    Type = "group",
+                    Icon = "apps",
+                    Url = null,
+                    Children = new List<Navig>() {
+                        new Navig() {Title = "Analytics", Type = "item", Icon = "person", Url = "/apps/dashboards/analytics", Children = null},
+                        new Navig() {Title = "Payments", Type = "item", Icon = "attach_money", Url = "/apps/academy", Children = null},
+                    }
+                };
+
+                var navig2 = new Navig() {
+                    Title = "Administration",
+                    Type = "collapsable",
+                    Icon = "edit",
+                    Url = null,
+                    Children = new List<Navig>() {
+                        new Navig() {Title = "Users", Type = "item", Icon = "person", Url = "/admin/admin-users", Children = null},
+                        new Navig() {Title = "Edit Menu", Type = "item", Icon = "attach_money", Url = "/admin/admin-menu", Children = null},
+                    }
+                };
+
+                _context.Navigs.Add(navig2);
+                _context.Navigs.Add(navig);
+
+                _context.SaveChanges();
+                
+
+
+
+            }
+        }
+    
     }
 }

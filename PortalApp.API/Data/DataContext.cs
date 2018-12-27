@@ -22,6 +22,8 @@ namespace PortalApp.API.Data
         public DbSet<UserV> UserVs { get; set; }
         public DbSet<UserTemp> UserTemps { get; set; }
 
+        public DbSet<Navig> Navigs { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

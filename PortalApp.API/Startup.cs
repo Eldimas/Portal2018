@@ -144,6 +144,7 @@ namespace PortalApp.API
             seeder.SeedUserTempSql();
             seeder.SeedUsers();
             seeder.SeedUserV();
+            seeder.SeedMenu();
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseAuthentication();

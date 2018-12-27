@@ -10,14 +10,14 @@ using PortalApp.API.Data;
 namespace PortalApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20181221125902_init db")]
-    partial class initdb
+    [Migration("20181227102355_init with navig")]
+    partial class initwithnavig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -147,6 +147,29 @@ namespace PortalApp.API.Migrations
                     b.HasIndex("RegionId");
 
                     b.ToTable("DepartmentVs");
+                });
+
+            modelBuilder.Entity("PortalApp.API.Models.Navig", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Icon");
+
+                    b.Property<int?>("NavigId");
+
+                    b.Property<string>("Title");
+
+                    b.Property<string>("Type");
+
+                    b.Property<string>("Url");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NavigId");
+
+                    b.ToTable("Navigs");
                 });
 
             modelBuilder.Entity("PortalApp.API.Models.Region", b =>
@@ -418,10 +441,17 @@ namespace PortalApp.API.Migrations
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("PortalApp.API.Models.Region")
+                    b.HasOne("PortalApp.API.Models.Region", "Region")
                         .WithMany("DepartmentVs")
                         .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PortalApp.API.Models.Navig", b =>
+                {
+                    b.HasOne("PortalApp.API.Models.Navig")
+                        .WithMany("Children")
+                        .HasForeignKey("NavigId");
                 });
 
             modelBuilder.Entity("PortalApp.API.Models.UserRole", b =>
