@@ -9,9 +9,9 @@ export class NavigService {
     baseUrl = environment.apiUrl + 'navig/';
 
     constructor() {}
-    getNavig(): any {
+    getNavig(lang: string): any {
         return createHttpObservable(
-            this.baseUrl + 'getNavig/'
+            this.baseUrl + `getNavig/${lang}`
         );
     }
 }

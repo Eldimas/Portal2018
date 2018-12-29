@@ -22,6 +22,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseWidgetModule } from '@fuse/components';
 import { AdminMenuComponent } from './admin-menu/admin-menu.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { EditMenuComponent } from './edit-menu/edit-menu.component';
 // import { AdminUsersService } from './admin-users/admin-users.service';
 // import { AdminUsersComponent } from './admin-users/admin-users.component';
 
@@ -31,7 +32,7 @@ import { TranslateModule } from '@ngx-translate/core';
 const routes: Routes = [
     {
         path: 'admin-menu',
-        component: AdminMenuComponent,
+        component: EditMenuComponent,
     //     resolve  : {
     //       data: AdminUsersService
     //   }
@@ -81,7 +82,8 @@ const routes: Routes = [
         MatTreeModule
     ],
     declarations: [
-        AdminMenuComponent
+        AdminMenuComponent,
+        EditMenuComponent
     ]
 })
 export class AdminMenuModule {}

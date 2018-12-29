@@ -149,15 +149,18 @@ namespace PortalApp.API.Migrations
 
             modelBuilder.Entity("PortalApp.API.Models.Navig", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Icon");
 
-                    b.Property<int?>("NavigId");
+                    b.Property<Guid?>("NavigId");
 
                     b.Property<string>("Title");
+
+                    b.Property<string>("TitleEng");
+
+                    b.Property<string>("TitleKaz");
 
                     b.Property<string>("Type");
 

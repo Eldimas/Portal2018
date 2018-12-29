@@ -10,6 +10,7 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { navigation } from 'app/navigation/navigation';
 import { Router } from '@angular/router';
 import { AuthService } from 'app/_services/auth.service';
+import { LangService } from 'app/_services/lang.service';
 
 @Component({
     selector     : 'toolbar',
@@ -43,7 +44,8 @@ export class ToolbarComponent implements OnInit, OnDestroy
         private _fuseConfigService: FuseConfigService,
         private _fuseSidebarService: FuseSidebarService,
         private _translateService: TranslateService,
-        private _router: Router
+        private _router: Router,
+        private _langService: LangService
     )
     {
         // Set the defaults
@@ -168,6 +170,10 @@ export class ToolbarComponent implements OnInit, OnDestroy
 
         // Use the selected language for translations
         this._translateService.use(lang.id);
+        // console.log('change lang: ', this._translateService.currentLang);
+
+        this._langService.getMenuForCurrentLang(this._translateService.currentLang);
+        
     }
 
     goToLogin(): void {

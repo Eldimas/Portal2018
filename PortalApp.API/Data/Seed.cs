@@ -301,30 +301,57 @@ namespace PortalApp.API.Data
             
             if(!_context.Navigs.Any()) {
 
-                var navig = new Navig() {
-                    Title = "Admin aaa",
-                    Type = "group",
-                    Icon = "apps",
-                    Url = null,
-                    Children = new List<Navig>() {
-                        new Navig() {Title = "Analytics", Type = "item", Icon = "person", Url = "/apps/dashboards/analytics", Children = null},
-                        new Navig() {Title = "Payments", Type = "item", Icon = "attach_money", Url = "/apps/academy", Children = null},
-                    }
+                var navigHome = new Navig() {
+                    Id = Guid.NewGuid(),
+                    Title = "Главная",
+                    TitleEng = "Main",
+                    TitleKaz = "Главная(Каз)",
+                    Type = "item",
+                    Icon = "home",
+                    Url = "/home",
+                    Children = null
+
                 };
 
+                // var navig = new Navig() {
+                //     Id = Guid.NewGuid(),
+                //     Title = "Админка",
+                //     TitleEng = "AdminEng",
+                //     TitleKaz = "AdminKaz",
+                //     Type = "group",
+                //     Icon = "apps",
+                //     Url = null,
+                //     Children = new List<Navig>() {
+                //         new Navig() {Id = Guid.NewGuid(), Title = "Аналитика", TitleEng="Analytics", TitleKaz="AnalyticsKaz", Type = "item", Icon = "person", Url = "/apps/dashboards/analytics", Children = null},
+                //         new Navig() {Id = Guid.NewGuid(), Title = "Payments", TitleEng="PaymentsEng", TitleKaz="PaymentsKaz", Type = "item", Icon = "attach_money", Url = "/apps/academy", Children = null},
+                //     }
+                // };
+
                 var navig2 = new Navig() {
-                    Title = "Administration",
+                    Id = Guid.NewGuid(),
+                    Title = "Админка",
+                    TitleEng = "Administration",
+                    TitleKaz = "AdministrationKaz",
                     Type = "collapsable",
                     Icon = "edit",
                     Url = null,
                     Children = new List<Navig>() {
-                        new Navig() {Title = "Users", Type = "item", Icon = "person", Url = "/admin/admin-users", Children = null},
-                        new Navig() {Title = "Edit Menu", Type = "item", Icon = "attach_money", Url = "/admin/admin-menu", Children = null},
+                        new Navig() {Id = Guid.NewGuid(), Title = "Users", TitleEng = "UsersEng", TitleKaz = "UsersKaz", Type = "item", Icon = "person", Url = "/admin/admin-users", Children = null},
+
+                        
+                        new Navig() {Id = Guid.NewGuid(), Title = "Редактирование регионов", TitleEng = "Edit Regions", TitleKaz = "Edit Regions Kaz", Type = "item",  Url = "/admin/admin-regions", Children = null},
+
+                        new Navig() {Id = Guid.NewGuid(), Title = "Редактирование Департаментов", TitleEng = "Edit Departments", TitleKaz = "Edit Departments Kaz", Type = "item",  Url = "/admin/admin-deps", Children = null},
+
+                        new Navig() {Id = Guid.NewGuid(), Title = "Редактирование меню", TitleEng = "Edit Menu", TitleKaz = "Edit Menu Kaz", Type = "item", Icon = "attach_money", Url = "/admin/admin-menu", Children = null},
+
+
                     }
                 };
 
+                _context.Navigs.Add(navigHome);
                 _context.Navigs.Add(navig2);
-                _context.Navigs.Add(navig);
+                // _context.Navigs.Add(navig);
 
                 _context.SaveChanges();
                 

@@ -4,16 +4,16 @@ import { createHttpObservable } from 'app/utils/util';
 import { RegionForSelection } from 'app/_models/region.model';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class RegionService {
+    baseUrl = environment.apiUrl;
 
-baseUrl = environment.apiUrl;
+    constructor() {}
 
-constructor() { }
-
-getRegions(): any {
-  return createHttpObservable(this.baseUrl + 'region/GetRegionsForSelect');
-}
-
+    getRegions(): any {
+        return createHttpObservable(
+            this.baseUrl + 'region/GetRegionsForSelect'
+        );
+    }
 }

@@ -6,8 +6,8 @@ import {
     MatTreeFlattener
 } from '@angular/material/tree';
 import { BehaviorSubject } from 'rxjs';
-import { NavigService } from 'app/_services/navig.service';
 import { Navig } from 'app/_models/navig';
+import { NavigService } from 'app/_services/navig.service';
 
 /**
  * Node for to-do item
@@ -19,29 +19,22 @@ import { Navig } from 'app/_models/navig';
 
 /** Flat to-do item node with expandable and level information */
 export class TodoItemFlatNode {
+    // item: string;
     children: TodoItemNode[];
-    item: string;
     level: number;
     expandable: boolean;
     id: string;
     title: string;
-    type: string;
-    icon: string;
-    url: string;
 }
-
 
 export class TodoItemNode {
     children: TodoItemNode[];
     title: string;
     expanded: boolean;
-    type: string;
-    icon: string;
-    url: string;
     id: string;
     selected: boolean;
-    item: string;
     parentId: string;
+    // item: string;
 }
 
 /**
@@ -49,26 +42,38 @@ export class TodoItemNode {
  */
 const TREE_DATA = [
     {
-        title: 'Group 1',
+        id: 'cf55339b-9f23-4532-994d-1a8cfc8378f6',
+        title: 'AdminEng',
+        type: 'group',
+        icon: 'apps',
+        url: '/app/new',
         expanded: false,
-        id: '1',
         selected: false,
         children: [
             {
-              title: 'Childgroup 1',
+                title: 'Childgroup 1',
+                type: 'group',
+                icon: 'apps',
+                url: '/app/new',
                 expanded: false,
                 id: '2',
                 selected: true,
                 children: []
             },
             {
-              title: 'Childgroup 2',
+                title: 'Childgroup 2',
+                type: 'group',
+                icon: 'apps',
+                url: '/app/new',
                 expanded: false,
                 id: '3',
                 selected: false,
                 children: [
                     {
-                      title: 'Child of child',
+                        title: 'Child of child',
+                        type: 'group',
+                        icon: 'apps',
+                        url: '/app/new',
                         expanded: false,
                         id: '4',
                         selected: false,
@@ -79,59 +84,41 @@ const TREE_DATA = [
         ]
     },
     {
-      title: 'Group 2',
+        title: 'Group 2',
+        type: 'group',
+        icon: 'apps',
+        url: '/app/new',
         expanded: false,
         id: '5',
         selected: false,
         children: [
             {
-              title: 'Childgroup 1',
+                title: 'Childgroup 1',
+                type: 'group',
+                icon: 'apps',
+                url: '/app/new',
                 expanded: false,
                 id: '6',
                 selected: false,
                 children: []
             },
             {
-              title: 'Childgroup 2',
+                title: 'Childgroup 2',
+                type: 'group',
+                icon: 'apps',
+                url: '/app/new',
                 expanded: false,
                 id: '7',
                 selected: false,
                 children: [
                     {
-                      title: 'Child of child',
+                        title: 'Child of child',
+                        type: 'group',
+                        icon: 'apps',
+                        url: '/app/new',
                         expanded: false,
                         id: '8',
                         selected: true,
-                        children: []
-                    }
-                ]
-            }
-        ]
-    },
-    {
-      title: 'Group 3',
-        expanded: false,
-        id: '9',
-        selected: false,
-        children: [
-            {
-              title: 'Childgroup 1',
-                expanded: false,
-                id: '10',
-                selected: false,
-                children: ''
-            },
-            {
-              title: 'Childgroup 2',
-                expanded: false,
-                id: '11',
-                selected: false,
-                children: [
-                    {
-                      title: 'Child of child',
-                        expanded: false,
-                        id: '12',
-                        selected: false,
                         children: []
                     }
                 ]
@@ -148,16 +135,7 @@ const TREE_DATA = [
 @Injectable()
 export class ChecklistDatabase {
 
-  ////////////////////////////////////
-  navigs_data: Navig[] = [];
-
-  /**
-   *
-   */
- 
-
-  ////////////////////////////////////
-
+    navigs_data: Navig[] = [];
     dataChange = new BehaviorSubject<TodoItemNode[]>([]);
 
     get data(): TodoItemNode[] {
@@ -165,8 +143,8 @@ export class ChecklistDatabase {
     }
 
     constructor(private _navigService: NavigService) {
-
-      ///////////////////////////////////////
+        // this.initialize();
+         ///////////////////////////////////////
     const http$ = this._navigService.getNavig('ru');
     http$.subscribe(
       navigs => {
@@ -192,8 +170,6 @@ export class ChecklistDatabase {
   );
 
   ////////////////////////////////////////
-
-        
     }
 
     // tslint:disable-next-line:typedef
@@ -221,9 +197,6 @@ export class ChecklistDatabase {
             // node.name = key;
             node.title = value.title;
             node.id = value.id;
-            node.type = value.type;
-            node.icon = value.icon;
-            node.url = value.url;
 
             // console.log('value: ', value);
             // console.log('key: ', key);
@@ -255,38 +228,23 @@ export class ChecklistDatabase {
     }
 
     // tslint:disable-next-line:typedef
-    updateItem(node: TodoItemNode, title: string, id: string, type: string, icon: string, url: string) {
-        // node.item = title;
-        
+    updateItem(node: TodoItemNode, title: string) {
+        // node.item = name;
         node.title = title;
-        node.id = id;
-        node.type = type;
-        node.icon = icon;
-        node.url = url;
-        // node.children = null;
-        // node.selected = false;
+        // node.id = id;
+        node.children = null;
         this.dataChange.next(this.data);
         console.log('data: ', this.data);
-    }
-
-    // tslint:disable-next-line:typedef
-    updateFlatItem(node: TodoItemFlatNode){
-      console.log('updateFlatItem: ', node);
-      node.expandable = true;
-      this.dataChange.next(this.data);
-      
-      
     }
 }
 
 @Component({
-    selector: 'app-admin-menu',
-    templateUrl: './admin-menu.component.html',
-    styleUrls: ['./admin-menu.component.scss'],
+    selector: 'app-edit-menu',
+    templateUrl: './edit-menu.component.html',
+    styleUrls: ['./edit-menu.component.scss'],
     providers: [ChecklistDatabase]
 })
-export class AdminMenuComponent {
-    
+export class EditMenuComponent {
     /** Map from flat node to nested node. This helps us finding the nested node to be modified */
     flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
 
@@ -310,10 +268,7 @@ export class AdminMenuComponent {
         true /* multiple */
     );
 
-    constructor(
-        private database: ChecklistDatabase
-    ) {
-        
+    constructor(private database: ChecklistDatabase) {
         this.treeFlattener = new MatTreeFlattener(
             this.transformer,
             this.getLevel,
@@ -342,8 +297,9 @@ export class AdminMenuComponent {
 
     hasChild = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.expandable;
 
-    hasNoContent = (_: number, _nodeData: TodoItemFlatNode) => 
-        _nodeData.title === ''
+    hasNoContent = (_: number, _nodeData: TodoItemFlatNode) =>
+        // tslint:disable-next-line:semicolon
+        _nodeData.title === '';
 
     /**
      * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
@@ -359,19 +315,16 @@ export class AdminMenuComponent {
             existingNode.title === node.title
                 ? existingNode
                 : new TodoItemFlatNode();
-        flatNode.item = node.title;
+        // flatNode.item = node.name;
         flatNode.id = node.id;
         flatNode.title = node.title;
-        flatNode.type = node.type;
-        flatNode.icon = node.icon;
-        flatNode.url = node.url;
         flatNode.level = level;
-        flatNode.children = node.children;
         flatNode.expandable = !!node.children;
         this.flatNodeMap.set(flatNode, node);
         this.nestedNodeMap.set(node, flatNode);
         return flatNode;
-    }
+    // tslint:disable-next-line:semicolon
+    };
 
     /** Whether all the descendants of the node are selected. */
     descendantsAllSelected(node: TodoItemFlatNode): boolean {
@@ -456,19 +409,17 @@ export class AdminMenuComponent {
     /** Select the category so we can insert the new item. */
     // tslint:disable-next-line:typedef
     addNewItem(node: TodoItemFlatNode) {
-        console.log('TodoItemFlatNode: ', node);
+        // console.log('TodoItemFlatNode: ', node);
 
         const parentNode = this.flatNodeMap.get(node);
-        console.log('parentNode: ', parentNode);
+        // console.log('parentNode: ', parentNode);
 
         if (parentNode.children === undefined || parentNode.children == null){
           parentNode.children = [];
-          // parentNode.expanded = true;
-          // parentNode.selected = true;
         }
+        alert(parentNode.id);
 
         const uuidv1 = require('uuid/v1');
-
 
         const tdNode = new TodoItemNode();
         tdNode.title = '';
@@ -478,12 +429,10 @@ export class AdminMenuComponent {
         tdNode.children = null;
         tdNode.parentId = parentNode.id;
 
-        // if (node.children === undefined || node.children === null) {
-        //   node.children = [];
-        // }
-        // node.children.push(tdNode);
+         if (node.children === undefined || node.children === null) {
+          node.children = [];
+        }
 
-        // this.database.updateFlatItem(node);
         // tslint:disable-next-line:no-non-null-assertion
         // this.database.insertItem(parentNode!, '');
         // tslint:disable-next-line:no-non-null-assertion
@@ -494,20 +443,12 @@ export class AdminMenuComponent {
 
     /** Save the node to database */
     // tslint:disable-next-line:typedef
-    saveNode(node: TodoItemFlatNode, title: string, id: string, type: string, icon: string, url: string, parentId: string) {
-        
-      node.title = title;
-      node.type = type;
-      node.icon = icon;
-      node.url = url;
-      console.log('save node: ', node);
+    saveNode(node: TodoItemFlatNode, title: string) {
+        console.log('save node: ', node);
 
         const nestedNode = this.flatNodeMap.get(node);
-        //   alert(nestedNode.parentId);
-        // console.log('nested node: ', nestedNode);
-        
         // tslint:disable-next-line:no-non-null-assertion
-        this.database.updateItem(nestedNode!, title, node.id, type, icon, url);
+        this.database.updateItem(nestedNode!, title);
     }
 
     // tslint:disable-next-line:typedef

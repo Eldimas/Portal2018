@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PortalApp.API.Migrations
 {
-    public partial class initwithnavig : Migration
+    public partial class initwithnewnavig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -67,13 +67,14 @@ namespace PortalApp.API.Migrations
                 name: "Navigs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: true),
                     Icon = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true),
-                    NavigId = table.Column<int>(nullable: true)
+                    TitleEng = table.Column<string>(nullable: true),
+                    TitleKaz = table.Column<string>(nullable: true),
+                    NavigId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -20,6 +20,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from './_models/user';
 import { NavigService } from './_services/navig.service';
 import { Navig } from './_models/navig';
+import { LangService } from './_services/lang.service';
 
 @Component({
     selector: 'app',
@@ -57,7 +58,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private _translateService: TranslateService,
         private _platform: Platform,
         private _authService: AuthService,
-        private _navigService: NavigService
+        private _navigService: NavigService,
+        private _langService: LangService
     ) {
         // Get default navigation
         this.navigation = navigation;
@@ -69,33 +71,33 @@ export class AppComponent implements OnInit, OnDestroy {
         this._fuseNavigationService.setCurrentNavigation('main');
 
 
-        const http$ = this._navigService.getNavig();
-        http$
-            .subscribe(
-                navigs => {
-                    console.log('navig: ', navigs);
-                    // this.navigs = navigs;
+        // const http$ = this._navigService.getNavig();
+        // http$
+        //     .subscribe(
+        //         navigs => {
+        //             console.log('navig: ', navigs);
+        //             // this.navigs = navigs;
 
                     
 
-                    navigs.forEach(navig => {
-                      const nav = new Navig(navig);
-                      this.navigs.push(nav);
-                    });
+        //             navigs.forEach(navig => {
+        //               const nav = new Navig(navig);
+        //               this.navigs.push(nav);
+        //             });
 
-                    // console.log('last navig: ', this.navigs);
+        //             // console.log('last navig: ', this.navigs);
 
-                    // // Register the new navigation
-                    this._fuseNavigationService.register('navig', navigs);
+        //             // // Register the new navigation
+        //             this._fuseNavigationService.register('navig', navigs);
 
-                    // // Set the current navigation
-                    this._fuseNavigationService.setCurrentNavigation('navig');
+        //             // // Set the current navigation
+        //             this._fuseNavigationService.setCurrentNavigation('navig');
 
                     
-                },
-                err => console.log(err),
-                () => console.log('completed')
-            );
+        //         },
+        //         err => console.log(err),
+        //         () => console.log('completed')
+        //     );
 
 
 
@@ -119,7 +121,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // Use a language
         this._translateService.use('ru');
-
+        this._langService.getMenuForCurrentLang(this._translateService.currentLang);
+        
         /**
          * ----------------------------------------------------------------------------------------------------
          * ngxTranslate Fix Start
