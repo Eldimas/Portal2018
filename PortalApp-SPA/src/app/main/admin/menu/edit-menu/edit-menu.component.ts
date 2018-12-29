@@ -25,12 +25,22 @@ export class TodoItemFlatNode {
     expandable: boolean;
     id: string;
     title: string;
+    titleEng: string;
+    titleKaz: string;
+    type: string;
+    icon: string;
+    url: string;
 }
 
 export class TodoItemNode {
     children: TodoItemNode[];
     title: string;
+    titleEng: string;
+    titleKaz: string;
     expanded: boolean;
+    type: string;
+    icon: string;
+    url: string;
     id: string;
     selected: boolean;
     parentId: string;
@@ -318,6 +328,11 @@ export class EditMenuComponent {
         // flatNode.item = node.name;
         flatNode.id = node.id;
         flatNode.title = node.title;
+        flatNode.titleEng = node.titleEng;
+        flatNode.titleKaz = node.titleKaz;
+        flatNode.type = node.type;
+        flatNode.icon = node.icon;
+        flatNode.url = node.url;
         flatNode.level = level;
         flatNode.expandable = !!node.children;
         this.flatNodeMap.set(flatNode, node);
@@ -423,6 +438,8 @@ export class EditMenuComponent {
 
         const tdNode = new TodoItemNode();
         tdNode.title = '';
+        tdNode.titleEng = '';
+        tdNode.titleKaz = '';
         tdNode.expanded = false;
         tdNode.id = uuidv1();
         tdNode.selected = false;
@@ -443,7 +460,7 @@ export class EditMenuComponent {
 
     /** Save the node to database */
     // tslint:disable-next-line:typedef
-    saveNode(node: TodoItemFlatNode, title: string) {
+    saveNode(node: TodoItemFlatNode, title: string, titleEng: string, titleKaz: string, type: string, icon: string, url: string) {
         console.log('save node: ', node);
 
         const nestedNode = this.flatNodeMap.get(node);
