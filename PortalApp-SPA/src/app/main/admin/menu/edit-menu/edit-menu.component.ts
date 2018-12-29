@@ -8,6 +8,10 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { Navig } from 'app/_models/navig';
 import { NavigService } from 'app/_services/navig.service';
+import { NavigUpdate } from 'app/_models/navigUpdate.model';
+import { LangService } from 'app/_services/lang.service';
+import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Node for to-do item
@@ -278,7 +282,11 @@ export class EditMenuComponent {
         true /* multiple */
     );
 
-    constructor(private database: ChecklistDatabase) {
+    constructor(private database: ChecklistDatabase, 
+      private _navigService: NavigService,
+     private _langService: LangService,
+     private _fuseNavigationService: FuseNavigationService,
+     private _translateService: TranslateService) {
         this.treeFlattener = new MatTreeFlattener(
             this.transformer,
             this.getLevel,
@@ -432,7 +440,7 @@ export class EditMenuComponent {
         if (parentNode.children === undefined || parentNode.children == null){
           parentNode.children = [];
         }
-        alert(parentNode.id);
+        // alert(parentNode.id);
 
         const uuidv1 = require('uuid/v1');
 
@@ -464,6 +472,25 @@ export class EditMenuComponent {
         console.log('save node: ', node);
 
         const nestedNode = this.flatNodeMap.get(node);
+
+        const navig = new NavigUpdate;
+        navig.id = nestedNode.id;
+        navig.parentId = nestedNode.parentId;
+        navig.title = title;
+        navig.titleEng = titleEng;
+        navig.titleKaz = titleKaz;
+        navig.type = type;
+        navig.icon = icon;
+        navig.url = url;
+
+        this._navigService.addNavig(navig).subscribe(
+          res => {
+            console.log(res);
+            
+            this._langService.getMenuForCurrentLang(this._translateService.currentLang);
+          }
+        );
+        
         // tslint:disable-next-line:no-non-null-assertion
         this.database.updateItem(nestedNode!, title);
     }
