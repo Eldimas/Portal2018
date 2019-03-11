@@ -313,19 +313,7 @@ namespace PortalApp.API.Data
 
                 };
 
-                // var navig = new Navig() {
-                //     Id = Guid.NewGuid(),
-                //     Title = "Админка",
-                //     TitleEng = "AdminEng",
-                //     TitleKaz = "AdminKaz",
-                //     Type = "group",
-                //     Icon = "apps",
-                //     Url = null,
-                //     Children = new List<Navig>() {
-                //         new Navig() {Id = Guid.NewGuid(), Title = "Аналитика", TitleEng="Analytics", TitleKaz="AnalyticsKaz", Type = "item", Icon = "person", Url = "/apps/dashboards/analytics", Children = null},
-                //         new Navig() {Id = Guid.NewGuid(), Title = "Payments", TitleEng="PaymentsEng", TitleKaz="PaymentsKaz", Type = "item", Icon = "attach_money", Url = "/apps/academy", Children = null},
-                //     }
-                // };
+                
 
                 var navig2 = new Navig() {
                     Id = Guid.NewGuid(),

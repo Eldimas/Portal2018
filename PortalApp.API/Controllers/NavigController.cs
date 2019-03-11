@@ -16,11 +16,19 @@ namespace PortalApp.API.Controllers
     [ApiController]
     public class NavigController : ControllerBase
     {
-
+        private readonly IPortalRepository _repo;
         private readonly DataContext _context;
-        public NavigController(DataContext context)
+        public NavigController(IPortalRepository repo, DataContext context)
         {
+            _repo = repo;
             _context = context;
+        }
+
+        [HttpGet("getNavigById/{id}")]
+        public async Task<IActionResult> GetNavigById(string id)
+        {
+            var navig = await _context.Navigs.FirstOrDefaultAsync(x => x.Id == Guid.Parse(id));
+            return Ok(navig);
         }
 
         [HttpGet("getNavig/{lang}")]
@@ -67,8 +75,42 @@ namespace PortalApp.API.Controllers
         }
 
         [HttpPost("addId")]
-        public async Task<IActionResult> AddId(int id){
+        public async Task<IActionResult> AddId(int id)
+        {
             return Ok();
+        }
+
+        [HttpPut("update")]
+        public async Task<IActionResult> Update(NavigUpdateDto navigUpdateDto)
+        {
+            var navig = await _context.Navigs.FirstOrDefaultAsync(x => x.Id == navigUpdateDto.Id);
+            if (navig != null)
+            {
+                navig.Title = navigUpdateDto.Title;
+                navig.TitleEng = navigUpdateDto.TitleEng;
+                navig.TitleKaz = navigUpdateDto.TitleKaz;
+                navig.Icon = navigUpdateDto.Icon;
+                navig.Type = navigUpdateDto.Type;
+                navig.Url = navigUpdateDto.Url;
+            }
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteNavig(Guid id)
+        {
+            var navig = _context.Navigs.FirstOrDefault(x => x.Id == id);
+           
+                // _context.Navigs.Remove(navig);
+                // _context.SaveChanges();
+                _repo.Delete(navig);
+                if (await _repo.SaveAll())
+                    return Ok();
+
+                return BadRequest("Failed to delete the navig");
+           
+
         }
 
         [HttpPost("add")]
@@ -82,13 +124,15 @@ namespace PortalApp.API.Controllers
                 return BadRequest("error");
             }
 
-            if(parentNavig.Children == null){
+            if (parentNavig.Children == null)
+            {
                 parentNavig.Children = new List<Navig>();
                 parentNavig.Type = "group";
             }
 
-            var newNav = new Navig(){
-                Id=navigUpdateDto.Id,
+            var newNav = new Navig()
+            {
+                Id = navigUpdateDto.Id,
                 Title = navigUpdateDto.Title,
                 TitleEng = navigUpdateDto.TitleEng,
                 TitleKaz = navigUpdateDto.TitleKaz,
@@ -100,22 +144,7 @@ namespace PortalApp.API.Controllers
             parentNavig.Children.Add(newNav);
             _context.SaveChanges();
 
-            //     var userToCreate = _mapper.Map<User>(userForRegisterDto);
-            //     // var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
-            //         _userManager.CreateAsync(userToCreate, userForRegisterDto.Password).Wait();
-            //         var result = await _userManager.AddToRoleAsync(userToCreate, "Member");
 
-            //     var userToReturn = _mapper.Map<UserForDetailedDto>(userToCreate);
-
-            //     if (result.Succeeded)
-            //     {
-            //         return CreatedAtRoute("GetUser", 
-            //             new { controller = "Users", id = userToCreate.Id }, userToReturn);
-            //     }
-
-            //     return BadRequest(result.Errors);
-            //     return Ok();
-            // }
             return Ok();
         }
     }

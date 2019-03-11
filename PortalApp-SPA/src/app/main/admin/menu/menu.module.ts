@@ -15,7 +15,8 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
-    MatTreeModule
+    MatTreeModule,
+    MatDialogModule
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -23,6 +24,9 @@ import { FuseWidgetModule } from '@fuse/components';
 import { AdminMenuComponent } from './admin-menu/admin-menu.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { EditMenuComponent } from './edit-menu/edit-menu.component';
+import { EditMenu2Component } from './edit-menu2/edit-menu2.component';
+import { DialogEditItemComponent } from './edit-menu2/dialog-edit-item.component';
+import { DialogAddItemComponent } from './edit-menu2/dialog-add-item.component';
 // import { AdminUsersService } from './admin-users/admin-users.service';
 // import { AdminUsersComponent } from './admin-users/admin-users.component';
 
@@ -32,7 +36,7 @@ import { EditMenuComponent } from './edit-menu/edit-menu.component';
 const routes: Routes = [
     {
         path: 'admin-menu',
-        component: EditMenuComponent,
+        component: EditMenu2Component,
     //     resolve  : {
     //       data: AdminUsersService
     //   }
@@ -57,6 +61,7 @@ const routes: Routes = [
         MatFormFieldModule,
         MatInputModule,
         MatCheckboxModule,
+        MatDialogModule,
 
         TranslateModule,
         MatTreeModule
@@ -77,13 +82,21 @@ const routes: Routes = [
         MatFormFieldModule,
         MatInputModule,
         MatCheckboxModule,
+        MatDialogModule,
 
         TranslateModule,
         MatTreeModule
     ],
     declarations: [
         AdminMenuComponent,
-        EditMenuComponent
+        EditMenuComponent,
+        EditMenu2Component,
+        DialogEditItemComponent,
+        DialogAddItemComponent
+    ],
+    entryComponents: [
+        DialogEditItemComponent,
+        DialogAddItemComponent
     ]
 })
 export class AdminMenuModule {}

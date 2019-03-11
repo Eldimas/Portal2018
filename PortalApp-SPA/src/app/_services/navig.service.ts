@@ -22,11 +22,30 @@ export class NavigService {
     }
 
     // tslint:disable-next-line:typedef
-    addNavig(navig: any) {
+    addNavig(navig: Navig) {
         console.log('NavigUpdate: ', navig);
         console.log('Path: ', this.baseUrl + 'add/');
         
        return this.http.post(this.baseUrl + 'add/', navig);
         // this.http.post(this.baseUrl + 'addId/', 1);
+    }
+
+    // tslint:disable-next-line:typedef
+    updateNavig(navig: Navig) {
+        return this.http.put(this.baseUrl + 'update/', navig);
+    }
+
+    // tslint:disable-next-line:typedef
+    deleteNavig(navigId: string) {
+        return this.http.delete(this.baseUrl + 'delete/' + navigId);
+    }
+
+    getNavigById(id: string): any {
+        // alert(`navigId: ${id}`);
+
+      return createHttpObservable(
+            this.baseUrl + `getNavigById/${id}`
+        ); 
+        
     }
 }
