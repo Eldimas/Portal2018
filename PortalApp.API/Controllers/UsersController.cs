@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PortalApp.API.Controllers
 {
-    
+
     [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]
     [ApiController]
@@ -21,18 +21,19 @@ namespace PortalApp.API.Controllers
         private readonly IPortalRepository _repo;
         private readonly IUserRepository _userRepo;
         private readonly IMapper _mapper;
-        
+
 
         public UsersController(IPortalRepository repo, IUserRepository userRepo, IMapper mapper)
         {
-           _mapper = mapper;
+            _mapper = mapper;
             _repo = repo;
             _userRepo = userRepo;
         }
 
         [Authorize(Policy = "RequireAdminRole")]
         [HttpGet("getAllUsers")]
-        public async Task<IActionResult> GetAllUsers() {
+        public async Task<IActionResult> GetAllUsers()
+        {
             // var ni = ClaimTypes.NameIdentifier;
             var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var users = await _userRepo.GetAllUsers();
@@ -76,16 +77,49 @@ namespace PortalApp.API.Controllers
             var userToReturn = _mapper.Map<UserDetailsDto>(user);
 
             // return Ok(userToReturn);
-             return Ok(user);
+            return Ok(user);
         }
 
         [Authorize(Policy = "RequireAdminRole")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
         {
-           var userFromRepo = await _repo.GetUser(id, true);
+            var userFromRepo = await _repo.GetUser(id, true);
 
             _mapper.Map(userForUpdateDto, userFromRepo);
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            throw new Exception($"Updating user {id} failed on save");
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("userv/{id}")]
+        public async Task<IActionResult> AddUserV(int id, UserVDetailDto userVDetailDto)
+        {
+            var userFromRepo = await _repo.GetUser(id, true);
+            var userV = new UserV();
+            userV.Id = userVDetailDto.Id;
+            userV.Created = DateTime.Now;
+            userV.DisplayNameRus = userVDetailDto.DisplayNameRus;
+            userV.DisplayNameEng = userVDetailDto.DisplayNameEng;
+            userV.DisplayNameKaz = userVDetailDto.DisplayNameKaz;
+
+            userV.FromNameRus = userVDetailDto.FromNameRus;
+            userV.FromNameEng = userVDetailDto.FromNameEng;
+            userV.FromNameKaz = userVDetailDto.FromNameKaz;
+
+            userV.ToNameRus = userVDetailDto.ToNameRus;
+            userV.ToNameEng = userVDetailDto.ToNameEng;
+            userV.ToNameKaz = userVDetailDto.ToNameKaz;
+
+            userV.Priority = userVDetailDto.Priority;
+            userV.Disabled = userVDetailDto.Disabled;
+            userV.DepartmentVId = userVDetailDto.departmentVId;
+
+            // _mapper.Map(userForUpdateDto, userFromRepo);
+            userFromRepo.UserVs.Add(userV);
 
             if (await _repo.SaveAll())
                 return NoContent();

@@ -5,20 +5,23 @@ import { BehaviorSubject, Observable, merge, Subject, fromEvent } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FuseUtils } from '@fuse/utils';
 import { MatPaginator, MatSort } from '@angular/material';
-import { AdminUsersService } from './admin-users.service';
+// import { AdminRegionsService } from './admin-regions.service';
 import { takeUntil } from 'rxjs/internal/operators';
+import { AdminRegionsService } from './admin-regions.service';
+import { AdminRolesService } from './admin-roles.service';
+// import { AdminRegionsService } from '../../regions/admin-regions/admin-regions.service';
 
 @Component({
-  selector: 'app-admin-users',
-  templateUrl: './admin-users.component.html',
-  styleUrls: ['./admin-users.component.scss'],
+  selector: 'app-admin-roles',
+  templateUrl: './admin-roles.component.html',
+  styleUrls: ['./admin-roles.component.scss'],
   animations   : fuseAnimations,
   encapsulation: ViewEncapsulation.None
 })
-export class AdminUsersComponent implements OnInit {
+export class AdminRolesComponent implements OnInit {
 
   dataSource: FilesDataSource | null;
-   displayedColumns: string[] = ['id', 'username', 'email'];
+   displayedColumns: string[] = ['name'];
    //  dataSource = ELEMENT_DATA;
  
    @ViewChild(MatPaginator)
@@ -34,7 +37,7 @@ export class AdminUsersComponent implements OnInit {
    private _unsubscribeAll: Subject<any>;
    
  
- constructor(private _adminUsersService: AdminUsersService) {
+ constructor(private _adminRolesService: AdminRolesService) {
    // Set the private defaults
    this._unsubscribeAll = new Subject();
  }
@@ -44,7 +47,7 @@ export class AdminUsersComponent implements OnInit {
      
    //   this.dataSource = this._adminUsersService.users;
    
- this.dataSource = new FilesDataSource(this._adminUsersService, this.paginator, this.sort);
+ this.dataSource = new FilesDataSource(this._adminRolesService, this.paginator, this.sort);
 //  console.log(this.dataSource);
  
  
@@ -79,14 +82,14 @@ export class AdminUsersComponent implements OnInit {
      //  * @param {MatSort} _matSort
      //  */
      constructor(
-         private _adminUsersService: AdminUsersService,
+         private _adminRolesService: AdminRolesService,
          private _matPaginator: MatPaginator,
          private _matSort: MatSort
      )
      {
          super();
  
-         this.filteredData = this._adminUsersService.users;
+         this.filteredData = this._adminRolesService.regions;
          
          
      }
@@ -99,7 +102,7 @@ export class AdminUsersComponent implements OnInit {
      connect(): Observable<any[]>
      {
          const displayDataChanges = [
-             this._adminUsersService.onUsersChanged,
+             this._adminRolesService.onRegionsChanged,
              this._matPaginator.page,
              this._filterChange,
              this._matSort.sortChange
@@ -108,7 +111,7 @@ export class AdminUsersComponent implements OnInit {
          return merge(...displayDataChanges)
              .pipe(
                  map(() => {
-                         let data = this._adminUsersService.users.slice();
+                         let data = this._adminRolesService.regions.slice();
  
                          data = this.filterData(data);
  
@@ -187,11 +190,17 @@ export class AdminUsersComponent implements OnInit {
  
              switch ( this._matSort.active )
              {
-                 case 'id':
-                     [propertyA, propertyB] = [a.id, b.id];
+                //  case 'id':
+                //      [propertyA, propertyB] = [a.id, b.id];
+                //      break;
+                 case 'nameRu':
+                     [propertyA, propertyB] = [a.nameRu, b.nameRu];
                      break;
-                 case 'username':
-                     [propertyA, propertyB] = [a.username, b.username];
+                 case 'nameEn':
+                     [propertyA, propertyB] = [a.nameEn, b.nameEn];
+                     break;
+                 case 'nameKz':
+                     [propertyA, propertyB] = [a.nameKz, b.nameKz];
                      break;
                 //  case 'city':
                 //      [propertyA, propertyB] = [a.city, b.city];

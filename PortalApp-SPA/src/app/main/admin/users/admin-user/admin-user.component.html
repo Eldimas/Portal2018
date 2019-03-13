@@ -1,106 +1,163 @@
 <div id="user" class="page-layout carded fullwidth inner-scroll">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
 
-  <!-- TOP BACKGROUND -->
-  <div class="top-bg accent"></div>
-  <!-- / TOP BACKGROUND -->
+    <!-- CENTER -->
+    <div class="center">
+        <!-- HEADER -->
+        <div
+            class="header accent"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+        >
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button
+                    mat-icon-button
+                    class="mr-0 mr-sm-16"
+                    [routerLink]="'/admin/admin-users/'"
+                >
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
 
-  <!-- CENTER -->
-  <div class="center">
-
-      <!-- HEADER -->
-      <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
-
-          <!-- APP TITLE -->
-          <div fxLayout="row" fxLayoutAlign="start center">
-
-              <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/admin/admin-users/'">
-                  <mat-icon>arrow_back</mat-icon>
-              </button>
-
-              <div class="user-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                  <!-- <img *ngIf="user.images[0]" [src]="user.images[0].url">
+                <div
+                    class="user-image mr-8 mr-sm-16"
+                    [@animate]="{
+                        value: '*',
+                        params: { delay: '50ms', scale: '0.2' }
+                    }"
+                >
+                    <!-- <img *ngIf="user.images[0]" [src]="user.images[0].url">
                   <img *ngIf="!user.images[0]" [src]="'assets/images/ecommerce/user-image-placeholder.png'"> -->
-              </div>
+                </div>
 
-              <div fxLayout="column" fxLayoutAlign="start start"
-                   [@animate]="{value:'*',params:{delay:'100ms',x:'-50px'}}">
-                  <div class="h2" *ngIf="pageType ==='edit'">
-                      {{adminUser.userName}}
-                  </div>
-                  <div class="h2" *ngIf="pageType ==='new'">
-                      New user
-                  </div>
-                  <div class="subtitle secondary-text">
-                      <span>Подробности</span>
-                  </div>
-              </div>
-          </div>
-          <!-- / APP TITLE -->
+                <div
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    [@animate]="{
+                        value: '*',
+                        params: { delay: '100ms', x: '-50px' }
+                    }"
+                >
+                    <div class="h2" *ngIf="pageType === 'edit'">
+                        {{ adminUser.userName }}
+                    </div>
+                    <div class="h2" *ngIf="pageType === 'new'">
+                        New user
+                    </div>
+                    <div class="subtitle secondary-text">
+                        <span>Подробности</span>
+                    </div>
+                </div>
+            </div>
+            <!-- / APP TITLE -->
 
-          <!-- <button mat-raised-button
+            <!-- <button mat-raised-button
                   class="save-user-button"
                   [disabled]="userForm.invalid"
                   *ngIf="pageType ==='new'" (click)="addProduct()">
               <span>ADD</span>
           </button> -->
 
-          <button mat-raised-button
-                  class="save-user-button"
-                  [disabled]="userForm.invalid || userForm.pristine"
-                  *ngIf="pageType ==='edit'" (click)="saveUser()">
-              <span>SAVE</span>
-          </button>
-      </div>
-      <!-- / HEADER -->
+            <button
+                mat-raised-button
+                class="save-user-button"
+                [disabled]="userForm.invalid || userForm.pristine"
+                *ngIf="pageType === 'edit'"
+                (click)="saveUser()"
+            >
+                <span>SAVE</span>
+            </button>
+        </div>
+        <!-- / HEADER -->
 
-      <!-- CONTENT CARD -->
-      <div class="content-card">
-
-          <!-- CONTENT -->
-          <div class="content">
-            <form name="userForm" [formGroup]="userForm" class="user w-100-p" fxLayout="column" fxFlex>
-              <mat-tab-group>
-
-                      <mat-tab label="Basic Info">
-
-                        <div class="tab-content p-24" fusePerfectScrollbar>
-                          <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                            <mat-label>User Name</mat-label>
-                            <input matInput placeholder="User Name"
-                                   name="userName"
-                                   formControlName="userName"
-                                   required>
-                          </mat-form-field>
-
-                          <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                              <mat-label>email</mat-label>
-                              <input matInput placeholder="email"
-                                     name="email"
-                                     formControlName="email">
-                            </mat-form-field>
-
-                            <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                <mat-label>phoneNumber</mat-label>
-                                <input matInput placeholder="phoneNumber"
-                                       name="phoneNumber"
-                                       formControlName="phoneNumber">
-                              </mat-form-field>
-
-                              <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                  <mat-label>created</mat-label>
-                                  <input matInput placeholder="created"
-                                         name="created"
-                                         formControlName="created">
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+            <!-- CONTENT -->
+            <div class="content">
+                <form
+                    name="userForm"
+                    [formGroup]="userForm"
+                    class="user w-100-p"
+                    fxLayout="column"
+                    fxFlex
+                >
+                    <mat-tab-group>
+                        <mat-tab label="Basic Info">
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+                                <mat-form-field
+                                    appearance="outline"
+                                    floatLabel="always"
+                                    class="w-100-p"
+                                >
+                                    <mat-label>User Name</mat-label>
+                                    <input
+                                        matInput
+                                        placeholder="User Name"
+                                        name="userName"
+                                        formControlName="userName"
+                                        required
+                                    />
                                 </mat-form-field>
 
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>lastActive</mat-label>
-                                    <input matInput placeholder="lastActive"
-                                           name="lastActive"
-                                           formControlName="lastActive">
-                                  </mat-form-field>
+                                <mat-form-field
+                                    appearance="outline"
+                                    floatLabel="always"
+                                    class="w-100-p"
+                                >
+                                    <mat-label>email</mat-label>
+                                    <input
+                                        matInput
+                                        placeholder="email"
+                                        name="email"
+                                        formControlName="email"
+                                    />
+                                </mat-form-field>
 
-                          <!-- <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                <mat-form-field
+                                    appearance="outline"
+                                    floatLabel="always"
+                                    class="w-100-p"
+                                >
+                                    <mat-label>phoneNumber</mat-label>
+                                    <input
+                                        matInput
+                                        placeholder="phoneNumber"
+                                        name="phoneNumber"
+                                        formControlName="phoneNumber"
+                                    />
+                                </mat-form-field>
+
+                                <mat-form-field
+                                    appearance="outline"
+                                    floatLabel="always"
+                                    class="w-100-p"
+                                >
+                                    <mat-label>created</mat-label>
+                                    <input
+                                        matInput
+                                        placeholder="created"
+                                        name="created"
+                                        formControlName="created"
+                                    />
+                                </mat-form-field>
+
+                                <mat-form-field
+                                    appearance="outline"
+                                    floatLabel="always"
+                                    class="w-100-p"
+                                >
+                                    <mat-label>lastActive</mat-label>
+                                    <input
+                                        matInput
+                                        placeholder="lastActive"
+                                        name="lastActive"
+                                        formControlName="lastActive"
+                                    />
+                                </mat-form-field>
+
+                                <!-- <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
                               <mat-label>lastActive</mat-label>
                               <textarea matInput placeholder="lastActive"
                                         name="lastActive"
@@ -108,37 +165,213 @@
                                         rows="3">
                               </textarea>
                           </mat-form-field> -->
-                        </div>
+                            </div>
+                        </mat-tab>
 
-                      </mat-tab>
-
-                      <mat-tab label="Roles">
-
-                        <div class="tab-content p-24" fusePerfectScrollbar>
-                        <!-- <h2>Roles</h2> 
+                        <mat-tab label="Roles">
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+                                <!-- <h2>Roles</h2> 
                             <pre>{{adminUser.userRoles | json}}</pre>
                         <h2>All Roles</h2> 
                             <pre>{{allRoles | json}}</pre> -->
-                            <div *ngFor="let role of allRoles" >
-                                <mat-checkbox [checked]="role.isUserRole" class="example-margin" >
-                                  {{role.name}}
-                                </mat-checkbox>
-                             </div>
-                        
-                        </div>
+                                <div *ngFor="let role of allRoles">
+                                    <mat-checkbox
+                                        [checked]="role.isUserRole"
+                                        class="example-margin"
+                                    >
+                                        {{ role.name }}
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+                        </mat-tab>
 
-                      </mat-tab>
+                        <mat-tab label="Versions">
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+                                <button
+                                    mat-raised-button
+                                    class="save-user-button"
+                                    (click)="addUserV(adminUser.userVs)"
+                                >
+                                    <span>ADD VERSION</span>
+                                </button>
 
-                      <mat-tab label="Versions">
+                                <h2>Versions</h2>
+                                <mat-tab-group mat-stretch-tabs>
+                                    <mat-tab
+                                        *ngFor="let adminV of adminUser.userVs"
+                                        label="{{
+                                            adminV.created | date: 'dd/MM/yyyy'
+                                        }}"
+                                    >
+                                        <div
+                                            class="tab-content p-24"
+                                            fusePerfectScrollbar
+                                        >
+                                            <!-- {{ adminV | json }} -->
+                                            <form
+                                                (ngSubmit)="
+                                                    addUserVersion(adminV)
+                                                "
+                                                #f="ngForm"
+                                                fxLayout="column"
+                                                fxLayoutAlign="center center"
+                                            >
+                                            <!-- <mat-form-field>
+                                                    <input
+                                                        matInput
+                                                        [(ngModel)]="
+                                                            adminV.departmentVId
+                                                        "
+                                                        placeholder="departmentVId"
+                                                        name="departmentVId"
+                                                        required
+                                                    />
+                                                </mat-form-field> -->
+                                                <mat-form-field>
+                                                        <mat-select style="min-width:180px;" placeholder="Department" [(ngModel)]="adminV.departmentVId" name="departmentVId">
+                                                          <mat-option *ngFor="let dep of deps" [value]="dep.id">
+                                                            {{dep.name}}
+                                                          </mat-option>
+                                                        </mat-select>
+                                                      </mat-form-field>
 
-                        <div class="tab-content p-24" fusePerfectScrollbar>
-                        <h2>Versions</h2> 
-                            <pre>{{adminUser.userVs | json}}</pre>
-                        </div>
+                                                <mat-form-field>
+                                                    <input
+                                                        matInput
+                                                        [(ngModel)]="
+                                                            adminV.displayNameRus
+                                                        "
+                                                        placeholder="DisplayNameRus"
+                                                        name="displayNameRus"
+                                                        required
+                                                    />
+                                                </mat-form-field>
+                                                <mat-form-field>
+                                                    <input
+                                                        matInput
+                                                        [(ngModel)]="
+                                                            adminV.displayNameEng
+                                                        "
+                                                        placeholder="DisplayNameEng"
+                                                        name="displayNameEng"
+                                                        required
+                                                    />
+                                                </mat-form-field>
+                                                <mat-form-field>
+                                                    <input
+                                                        matInput
+                                                        [(ngModel)]="
+                                                            adminV.displayNameKaz
+                                                        "
+                                                        placeholder="DisplayNameKaz"
+                                                        name="displayNameKaz"
+                                                        required
+                                                    />
+                                                </mat-form-field>
+                                                <mat-form-field>
+                                                    <input
+                                                        matInput
+                                                        [(ngModel)]="
+                                                            adminV.fromNameRus
+                                                        "
+                                                        placeholder="fromNameRus"
+                                                        name="fromNameRus"
+                                                        required
+                                                    />
+                                                </mat-form-field>
+                                                <mat-form-field>
+                                                    <input
+                                                        matInput
+                                                        [(ngModel)]="
+                                                            adminV.fromNameEng
+                                                        "
+                                                        placeholder="fromNameEng"
+                                                        name="fromNameEng"
+                                                        required
+                                                    />
+                                                </mat-form-field>
+                                                <mat-form-field>
+                                                    <input
+                                                        matInput
+                                                        [(ngModel)]="
+                                                            adminV.fromNameKaz
+                                                        "
+                                                        placeholder="fromNameKaz"
+                                                        name="fromNameKaz"
+                                                        required
+                                                    />
+                                                </mat-form-field>
+                                                <mat-form-field>
+                                                    <input
+                                                        matInput
+                                                        [(ngModel)]="
+                                                            adminV.toNameRus
+                                                        "
+                                                        placeholder="toNameRus"
+                                                        name="toNameRus"
+                                                        required
+                                                    />
+                                                </mat-form-field>
+                                                <mat-form-field>
+                                                    <input
+                                                        matInput
+                                                        [(ngModel)]="
+                                                            adminV.toNameEng
+                                                        "
+                                                        placeholder="toNameEng"
+                                                        name="toNameEng"
+                                                        required
+                                                    />
+                                                </mat-form-field>
+                                                <mat-form-field>
+                                                    <input
+                                                        matInput
+                                                        [(ngModel)]="
+                                                            adminV.toNameKaz
+                                                        "
+                                                        placeholder="toNameKaz"
+                                                        name="toNameKaz"
+                                                        required
+                                                    />
+                                                </mat-form-field>
+                                                <mat-form-field>
+                                                    <input
+                                                        matInput
+                                                        [(ngModel)]="
+                                                            adminV.priority
+                                                        "
+                                                        placeholder="priority"
+                                                        name="priority"
+                                                        required
+                                                    />
+                                                </mat-form-field>
+                                                <mat-form-field>
+                                                    <input
+                                                        matInput
+                                                        [(ngModel)]="
+                                                            adminV.disabled
+                                                        "
+                                                        placeholder="disabled"
+                                                        name="disabled"
+                                                        required
+                                                    />
+                                                </mat-form-field>
 
-                      </mat-tab>
+                                                <button [disabled]="f.invalid" type="submit" mat-raised-button color="accent">Save</button>
+                                            </form>
+                                            <!-- <app-admin-dep-vs-tab
+                                            [depV]="depV"
+                                            [department]="adminDepartment"
+                                            [regions]= "regions"
+                                        ></app-admin-dep-vs-tab> -->
+                                        </div>
+                                    </mat-tab>
+                                </mat-tab-group>
+                                <!-- <pre>{{adminUser.userVs | json}}</pre> -->
+                            </div>
+                        </mat-tab>
 
-                      <!-- <mat-tab label="user Images">
+                        <!-- <mat-tab label="user Images">
 
                           <div class="tab-content p-24" fusePerfectScrollbar>
                               <div fxLayout="row wrap" fxLayoutAlign="start start">
@@ -160,7 +393,7 @@
 
                       </mat-tab> -->
 
-                      <!-- <mat-tab label="Pricing">
+                        <!-- <mat-tab label="Pricing">
 
                           <div class="tab-content p-24" fusePerfectScrollbar>
 
@@ -205,7 +438,7 @@
                           </div>
                       </mat-tab> -->
 
-                      <!-- <mat-tab label="Inventory">
+                        <!-- <mat-tab label="Inventory">
 
                           <div class="tab-content p-24" fusePerfectScrollbar>
 
@@ -228,7 +461,7 @@
 
                       </mat-tab> -->
 
-                      <!-- <mat-tab label="Shipping">
+                        <!-- <mat-tab label="Shipping">
 
                           <div class="tab-content p-24" fusePerfectScrollbar fxLayout="column">
 
@@ -280,18 +513,12 @@
                           </div>
 
                       </mat-tab> -->
-
-                  </mat-tab-group>
-
-              </form>
-
-          </div>
-          <!-- / CONTENT -->
-
-      </div>
-      <!-- / CONTENT CARD -->
-
-  </div>
-  <!-- / CENTER -->
-
+                    </mat-tab-group>
+                </form>
+            </div>
+            <!-- / CONTENT -->
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
 </div>

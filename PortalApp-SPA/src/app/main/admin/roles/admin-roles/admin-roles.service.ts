@@ -7,14 +7,14 @@ import { environment } from 'environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminDepsService implements Resolve<any> {
-  baseUrl = environment.apiUrl + 'department/';
-  departments: any[];
-  onDepartmentsChanged: BehaviorSubject<any>;
+export class AdminRolesService implements Resolve<any> {
+  baseUrl = environment.apiUrl + 'role/';
+  regions: any[];
+  onRegionsChanged: BehaviorSubject<any>;
 
 
   constructor(private _httpClient: HttpClient) { 
-    this.onDepartmentsChanged = new BehaviorSubject({});
+    this.onRegionsChanged = new BehaviorSubject({});
     
   }
 
@@ -27,12 +27,12 @@ export class AdminDepsService implements Resolve<any> {
   //    */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {
-        
+        console.log('regions');
         
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getDepartments()
+                this.getRegions()
             ]).then(
                 () => {
                     resolve();
@@ -47,19 +47,17 @@ export class AdminDepsService implements Resolve<any> {
     //  *
     //  * @returns {Promise<any>}
     //  */
-    getDepartments(): Promise<any>
+    getRegions(): Promise<any>
     {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(this.baseUrl + 'getDepartments/')
+            this._httpClient.get(this.baseUrl + 'getAllRoles/')
                 .subscribe((response: any) => {
-                    this.departments = response;
-                    // console.log(this.departments);
+                    this.regions = response;
+                    console.log(this.regions);
                     
-                    this.onDepartmentsChanged.next(this.departments);
+                    this.onRegionsChanged.next(this.regions);
                     resolve(response);
                 }, reject);
         });
     }
-
-    
 }

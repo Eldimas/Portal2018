@@ -1,6 +1,7 @@
 import { MatChipInputEvent } from '@angular/material';
 
 import { FuseUtils } from '@fuse/utils';
+import { AdminUserV } from './admin-userv.model';
 
 export class AdminUser
 {
@@ -17,7 +18,7 @@ export class AdminUser
             } 
         }
     ];
-    userVs: [];
+    userVs: AdminUserV[];
     // vCreated: string;
     // vDisplayNameRus: string;
     // vDisplayNameEng: string;

@@ -25,7 +25,7 @@ export class NavigService {
     addNavig(navig: Navig) {
         console.log('NavigUpdate: ', navig);
         console.log('Path: ', this.baseUrl + 'add/');
-        
+
        return this.http.post(this.baseUrl + 'add/', navig);
         // this.http.post(this.baseUrl + 'addId/', 1);
     }

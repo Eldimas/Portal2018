@@ -4,7 +4,7 @@ namespace PortalApp.API.Dtos
 {
     public class UserVDetailDto
     {
-         public Guid Id { get; set; }
+        public Guid Id { get; set; }
         public DateTime Created { get; set; }
         public string DisplayNameRus { get; set; }
         public string DisplayNameEng { get; set; }
@@ -21,5 +21,6 @@ namespace PortalApp.API.Dtos
 
         public int Priority { get; set; }
         public bool Disabled { get; set; }
+        public Guid departmentVId { get; set; }
     }
 }

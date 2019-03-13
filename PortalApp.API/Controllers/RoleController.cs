@@ -26,5 +26,12 @@ namespace PortalApp.API.Controllers
             var roles =  _roleManager.Roles.ToList();
             return Ok(roles);
         }
+
+        [HttpGet("getRoleById/{id}")]
+        public IActionResult GetRoleById(int id)
+        {
+            var role =  _roleManager.Roles.FirstOrDefault(x => x.Id == id);
+            return Ok(role);
+        }
     }
 }

@@ -243,10 +243,15 @@ export class ChecklistDatabase {
     /** Add an item to to-do list */
     // tslint:disable-next-line:typedef
     insertItem(parent: TodoItemNode, tdItem: TodoItemNode) {
-        if (parent.children) {
+        if (parent !== undefined && parent.children !== undefined && parent.children !== null && tdItem.parentId !== undefined) {
             parent.children.push(tdItem);
             this.dataChange.next(this.data);
+        } else {
+            tdItem.children = [];
+            this.data.push(tdItem);
+            this.dataChange.next(this.data);
         }
+
     }
 
     // tslint:disable-next-line:typedef
@@ -270,8 +275,8 @@ export class ChecklistDatabase {
         // console.log('data: ', this.data);
     }
 
-     // tslint:disable-next-line:typedef
-     updateParentItem(node: TodoItemFlatNode) {
+    // tslint:disable-next-line:typedef
+    updateParentItem(node: TodoItemFlatNode) {
         // node.item = name;
         // node.title = title;
 
@@ -283,13 +288,11 @@ export class ChecklistDatabase {
 
     // tslint:disable-next-line:typedef
     deleteFlatItem(node: TodoItemNode) {
-        
         for (let i = 0; i < this.data.length; i++) {
             const e = this.data[i];
             if (e.id === node.id) {
                 this.data.splice(i, 1);
             }
-            
         }
         // node.id = id;
         // node.children = null;
@@ -509,34 +512,41 @@ export class EditMenu2Component {
                         this.database.updateFlatItem(parentNode, navig.title);
                     });
                 } else if (result !== false && result === 'delete') {
-                    this._navigService.deleteNavig(node.id).subscribe(resDel => {
-
-                        console.log('resDel: ', resDel);
-                        this._langService.getMenuForCurrentLang(
-                            this._translateService.currentLang
-                        );
-                        const parentNode = this.flatNodeMap.get(node);
-                        const parentN = this.getParentNode(node);
-                        for (let i = 0; i < this.database.data.length; i++) {
-                            const e = this.database.data[i];
-                            if (e.id === parentN.id) {
-                                for (let y = 0; y < e.children.length; y++) {
-                                    const ch = e.children[y];
-                                    if (ch.id === node.id) {
-                                        e.children.splice(y, 1);
+                    this._navigService
+                        .deleteNavig(node.id)
+                        .subscribe(resDel => {
+                            console.log('resDel: ', resDel);
+                            this._langService.getMenuForCurrentLang(
+                                this._translateService.currentLang
+                            );
+                            const parentNode = this.flatNodeMap.get(node);
+                            const parentN = this.getParentNode(node);
+                            for (
+                                let i = 0;
+                                i < this.database.data.length;
+                                i++
+                            ) {
+                                const e = this.database.data[i];
+                                if (e.id === parentN.id) {
+                                    for (
+                                        let y = 0;
+                                        y < e.children.length;
+                                        y++
+                                    ) {
+                                        const ch = e.children[y];
+                                        if (ch.id === node.id) {
+                                            e.children.splice(y, 1);
+                                        }
                                     }
                                 }
                             }
-                        }
-                        
-                        this.database.updateParentItem(parentN);
-                        // console.log('parentNode: ', parentNode);
-                        this.database.deleteFlatItem(parentNode);
-                        
-                        // this.dataSource.data.
-                       
-                        
-                    });
+
+                            this.database.updateParentItem(parentN);
+                            // console.log('parentNode: ', parentNode);
+                            this.database.deleteFlatItem(parentNode);
+
+                            // this.dataSource.data.
+                        });
                     // deleteNavig
                 }
             });
@@ -544,51 +554,60 @@ export class EditMenu2Component {
     }
 
     // tslint:disable-next-line:typedef
+    addRootNode() {
+        const node = new TodoItemFlatNode();
+        this.addItemDialog(node);
+    }
+
+    // tslint:disable-next-line:typedef
     addItemDialog(node: TodoItemFlatNode) {
         console.log('nested nodeee: ', node);
-      const dialogRef =  this.editDialog.open(DialogAddItemComponent, {data: node, disableClose: true});
-
-      dialogRef.afterClosed().subscribe(res => {
-
-        const nestedNode = this.flatNodeMap.get(node);
-        const _id = uuid.v4();
-        const navig = new NavigUpdate();
-        navig.id = _id;
-        navig.parentId = node.id;
-        navig.title = res.title;
-        navig.titleEng = res.titleEng;
-        navig.titleKaz = res.titleKaz;
-        navig.type = res.type;
-        navig.icon = res.icon;
-        navig.url = res.url;
-
-        this._navigService.addNavig(navig).subscribe(result => {
-            console.log('add navig: ', result);
-
-            this._langService.getMenuForCurrentLang(
-                this._translateService.currentLang
-            );
+        const dialogRef = this.editDialog.open(DialogAddItemComponent, {
+            data: node,
+            disableClose: true
         });
 
-        const tdNode = new TodoItemNode();
-        tdNode.title = res.title;
-        tdNode.titleEng = res.titleEng;
-        tdNode.titleKaz = res.titleKaz;
-        tdNode.expanded = false;
-        tdNode.id = _id;
-        tdNode.selected = false;
-        tdNode.children = null;
-        tdNode.parentId = node.id;
+        dialogRef.afterClosed().subscribe(res => {
+            if (res !== false) {
+                const nestedNode = this.flatNodeMap.get(node);
+                const _id = uuid.v4();
+                const navig = new NavigUpdate();
+                navig.id = _id;
+                navig.parentId = node.id !== undefined ? node.id : '00000000-0000-0000-0000-000000000000';
+                // navig.parentId = 'faeb3912-e77e-4e04-abf2-8e6230f833de';
+                navig.title = res.title;
+                navig.titleEng = res.titleEng;
+                navig.titleKaz = res.titleKaz;
+                navig.type = res.type;
+                navig.icon = res.icon;
+                navig.url = res.url;
 
-        if (node.children === undefined || node.children === null) {
-            node.children = [];
-        }
+                this._navigService.addNavig(navig).subscribe(result => {
+                    console.log('add navig: ', result);
 
-        // tslint:disable-next-line:no-non-null-assertion
-        this.database.insertItem(nestedNode!, tdNode);
-      });
+                    this._langService.getMenuForCurrentLang(
+                        this._translateService.currentLang
+                    );
+                });
 
+                const tdNode = new TodoItemNode();
+                tdNode.title = res.title;
+                tdNode.titleEng = res.titleEng;
+                tdNode.titleKaz = res.titleKaz;
+                tdNode.expanded = false;
+                tdNode.id = _id;
+                tdNode.selected = false;
+                tdNode.children = null;
+                tdNode.parentId = node.id;
 
+                if (node.children === undefined || node.children === null) {
+                    node.children = [];
+                }
+
+                // tslint:disable-next-line:no-non-null-assertion
+                this.database.insertItem(nestedNode!, tdNode);
+            }
+        });
     }
 
     /** Select the category so we can insert the new item. */

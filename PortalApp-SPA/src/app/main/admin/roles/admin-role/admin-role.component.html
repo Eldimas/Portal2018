@@ -1,0 +1,179 @@
+<div id="user" class="page-layout carded fullwidth inner-scroll">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+        <!-- HEADER -->
+        <div
+            class="header accent"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+        >
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button
+                    mat-icon-button
+                    class="mr-0 mr-sm-16"
+                    [routerLink]="'/admin/admin-roles/'"
+                >
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <div
+                    class="user-image mr-8 mr-sm-16"
+                    [@animate]="{
+                        value: '*',
+                        params: { delay: '50ms', scale: '0.2' }
+                    }"
+                >
+                    <!--
+                        <img *ngIf="user.images[0]" [src]="user.images[0].url">
+                        <img *ngIf="!user.images[0]" [src]="'assets/images/ecommerce/user-image-placeholder.png'">
+                    -->
+                </div>
+
+                <div
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    [@animate]="{
+                        value: '*',
+                        params: { delay: '100ms', x: '-50px' }
+                    }"
+                >
+                    <div class="h2" *ngIf="pageType === 'edit'">
+                        {{ adminRole.name }}
+                    </div>
+                    <div class="h2" *ngIf="pageType === 'new'">New user</div>
+                    <div class="subtitle secondary-text">
+                        <span>Подробности</span>
+                    </div>
+                </div>
+            </div>
+            <!-- / APP TITLE -->
+
+            <button
+                mat-raised-button
+                class="save-user-button"
+                [disabled]="regionForm.invalid"
+                *ngIf="pageType === 'new'"
+                (click)="addRegion()"
+            >
+                <span>ADD</span>
+            </button>
+
+            <button
+                mat-raised-button
+                class="save-user-button"
+                [disabled]="regionForm.invalid || regionForm.pristine"
+                *ngIf="pageType === 'edit'"
+                (click)="saveRegion()"
+            >
+                <span>SAVE</span>
+            </button>
+
+            <!-- <button
+                mat-raised-button
+                color="warn"
+                *ngIf="pageType === 'edit'"
+                (click)="removeRegion()"
+            >
+                <span>REMOVE</span>
+            </button> -->
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+            <!-- CONTENT -->
+            <div class="content">
+                <form
+                    name="regionForm"
+                    [formGroup]="regionForm"
+                    class="user w-100-p"
+                    fxLayout="column"
+                    fxFlex
+                >
+                    <mat-tab-group>
+                        <mat-tab label="Basic Info">
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+                                <mat-form-field
+                                    appearance="outline"
+                                    floatLabel="always"
+                                    class="w-100-p"
+                                >
+                                    <mat-label>Name</mat-label>
+                                    <input
+                                        matInput
+                                        placeholder="Name"
+                                        name="name"
+                                        formControlName="name"
+                                        required
+                                    />
+                                </mat-form-field>
+
+                                <!-- <pre>{{ adminRegion | json }}</pre> -->
+                            </div>
+                        </mat-tab>
+
+                        <mat-tab label="Права админа">
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+                                <mat-selection-list #shoes>
+                                    <mat-list-option [selected]="shoe.selected"
+                                        *ngFor="let shoe of typesOfAdmin"
+                                    >
+                                        {{ shoe.name }}
+                                    </mat-list-option>
+                                </mat-selection-list>
+                               
+                            </div>
+                        </mat-tab>
+
+                        <mat-tab label="Доступ к документам">
+                                <div class="tab-content p-24" fusePerfectScrollbar>
+                                    <mat-selection-list #shoes>
+                                        <mat-list-option [selected]="shoe.selected"
+                                            *ngFor="let shoe of typesOfDostupDocuments"
+                                        >
+                                            {{ shoe.name }}
+                                        </mat-list-option>
+                                    </mat-selection-list>
+                                   
+                                </div>
+                            </mat-tab>
+
+                            <mat-tab label="Доступ к статистике">
+                                    <div class="tab-content p-24" fusePerfectScrollbar>
+                                        <mat-selection-list #shoes>
+                                            <mat-list-option [selected]="shoe.selected"
+                                                *ngFor="let shoe of typesOfStat"
+                                            >
+                                                {{ shoe.name }}
+                                            </mat-list-option>
+                                        </mat-selection-list>
+                                       
+                                    </div>
+                                </mat-tab>
+
+                        <mat-tab label="Документ">
+                                <div class="tab-content p-24" fusePerfectScrollbar>
+                                    <mat-selection-list #shoes>
+                                        <mat-list-option [selected]="shoe.selected"
+                                            *ngFor="let shoe of typesOfDocument"
+                                        >
+                                            {{ shoe.name }}
+                                        </mat-list-option>
+                                    </mat-selection-list>
+                                   
+                                </div>
+                            </mat-tab>
+                    </mat-tab-group>
+                </form>
+            </div>
+            <!-- / CONTENT -->
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

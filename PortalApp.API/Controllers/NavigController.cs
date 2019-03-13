@@ -101,47 +101,68 @@ namespace PortalApp.API.Controllers
         public async Task<IActionResult> DeleteNavig(Guid id)
         {
             var navig = _context.Navigs.FirstOrDefault(x => x.Id == id);
-           
-                // _context.Navigs.Remove(navig);
-                // _context.SaveChanges();
-                _repo.Delete(navig);
-                if (await _repo.SaveAll())
-                    return Ok();
 
-                return BadRequest("Failed to delete the navig");
-           
+            // _context.Navigs.Remove(navig);
+            // _context.SaveChanges();
+            _repo.Delete(navig);
+            if (await _repo.SaveAll())
+                return Ok();
+
+            return BadRequest("Failed to delete the navig");
+
 
         }
 
         [HttpPost("add")]
         public async Task<IActionResult> Add(NavigUpdateDto navigUpdateDto)
         {
+            var parentNavig = new Navig();
 
-            var parentNavig = await _context.Navigs.FirstOrDefaultAsync(x => x.Id == navigUpdateDto.ParentId);
-
-            if (parentNavig == null)
+            if (navigUpdateDto.ParentId != Guid.Empty)
             {
-                return BadRequest("error");
+                parentNavig = await _context.Navigs.FirstOrDefaultAsync(x => x.Id == navigUpdateDto.ParentId);
+                if (parentNavig == null)
+                {
+                    return BadRequest("error");
+                }
+
+                if (parentNavig.Children == null)
+                {
+                    parentNavig.Children = new List<Navig>();
+                    parentNavig.Type = "group";
+                }
+
+                var newNav = new Navig()
+                {
+                    Id = navigUpdateDto.Id,
+                    Title = navigUpdateDto.Title,
+                    TitleEng = navigUpdateDto.TitleEng,
+                    TitleKaz = navigUpdateDto.TitleKaz,
+                    Icon = navigUpdateDto.Icon,
+                    Type = "item",
+                    Url = navigUpdateDto.Url
+                };
+
+                parentNavig.Children.Add(newNav);
+            }
+            else
+            {
+                 var newNav = new Navig()
+                {
+                    Id = navigUpdateDto.Id,
+                    Title = navigUpdateDto.Title,
+                    TitleEng = navigUpdateDto.TitleEng,
+                    TitleKaz = navigUpdateDto.TitleKaz,
+                    Icon = navigUpdateDto.Icon,
+                    Type = "item",
+                    Url = navigUpdateDto.Url
+                };
+                _context.Navigs.Add(newNav);
             }
 
-            if (parentNavig.Children == null)
-            {
-                parentNavig.Children = new List<Navig>();
-                parentNavig.Type = "group";
-            }
 
-            var newNav = new Navig()
-            {
-                Id = navigUpdateDto.Id,
-                Title = navigUpdateDto.Title,
-                TitleEng = navigUpdateDto.TitleEng,
-                TitleKaz = navigUpdateDto.TitleKaz,
-                Icon = navigUpdateDto.Icon,
-                Type = "item",
-                Url = navigUpdateDto.Url
-            };
 
-            parentNavig.Children.Add(newNav);
+
             _context.SaveChanges();
 
 

@@ -137,15 +137,39 @@
                                     />
                                 </mat-form-field>
 
-                                <pre>{{ adminRegion | json }}</pre>
+                                <!-- <pre>{{ adminRegion | json }}</pre> -->
                                 
                             </div>
                         </mat-tab>
 
                         <mat-tab label="Departments">
-                            <div class="tab-content p-24" fusePerfectScrollbar>
-                                    <p>Department</p>
-                                    <pre>{{ adminRegion.departmentVs | json }}</pre>
+                            <div class="tab-content p-24" fusePerfectScrollbar fxLayout="row wrap" fxLayoutAlign="center start">
+                                    <mat-card *ngFor="let dep of adminRegion.departmentVs">
+                                        <mat-card-header fxLayout="row" fxLayoutAlign="end">
+                                                <button mat-icon-button [matMenuTriggerFor]="menu">
+                                                        <mat-icon>more_vert</mat-icon>
+                                                      </button>
+                                                      <mat-menu #menu="matMenu">
+                                                        <button mat-menu-item>
+                                                          <mat-icon>forward</mat-icon>
+                                                          <span>Перейти</span>
+                                                        </button>
+                                                        <!-- <button mat-menu-item disabled>
+                                                          <mat-icon>voicemail</mat-icon>
+                                                          <span>Check voicemail</span>
+                                                        </button>
+                                                        <button mat-menu-item>
+                                                          <mat-icon>notifications_off</mat-icon>
+                                                          <span>Disable alerts</span>
+                                                        </button> -->
+                                                      </mat-menu>
+                                        </mat-card-header>
+                                        <mat-card-content>
+                                            <p>{{dep.name}}</p>
+                                            <p>{{dep.displayNameRus}}</p>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <!-- <pre>{{ adminRegion.departmentVs | json }}</pre> -->
                             </div>
                         </mat-tab>
 
