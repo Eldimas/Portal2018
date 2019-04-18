@@ -59,5 +59,6 @@ export class AdminRegionsService implements Resolve<any> {
                     resolve(response);
                 }, reject);
         });
+        
     }
 }

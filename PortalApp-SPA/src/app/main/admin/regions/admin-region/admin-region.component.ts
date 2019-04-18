@@ -21,7 +21,7 @@ import { environment } from 'environments/environment';
 })
 export class AdminRegionComponent implements OnInit, OnDestroy {
 
-  baseUrl = environment.baseUrl;
+  // baseUrl = environment.baseUrl;
   adminRegion: AdminRegion;
   regionForm: FormGroup;
   pageType: string;

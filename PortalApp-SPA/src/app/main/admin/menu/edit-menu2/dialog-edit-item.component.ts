@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import {FormControl} from '@angular/forms';
 import { Role } from 'app/_models/role.model';
 import { createHttpObservable } from 'app/utils/util';
@@ -123,7 +123,7 @@ export class DialogEditItemComponent implements OnInit {
 
     navigItem: any;
     delete = 'delete';
-    constructor(@Inject(MAT_DIALOG_DATA) private passedData: any) {}
+    constructor(@Inject(MAT_DIALOG_DATA) private passedData: any, private editDialog: MatDialog) {}
 
     ngOnInit(): void {
         this.navigItem = this.passedData;
