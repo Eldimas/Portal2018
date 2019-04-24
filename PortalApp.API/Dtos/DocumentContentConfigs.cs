@@ -1,10 +1,7 @@
-using System;
-
-namespace PortalApp.API.Models
+namespace PortalApp.API.Dtos
 {
-    public class ContentConfigsSerialized
+    public class DocumentContentConfigs
     {
-        public Guid Id { get; set; }
         public string FieldName { get; set; }
 
         public string FieldDisplayName { get; set; }

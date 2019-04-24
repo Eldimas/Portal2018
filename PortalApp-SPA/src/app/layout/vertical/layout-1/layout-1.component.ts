@@ -22,7 +22,7 @@ export class VerticalLayout1Component implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {FuseConfigService} _fuseConfigService
+     * @param { FuseConfigService } _fuseConfigService
      */
     constructor(
         private _fuseConfigService: FuseConfigService

@@ -25,8 +25,16 @@ namespace PortalApp.API.Models
             get { return JsonConvert.SerializeObject(WfConfigsSerialized); }
             set { WfConfigsSerialized = String.IsNullOrEmpty(value) ? new List<DocumentWfConfig>() : JsonConvert.DeserializeObject<List<DocumentWfConfig>>(value); }
         }
-        public ICollection<ContentConfigsSerialized> ContentConfigsSerialized { get; set; }
 
+        [NotMapped]
+        public ICollection<DocumentContentConfigs> ContentConfigsSerialized { get; set; }
+
+        [JsonIgnore]
+        public string ContentConfigs 
+        {
+            get { return JsonConvert.SerializeObject(ContentConfigsSerialized); }
+            set { ContentConfigsSerialized = String.IsNullOrEmpty(value) ? new List<DocumentContentConfigs>() : JsonConvert.DeserializeObject<List<DocumentContentConfigs>>(value); }
+        }
         public string Author { get; set; }
 
         public DateTime Created { get; set; }
@@ -40,5 +48,7 @@ namespace PortalApp.API.Models
         public bool CloseDocumentFunction { get; set; }
 
         public bool CreateControlcardFunction { get; set; }
+        [ForeignKey("DocumentConfig")]
+        public Guid DocumentConfigId { get; set; }
     }
 }

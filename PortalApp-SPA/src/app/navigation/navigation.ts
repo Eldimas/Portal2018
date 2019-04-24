@@ -66,7 +66,7 @@ export const navigation: FuseNavigation[] = [
                 title    : 'Constructor of documents',
                 translate: 'NAV.CTOR_DOCUMENTS',
                 type     : 'item',
-                url      : '/admin/ctor-documents',
+                url      : '/admin/document-config',
             },
             {
                 id       : 'edit-menu',

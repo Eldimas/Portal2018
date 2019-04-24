@@ -7,10 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using PortalApp.API.Data;
 using PortalApp.API.Dtos;
 using PortalApp.API.Models;
-
 namespace PortalApp.API.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
 
@@ -32,12 +31,21 @@ namespace PortalApp.API.Controllers
             return Ok();
         }
 
-        public async Task<IActionResult> GetDocumentConfig(string documentType)
+        [HttpGet("getDocumentConfigById/{id}")]
+        public async Task<IActionResult> GetDocumentConfigById(Guid id)
         {
-            var documentConfig = await _documentRepo.GetDocumentConfig(documentType);
+            var documentConfig = await _documentRepo.GetDocumentConfigById(id);
             return Ok(documentConfig);
         }
 
+        [HttpGet("getDocumentConfigByDocType/{documentType}")]
+        public async Task<IActionResult> GetDocumentConfig(string documentType)
+        {
+            var documentConfig = await _documentRepo.GetDocumentConfigVs(documentType);
+            return Ok(documentConfig);
+        }
+
+        [HttpGet("getDocumentConfigs")]
         public async Task<IActionResult> GetDocumentConfigs()
         {
             var configs =  await _documentRepo.GetDocumentConfigs();
@@ -46,7 +54,7 @@ namespace PortalApp.API.Controllers
 
         public async Task<IActionResult> CreateEditableDocument(Guid id, string docType)
         {
-            var config = await _documentRepo.GetDocumentConfig(docType);
+            var config = await _documentRepo.GetDocumentConfigVs(docType);
             var editable = new DocumentEditable();
             var currentUser = await _userRepo.GetCurrentUser(User.Identity.Name);
             editable.Author = currentUser;
@@ -76,6 +84,92 @@ namespace PortalApp.API.Controllers
             }
             return Ok(editable);
         }
+        
+        [HttpPost("docConfV/update")]
+        public async Task<IActionResult> UpdateDocumentConfigV(DocumentConfigVForUpdate documentConfigVForUpdate)
+        {
+            var documentConfigVFromRepo = new DocumentConfigVs();
+            if(documentConfigVForUpdate.Id.ToString() == "00000000-0000-0000-0000-000000000000")
+            { 
+                documentConfigVFromRepo.Id = Guid.NewGuid();
+                documentConfigVFromRepo.Title = documentConfigVForUpdate.Title;
+                documentConfigVFromRepo.TitleGeneration = documentConfigVForUpdate.TitleGeneration;
+                documentConfigVFromRepo.CreateControlcardFunction = documentConfigVForUpdate.CreateControlcardFunction;
+                documentConfigVFromRepo.CopyDocumentFunction = documentConfigVForUpdate.CopyDocumentFunction;
+                documentConfigVFromRepo.CloseDocumentFunction = documentConfigVForUpdate.CloseDocumentFunction;
+                documentConfigVFromRepo.Created = DateTime.Now;
+                documentConfigVFromRepo.Author = documentConfigVForUpdate.Author;
+                documentConfigVFromRepo.Category = documentConfigVForUpdate.Category;
+                documentConfigVFromRepo.NeedRegister = true;
+                documentConfigVFromRepo.ReadOnly = false;
+                documentConfigVFromRepo.DocumentConfigId = documentConfigVForUpdate.DocumentConfigId;
+                var documentConfigFromRepo = await _documentRepo.GetDocumentConfigById(documentConfigVForUpdate.DocumentConfigId);
+                documentConfigFromRepo.DocumentConfigVs.Add(documentConfigVFromRepo);
+                documentConfigVFromRepo.WfConfigsSerialized = documentConfigVForUpdate.WfConfigsSerialized;
+                documentConfigVFromRepo.ContentConfigsSerialized = documentConfigVForUpdate.ContentConfigsSerialized;
+                
+            }
+            else
+            {
+                documentConfigVFromRepo = await _documentRepo.GetDocumentConfigVsById(documentConfigVForUpdate.Id);
+                documentConfigVFromRepo.Title = documentConfigVForUpdate.Title;
+                documentConfigVFromRepo.TitleGeneration = documentConfigVForUpdate.TitleGeneration;
+                documentConfigVFromRepo.CreateControlcardFunction = documentConfigVForUpdate.CreateControlcardFunction;
+                documentConfigVFromRepo.CopyDocumentFunction = documentConfigVForUpdate.CopyDocumentFunction;
+                documentConfigVFromRepo.CloseDocumentFunction = documentConfigVForUpdate.CloseDocumentFunction;
+                documentConfigVFromRepo.Author = documentConfigVForUpdate.Author;
+                documentConfigVFromRepo.Category = documentConfigVForUpdate.Category;
+                documentConfigVFromRepo.WfConfigsSerialized = documentConfigVForUpdate.WfConfigsSerialized;
+                documentConfigVFromRepo.ContentConfigsSerialized = documentConfigVForUpdate.ContentConfigsSerialized;
+            }
+
+            try
+            {
+                 if (await _documentRepo.SaveAll())
+                return NoContent();
+
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                throw;
+            }
+           
+            throw new Exception($"Updating documentConfigV {documentConfigVForUpdate.Id} failed on save");
+            
+        }
+        [HttpPost("docConfV/add")]
+        public async Task<IActionResult> AddDocumentConfigV(DocumentConfigVForUpdate documentConfigVForUpdate)
+        {
+            var documentConfigVFromRepo = new DocumentConfigVs();
+            documentConfigVFromRepo.Id = Guid.NewGuid();
+            documentConfigVFromRepo.Title = documentConfigVForUpdate.Title;
+            documentConfigVFromRepo.TitleGeneration = documentConfigVForUpdate.TitleGeneration;
+            documentConfigVFromRepo.CreateControlcardFunction = documentConfigVForUpdate.CreateControlcardFunction;
+            documentConfigVFromRepo.CopyDocumentFunction = documentConfigVForUpdate.CopyDocumentFunction;
+            documentConfigVFromRepo.CloseDocumentFunction = documentConfigVForUpdate.CloseDocumentFunction;
+            documentConfigVFromRepo.Created = DateTime.Now;
+            documentConfigVFromRepo.NeedRegister = true;
+            documentConfigVFromRepo.ReadOnly = false;
+            documentConfigVFromRepo.DocumentConfigId = documentConfigVForUpdate.DocumentConfigId;
+            var documentConfigFromRepo = await _documentRepo.GetDocumentConfigById(documentConfigVForUpdate.DocumentConfigId);
+            documentConfigFromRepo.DocumentConfigVs.Add(documentConfigVFromRepo);
+            try
+            {
+                 if (await _documentRepo.SaveAll())
+                return NoContent();
+
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                throw;
+            }
+           
+            throw new Exception($"Updating documentConfigV {documentConfigVForUpdate.Id} failed on save");
+            
+        }
+
 
     }
 }

@@ -10,7 +10,7 @@ using PortalApp.API.Models;
 
 namespace PortalApp.API.Controllers
 {
-    
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class DepartmentController : ControllerBase

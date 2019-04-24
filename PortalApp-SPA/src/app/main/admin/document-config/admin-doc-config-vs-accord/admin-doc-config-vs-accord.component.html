@@ -1,0 +1,257 @@
+<!-- <mat-accordion> -->
+  <mat-expansion-panel
+  (opened)="panelOpenState = true"
+  (closed)="panelOpenState = false"
+>
+  <mat-expansion-panel-header>
+      <mat-panel-title>
+          <!-- <b>{{ docConfV.documentType }}</b> -->
+      </mat-panel-title>
+      <mat-panel-description> {{ docConfV.created }} </mat-panel-description>
+  </mat-expansion-panel-header>
+<!--   <form name="route"
+        [formGroup]="route"
+        class="w-100-p"
+        fxLayout="row"
+        fxLayoutGap="10px">
+
+  </form> -->
+  <form
+      name="docConfVForm"
+      [formGroup]="docConfVForm"
+      class="user w-100-p"
+      fxLayout="column"
+      fxLayoutGap
+  >
+    <div formArrayName="wfConfigsSerialized">
+        <div
+            fxLayout="row"
+            fxLayoutGap="10px" *ngFor="let obj of docConfVForm.get('wfConfigsSerialized')['controls']; index as i" [formGroupName]="i">
+            <mat-icon (click)="deleteRoute(i)">delete_forever</mat-icon>
+            <mat-form-field appearance="outline"
+                                floatLabel="always"
+                                class="w-10-p">
+                <mat-label>{{'ACCORD.Type' | translate}}</mat-label>
+                <mat-select formControlName="processType" placeholder="Select">
+                    <mat-option matInput *ngFor="let pr of processTypes" [value]="pr">{{pr}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline"
+                            floatLabel="always"
+                            class="w-5-p">
+                <mat-label>{{'ACCORD.Priority' | translate}}</mat-label>
+                <input matInput type="number" placeholder="{{'ACCORD.Priority' | translate}}" #priority formControlName="priority" min="1" max="10" />
+                <mat-error *ngIf="priority.invalid">Min:1, Max:10</mat-error>
+            </mat-form-field>
+            <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-40-p">
+                <mat-label>{{'ACCORD.Route' | translate}}</mat-label>
+                <!-- <i>{{showInConsole(obj)}}</i> -->
+                <mat-chip-list #chipList>
+                    <mat-chip
+                        *ngFor="let user of objToArray(obj.get('ous').value)"
+                        [selectable]="selectable"
+                        [removable]="removable"
+                        
+                        (removed)="removeFromFormControl(user, i)">
+                        {{user.name}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                    <input
+                        placeholder="{{'ACCORD.NewUser' | translate}}"
+                        #userInput
+                        formControlName="ous"
+                        [matAutocomplete]="auto"
+                        [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        [matChipInputAddOnBlur]="addOnBlur"
+                        (matChipInputTokenEnd)="add($event, obj.get('ous').value)">
+                </mat-chip-list>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                    <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
+                        {{user.name}}
+                    </mat-option>
+                </mat-autocomplete> 
+            </mat-form-field>
+            <mat-form-field
+                appearance="outline"
+                floatLabel="always"
+                class="w-10-p"
+            >
+                <mat-label>{{'ACCORD.Computed' | translate}}</mat-label>
+                <input
+                    matInput
+                    placeholder="{{'ACCORD.Computed' | translate}}"
+                    formControlName="computed"
+                />
+            </mat-form-field>
+            <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-10-p"
+            >
+                <mat-label>{{'ACCORD.Hint' | translate}}</mat-label>
+                <input
+                    matInput
+                    placeholder="{{'ACCORD.Hint' | translate}}"
+                    formControlName="hint"
+                />
+            </mat-form-field>
+            <mat-slide-toggle formControlName="required">{{'ACCORD.Required' | translate}}</mat-slide-toggle>
+            <mat-slide-toggle formControlName="editable">{{'ACCORD.Editable' | translate}}</mat-slide-toggle>
+        </div>
+    </div>
+    <button mat-raised-button color="accent" class="save-user-button" (click)="createNewRoute()"><span>{{'ACCORD.AddConf' | translate}}</span></button>
+    <hr />
+      <mat-form-field
+          appearance="outline"
+          floatLabel="always"
+          class="w-100-p"
+      >
+          <mat-label>{{'ACCORD.Title' | translate}}</mat-label>
+          <input
+              matInput
+              placeholder="{{'ACCORD.Title' | translate}}"
+              formControlName="title"
+          />
+      </mat-form-field>
+      
+      <mat-form-field
+          appearance="outline"
+          floatLabel="always"
+          class="w-100-p"
+      >
+          <mat-label>{{'ACCORD.Created' | translate}}</mat-label>
+          <input
+              matInput
+              placeholder="{{'ACCORD.Created' | translate}}"
+              formControlName="created"
+              readonly
+          />
+      </mat-form-field>
+
+      <mat-form-field
+          appearance="outline"
+          floatLabel="always"
+          class="w-100-p"
+      >
+          <mat-label>{{'ACCORD.Category' | translate}}</mat-label>
+          <input
+              matInput
+              placeholder="{{'ACCORD.Category' | translate}}"
+              formControlName="category"
+              required
+          />
+      </mat-form-field>
+
+      <mat-form-field
+          appearance="outline"
+          floatLabel="always"
+          class="w-100-p"
+      >
+          <mat-label>{{'ACCORD.TitleGeneration' | translate}}</mat-label>
+          <input
+              matInput
+              placeholder="{{'ACCORD.TitleGeneration' | translate}}"
+              formControlName="titleGeneration"
+              required
+          />
+      </mat-form-field>
+
+      <mat-form-field
+          appearance="outline"
+          floatLabel="always"
+          class="w-100-p"
+      >
+          <mat-label>{{'ACCORD.Author' | translate}}</mat-label>
+          <input
+              matInput
+              placeholder="{{'ACCORD.Author' | translate}}"
+              formControlName="author"
+              required
+          />
+      </mat-form-field>
+      <mat-slide-toggle formControlName="copyDocumentFunction">{{'ACCORD.CopyDocumentFunction' | translate}}</mat-slide-toggle>
+      <mat-slide-toggle formControlName="closeDocumentFunction">{{'ACCORD.CloseDocumentFunction' | translate}}</mat-slide-toggle>
+      <mat-slide-toggle formControlName="createControlCardFunction">{{'ACCORD.CreateControlCardFunction' | translate}}</mat-slide-toggle>
+      
+      <div formArrayName="contentConfigsSerialized">
+        <div
+            fxLayout="row"
+            fxLayoutGap="10px" *ngFor="let obj of docConfVForm.get('contentConfigsSerialized')['controls']; index as i" [formGroupName]="i">
+            <mat-icon (click)="deleteContentConfigs(i)">delete_forever</mat-icon>
+            <mat-form-field
+                appearance="outline"
+                floatLabel="always"
+                class="w-20-p"
+            >
+                <mat-label>{{'ACCORD.FieldName' | translate}}</mat-label>
+                <input
+                    matInput
+                    placeholder="{{'ACCORD.FieldName' | translate}}"
+                    formControlName="fieldName"
+                />
+            </mat-form-field>
+            <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-20-p"
+            >
+                <mat-label>{{'ACCORD.FieldDisplayName' | translate}}</mat-label>
+                <input
+                    matInput
+                    placeholder="{{'ACCORD.FieldDisplayName' | translate}}"
+                    formControlName="fieldDisplayName"
+                />
+            </mat-form-field>
+            <mat-form-field
+            appearance="outline"
+            floatLabel="always"
+            class="w-30-p"
+            >
+                <mat-label>{{'ACCORD.Formula' | translate}}</mat-label>
+                <input
+                    matInput
+                    placeholder="{{'ACCORD.Formula' | translate}}"
+                    formControlName="formula"
+                />
+            </mat-form-field>
+            <mat-form-field appearance="outline"
+                                floatLabel="always"
+                                class="w-20-p">
+                <mat-label>{{'ACCORD.ContentType' | translate}}</mat-label>
+                <mat-select formControlName="contentType" placeholder="{{'ACCORD.ContentType' | translate}}">
+                    <mat-option matInput *ngFor="let pr of contentTypes" [value]="pr">{{pr}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <button mat-raised-button color="primary" class="save-user-button" (click)="createNewContentConfig()"><span>{{'ACCORD.CreateContentConfig' | translate}}</span></button>
+    <hr />
+
+      <!-- [disabled]="docConfVForm.invalid || docConfVForm.pristine" -->
+      <button
+          *ngIf="docConfVForm.value.id.length > 0"
+          mat-raised-button
+          class="save-user-button"
+          [disabled]=""
+          (click)="saveDocConfV()"
+      >
+          <span>{{'ACCORD.Save' | translate}}</span>
+      </button>
+
+      <button
+          *ngIf="docConfVForm.value.id.length == 0"
+          mat-raised-button
+          class="save-user-button"
+          [disabled]="docConfVForm.invalid || docConfVForm.pristine"
+          (click)="addDocConfV(docConfVForm.value)"
+      >
+          <span>{{'ACCORD.Add' | translate}}</span>
+      </button>
+  </form>
+</mat-expansion-panel>
+
+<!-- </mat-accordion> -->

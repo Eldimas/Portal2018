@@ -14,13 +14,18 @@ namespace PortalApp.API.Data
         {
             _context = context;
         }
-
-        public async Task<DocumentConfigVs> GetDocumentConfig(string documentType)
+        public async Task<DocumentConfig> GetDocumentConfig(string documentType)
         {
-            var config = await _context.DocumentConfigs.FirstOrDefaultAsync(x=>x.DocumentType == documentType);
-            IAsyncEnumerable<DocumentConfigVs> theLatestVersionOfDocumentConfig = _context.DocumentConfigVs.OrderByDescending(x=>x.Created).FirstOrDefaultAsync().ToAsyncEnumerable();
-            var docV = await theLatestVersionOfDocumentConfig.SingleOrDefault();
-            return docV;
+            return await _context.DocumentConfigs
+            .Include(x => x.DocumentConfigVs)
+            .FirstOrDefaultAsync(d => d.DocumentType == documentType);
+        }
+
+        public async Task<DocumentConfig> GetDocumentConfigById(Guid id)
+        {
+            return await _context.DocumentConfigs
+            .Include(x => x.DocumentConfigVs)
+            .FirstOrDefaultAsync(d => d.Id == id);
         }
 
         public async Task SaveDocumentConfig(DocumentConfig conf)
@@ -48,7 +53,30 @@ namespace PortalApp.API.Data
         }
 
         public async Task<List<DocumentConfig>> GetDocumentConfigs(){
-            return await _context.DocumentConfigs.ToListAsync();
+            
+            var conf =  await _context.DocumentConfigs.Include(x=>x.DocumentConfigVs).ToListAsync();
+            return conf;
         } 
-    }
+        public async Task<List<DocumentConfigVs>> GetDocumentConfigVs(){
+            
+            return await _context.DocumentConfigVs.ToListAsync();
+        }
+
+        public async Task<DocumentConfigVs> GetDocumentConfigVs(string docType)
+        {
+            var conf = await _context.DocumentConfigs.Where(x=>x.DocumentType==docType).SingleOrDefaultAsync();
+            var confV = await _context.DocumentConfigVs.Where(x=>x.DocumentConfigId == conf.Id).OrderByDescending(x=>x.Created).FirstOrDefaultAsync();
+            return confV;
+        }
+        public async Task<DocumentConfigVs> GetDocumentConfigVsById(Guid id)
+        {
+            var confV = await _context.DocumentConfigVs.FirstOrDefaultAsync(x=>x.Id == id);
+            return confV;
+        }
+
+        public async Task<bool> SaveAll()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
+}
 }

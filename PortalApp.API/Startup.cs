@@ -72,7 +72,7 @@ namespace PortalApp.API
                         ValidateAudience = false
                     };
                 });
-
+            
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
@@ -130,10 +130,10 @@ namespace PortalApp.API
                         }
                     });
                 });
-                // app.UseHsts();
+                 app.UseHsts();
             }
-
-            // app.UseHttpsRedirection();
+            
+             app.UseHttpsRedirection();
             seeder.SeedWfProcessIteration();
             seeder.SeedWfProcessResult();
             seeder.SeedWfProcessType();
@@ -141,7 +141,7 @@ namespace PortalApp.API
             seeder.SeedRegions();
             seeder.SeedDepartments();
             seeder.SeedUsers();
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            app.UseCors(x => x.WithOrigins("http://localhost:4200").AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseAuthentication();
             app.UseDefaultFiles();
             app.UseStaticFiles();

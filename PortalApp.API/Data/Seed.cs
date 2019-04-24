@@ -144,12 +144,12 @@ namespace PortalApp.API.Data
 
                                 }
                             } */
-                            if(docV.ContentConfigsSerialized != null){
+/*                             if(docV.ContentConfigsSerialized != null){
                                 foreach(var contentConf in docV.ContentConfigsSerialized){
                                     contentConf.Id = Guid.NewGuid();
                             
                                 }
-                            }
+                            } */
                         }
                     }
 

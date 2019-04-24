@@ -9,7 +9,7 @@ namespace PortalApp.API.Models
 
         public string DocumentType{ get; set; }
 
-        public List<DocumentConfigVs> DocumentConfigVs { get; set; }
+        public ICollection<DocumentConfigVs> DocumentConfigVs { get; set; }
 
     }
 }
