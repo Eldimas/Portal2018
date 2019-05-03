@@ -51,12 +51,12 @@
                 <!-- <i>{{showInConsole(obj)}}</i> -->
                 <mat-chip-list #chipList>
                     <mat-chip
-                        *ngFor="let user of objToArray(obj.get('ous').value)"
+                        *ngFor="let user of obj['value']['ous']"
                         [selectable]="selectable"
                         [removable]="removable"
                         
                         (removed)="removeFromFormControl(user, i)">
-                        {{user.name}}
+                        {{user}}
                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                     </mat-chip>
                     <input
@@ -67,11 +67,11 @@
                         [matChipInputFor]="chipList"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                         [matChipInputAddOnBlur]="addOnBlur"
-                        (matChipInputTokenEnd)="add($event, obj.get('ous').value)">
+                        (matChipInputTokenEnd)="add($event, i)">
                 </mat-chip-list>
                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                     <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
-                        {{user.name}}
+                        {{user}}
                     </mat-option>
                 </mat-autocomplete> 
             </mat-form-field>

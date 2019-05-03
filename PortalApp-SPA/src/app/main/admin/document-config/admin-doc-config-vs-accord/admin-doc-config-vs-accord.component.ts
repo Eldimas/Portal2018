@@ -7,7 +7,7 @@ import { DocumentConfig } from '../document-config.model';
 import { AdminDocConf } from '../admin-doc-config/admin-doc-config.model';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/internal/operators';
-import { WfConfigs, Ous } from './wfConfigs.model';
+import { WfConfigs } from './wfConfigs.model';
 import { ContentConfigs } from './contentConfigs.model';
 import { locale as english } from '../i18n/en';
 import { locale as russian } from '../i18n/ru';
@@ -54,13 +54,11 @@ export class AdminDocConfVsAccordComponent implements OnInit {
   contentConfigs: ContentConfigs;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   userCtrl = new FormControl();
-  filteredUsers: Observable<Ous[]>;
+  filteredUsers: Observable<string[]>;
   wfConfig: WfConfigs[] = [{priority: 3, processType: 'Sender', computed: '', editable: true, hint: '', required: false, ous: 
-  [{id: 'c63d9aaf-436e-4c0c-9e97-827e681c66d3', name: 'a.zhamiyev'}]}];
+  ['Abulkhair Zhamiyev']}];
   users: string[] = ['spadm'];
-  allUsers: Ous[] = [{id: 'c63d9aaf-436e-4c0c-9e97-827e681c66d3', name: 'spadm'}, {id: 'c63d9aaf-436e-4c0c-9e97-827e681c66d3', name: 'Abulkhair Zhamiyev'},
-   {id: 'c63d9aaf-436e-4c0c-9e97-827e681c66d3', name: 'Anvar Mukhamedgaliyev'},
-    {id: 'c63d9aaf-436e-4c0c-9e97-827e681c66d3', name: 'Gulmira Kaliullina'}, {id: 'c63d9aaf-436e-4c0c-9e97-827e681c66d3', name: 'Eldar Absalyamov'}];
+  allUsers: string[] = [ 'spadm', 'Abulkhair Zhamiyev', 'Anvar Mukhamedgaliyev', 'Gulmira Kaliullina', 'Eldar Absalyamov'];
   processTypes: string[] = ['Approval', 'TopApproval', 'FormatApproval', 'Copy', 'Sender', 'Reciever',
                             'Registration', 'Assignment', 'Action', 'Supervisor', 'Consulting', 'Informed', 'Any',
                             'Executor', 'Control', 'Coexecutor', 'ForInformation', 'CopyForRegistration'];
@@ -85,7 +83,7 @@ export class AdminDocConfVsAccordComponent implements OnInit {
   ) { 
     this.filteredUsers = this.userCtrl.valueChanges.pipe(
       startWith(null),
-      map((user: Ous | null) => user ? this._filter(user.name) : this.allUsers.slice()));
+      map((user: string | null) => user ? this._filter(user) : this.allUsers.slice()));
       this._fuseTranslationLoaderService.loadTranslations(english, kazakh, russian);
       
   }
@@ -99,27 +97,22 @@ export class AdminDocConfVsAccordComponent implements OnInit {
     // this.route = this.createRoute();
     // this.wfConfigs = this.createRoute();
   }
-  add(event: MatChipInputEvent, obj): void {
+  add(event: MatChipInputEvent, index): void {
     // Add fruit only when MatAutocomplete is not open
     // To make sure this does not conflict with OptionSelected Event
     if (!this.matAutocomplete.isOpen) {
       const input = event.input;
       const value = event.value;
-      console.log(input);
       // Add our fruit
-      if ((value || '').trim()) {
-        obj.push(value.trim());
-      }
+      console.log(value);
+      this.docConfVForm.get('wfConfigsSerialized')['controls'][index]['controls']['ous'].setValue(value);
+      const var1 = this.docConfVForm.get('wfConfigsSerialized')['controls'][index]['controls']['ous'];
 
-      // Reset the input value
-      if (input) {
-        input.value = '';
-      }
     }
   }
 
-  remove(user: Ous, ous: any): void {
-    const index = this.users.indexOf(user.name);
+  remove(user: string, ous: any): void {
+    const index = this.users.indexOf(user);
     const arr = [];
     arr.push(ous);
     if (index >= 0) {
@@ -131,10 +124,10 @@ export class AdminDocConfVsAccordComponent implements OnInit {
     this.userInput.nativeElement.value = '';
     this.userCtrl.setValue(null);
   }
-  private _filter(value: string): Ous[] {
+  private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allUsers.filter(user => user.name.toLowerCase().indexOf(filterValue) === 0);
+    return this.allUsers.filter(user => user.toLowerCase().indexOf(filterValue) === 0);
   }
 
   saveDocConfV(): void {
@@ -234,8 +227,8 @@ showInConsole(var1: any): void {
   console.log(var1);
 }
 
-removeFromFormControl(user: Ous, index: any): void{
-  this.docConfVForm.get('wfConfigsSerialized')['controls'][index]['controls']['ous'].setValue();
+removeFromFormControl(user: string, index: any): void{
+  this.docConfVForm.get('wfConfigsSerialized')['controls'][index]['controls']['ous'].setValue({id: '', name: ''});
   const var1 = this.docConfVForm.get('wfConfigsSerialized')['controls'][index]['controls']['ous'];
   console.log(var1);
 }
@@ -252,12 +245,25 @@ removeFromFormControl(user: Ous, index: any): void{
 
     });
   }
+
+  createOus(arrIn: string[]): FormArray {
+    const arr = this._formBuilder.array([]);
+    let formGroup: FormGroup;
+    arrIn.forEach((element, index) => {
+      formGroup = this._formBuilder.group({
+        [index]: element
+      });
+      arr.push(formGroup);
+    });
+    return arr;
+  }
+
   createRoute(): FormArray {
     const d = this._formBuilder.array([]);
     let t: FormGroup;
     this.docConfV.wfConfigsSerialized.forEach((element) => {
       t = this._formBuilder.group({
-          ous: element.ous,
+          ous: this.objToArray(element.ous),
           computed: element.computed,
           editable: element.editable,
           hint: element.hint,
@@ -287,7 +293,7 @@ removeFromFormControl(user: Ous, index: any): void{
 
   createNewRoute(): void {
     const t = this._formBuilder.group({
-      ous: [{id: 'c63d9aaf-436e-4c0c-9e97-827e681c66d3', name: 'Abulkhair Zhamiyev'}],
+      ous: ['Abulkhair Zhamiyev'],
       computed: '',
       editable: true,
       hint: '',

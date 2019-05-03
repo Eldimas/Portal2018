@@ -76,7 +76,7 @@ namespace PortalApp.API.Controllers
                             wfconfig.Ous.Add(dep);
                             break;
                         case "MyAuthor":
-                            var user = await _userRepo.GetCurrentUser(User.Identity.Name);
+                            var user = await _userRepo.GetCurrentUserName(User.Identity.Name);
                             wfconfig.Ous.Add(user);
                             break;
                     }

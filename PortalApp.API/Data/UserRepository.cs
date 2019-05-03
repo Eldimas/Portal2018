@@ -30,6 +30,14 @@ namespace PortalApp.API.Data
             return userForList;
         }
 
+        public async Task<string> GetCurrentUserName(string name)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(x=>x.UserName == name);
+            var userForList = user.UserName;
+            //userForList.Id = user.Id;
+            return userForList;
+        }
+
         public async Task<UserProfile> GetCurrentUserProfile(string name)
         {
             var user = await _context.Users.SingleOrDefaultAsync(x=>x.UserName == name);
@@ -39,7 +47,7 @@ namespace PortalApp.API.Data
             return userForList;
         }
 
-        public async Task<OUForListDto> GetCurrentUsersDepartment(string name)
+        public async Task<string> GetCurrentUsersDepartment(string name)
         {
             var user = await _context.Users.SingleOrDefaultAsync(x=>x.UserName == name);
             Guid depId = Guid.Empty;
@@ -47,9 +55,7 @@ namespace PortalApp.API.Data
                 depId = u.DepartmentVId;
             }
             var dep = await _context.DepartmentVs.SingleOrDefaultAsync(x=>x.Id == depId);
-            var depForList = new OUForListDto();
-            depForList.Id = dep.Id;
-            depForList.Name = dep.Name;
+            var depForList = dep.Name;
             return depForList;
         }
 

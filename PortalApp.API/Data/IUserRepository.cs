@@ -12,6 +12,7 @@ namespace PortalApp.API.Data
          Task<IEnumerable<User>> GetAllUsers();
          Task<OUForListDto> GetCurrentUser(string name);
          Task<UserProfile> GetCurrentUserProfile(string name);
-         Task<OUForListDto> GetCurrentUsersDepartment(string name);
+         Task<string> GetCurrentUsersDepartment(string name);
+         Task<string> GetCurrentUserName(string name);
     }
 }
