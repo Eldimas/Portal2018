@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PortalApp.API.Migrations
 {
-    public partial class InitCreate123213 : Migration
+    public partial class InitialOne : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

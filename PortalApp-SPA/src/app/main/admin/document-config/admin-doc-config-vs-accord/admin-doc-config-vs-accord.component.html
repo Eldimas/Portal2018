@@ -51,7 +51,7 @@
                 <!-- <i>{{showInConsole(obj)}}</i> -->
                 <mat-chip-list #chipList>
                     <mat-chip
-                        *ngFor="let user of obj['value']['ous']"
+                        *ngFor="let user of obj['controls']['ous']['value']"
                         [selectable]="selectable"
                         [removable]="removable"
                         

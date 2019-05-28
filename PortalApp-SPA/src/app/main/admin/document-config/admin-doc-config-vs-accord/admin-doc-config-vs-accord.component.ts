@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { AdminDocConfVsService } from './admin-doc-config-vs-accord.service.service';
-import { MatSnackBar, MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete  } from '@angular/material';
+import { MatSnackBar, MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete, MatChip  } from '@angular/material';
 import { DocumentConfig } from '../document-config.model';
 import { AdminDocConf } from '../admin-doc-config/admin-doc-config.model';
 import { Observable } from 'rxjs';
@@ -75,6 +75,7 @@ export class AdminDocConfVsAccordComponent implements OnInit {
 
   @ViewChild('userInput') userInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
+  @ViewChild('chipList') matChip: MatChip;
   constructor(
     private _formBuilder: FormBuilder, 
     private _matSnackBar: MatSnackBar,
@@ -98,16 +99,19 @@ export class AdminDocConfVsAccordComponent implements OnInit {
     // this.wfConfigs = this.createRoute();
   }
   add(event: MatChipInputEvent, index): void {
-    // Add fruit only when MatAutocomplete is not open
-    // To make sure this does not conflict with OptionSelected Event
     if (!this.matAutocomplete.isOpen) {
       const input = event.input;
       const value = event.value;
-      // Add our fruit
-      console.log(value);
-      this.docConfVForm.get('wfConfigsSerialized')['controls'][index]['controls']['ous'].setValue(value);
-      const var1 = this.docConfVForm.get('wfConfigsSerialized')['controls'][index]['controls']['ous'];
 
+      // Add our fruit
+      if ((value || '').trim()) {
+        this.docConfVForm.get('wfConfigsSerialized')['controls'][index]['controls']['ous'].setValue(event.value.trim());
+      }
+
+      // Reset the input value
+      if (input) {
+        input.value = '';
+      }
     }
   }
 
@@ -119,6 +123,7 @@ export class AdminDocConfVsAccordComponent implements OnInit {
       arr.splice(index, 1);
     }
   }
+
   selected(event: MatAutocompleteSelectedEvent): void {
     this.users.push(event.option.viewValue);
     this.userInput.nativeElement.value = '';
