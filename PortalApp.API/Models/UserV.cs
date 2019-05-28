@@ -26,5 +26,8 @@ namespace PortalApp.API.Models
         public User User { get; set; }
         public Guid DepartmentVId { get; set; }
         public DepartmentV DepartmentV { get; set; }
+
+        public string DeputyUserName { get; set; }
+        public string Position { get; set; }
     }
 }

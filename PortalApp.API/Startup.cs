@@ -134,9 +134,6 @@ namespace PortalApp.API
             }
             
              app.UseHttpsRedirection();
-            seeder.SeedWfProcessIteration();
-            seeder.SeedWfProcessResult();
-            seeder.SeedWfProcessType();
             seeder.SeedDocumentConfigs();
             seeder.SeedRegions();
             seeder.SeedDepartments();

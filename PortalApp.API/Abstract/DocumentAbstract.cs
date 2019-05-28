@@ -26,5 +26,7 @@ namespace PortalApp.API.Abstract
         public bool Deleted { get; set; }
 
         public DateTime? Control { get; set; }
+
+        public DocumentStatus Status { get; set; }
     }
 }

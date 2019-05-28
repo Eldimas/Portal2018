@@ -68,57 +68,6 @@ namespace PortalApp.API.Data
             }
         }
 
-        public void SeedWfProcessType()
-        {
-            if (!_context.WfProcessType.Any())
-            {
-                var processTypeData = System.IO.File.ReadAllText("Data/SeedData/WfProcessType.json");
-
-                var processTypes = JsonConvert.DeserializeObject<List<WfProcessType>>(processTypeData);
-
-                foreach (var proc in processTypes)
-                {
-                    _context.WfProcessType.Add(proc);
-                }
-
-                _context.SaveChanges();
-            }
-        }
-
-        public void SeedWfProcessResult()
-        {
-            if (!_context.WfProcessResult.Any())
-            {
-                var processResData = System.IO.File.ReadAllText("Data/SeedData/WfProcessResult.json");
-
-                var processResults = JsonConvert.DeserializeObject<List<WfProcessResult>>(processResData);
-
-                foreach (var proc in processResults)
-                {
-                    _context.WfProcessResult.Add(proc);
-                }
-
-                _context.SaveChanges();
-            }
-        }
-
-        public void SeedWfProcessIteration()
-        {
-            if (!_context.WfProcessIteration.Any())
-            {
-                var processIterData = System.IO.File.ReadAllText("Data/SeedData/WfProcessIteration.json");
-
-                var processIterations= JsonConvert.DeserializeObject<List<WfProcessIteration>>(processIterData);
-
-                foreach (var proc in processIterations)
-                {
-                    _context.WfProcessIteration.Add(proc);
-                }
-
-                _context.SaveChanges();
-            }
-        }
-
         public void SeedDocumentConfigs()
         {
             if (!_context.DocumentConfigs.Any())

@@ -17,5 +17,7 @@ namespace PortalApp.API.Models
 
         [ForeignKey("DocumentConfigVs")]
         public Guid DocumentConfigVsId { get; set; }
+
+        public WfProcessInfo WfInfo { get; set; }
     }
 }

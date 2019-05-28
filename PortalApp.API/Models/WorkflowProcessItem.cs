@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using PortalApp.API.Dtos;
 
 namespace PortalApp.API.Models
@@ -14,13 +16,17 @@ namespace PortalApp.API.Models
         public WfProcessResult ProcessResult { get; set; }
         public WfProcessIteration ProcessIteration { get; set; }
         public DateTime Added { get; set; }
-        public DateTime Submitted { get; set; }
+        public DateTime? Submitted { get; set; }
         public bool Register { get; set; }
         public bool Opened { get; set; }
         public bool Marked { get; set; }
         public string GroupBy { get; set; }
+
+        [ForeignKey("Documents")]
         public Guid DocumentId { get; set; }
         public bool IsSavedInTask { get; set; }
+        public ICollection<WorkflowProcessItem> RefBy { get; set; }
+        public ICollection<WorkflowProcessItem> RefTo { get; set; }
         
     }
 }

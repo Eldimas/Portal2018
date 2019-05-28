@@ -16,15 +16,12 @@ namespace PortalApp.API.Data
         public DbSet<Like> Likes { get; set; }
         public DbSet<Message> Messages { get; set; } */
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Document> Documents { get; set; }
         public DbSet<DepartmentV> DepartmentVs { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<DocumentConfig> DocumentConfigs { get; set; }
         public DbSet<DocumentConfigVs> DocumentConfigVs { get; set; }
-        public DbSet<WfConfigsSerialized> WfConfigsSerialized { get; set; }
-        public DbSet<ContentConfigsSerialized> ContentConfigsSerialized { get; set; }
-        public DbSet<WfProcessType> WfProcessType { get; set; }
-        public DbSet<WfProcessIteration> WfProcessIteration { get; set; }
-        public DbSet<WfProcessResult> WfProcessResult { get; set; }
+        public DbSet<WorkflowProcessItem> WorkflowProcessItems { get; set; }
         public DbSet<UserV> UserVs { get; set; }
         public DbSet<UserTemp> UserTemps { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
