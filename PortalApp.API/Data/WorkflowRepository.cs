@@ -9,7 +9,7 @@ namespace PortalApp.API.Data
                 var doc = Load(context, id);
 
                 var config = context.DocumentConfigs.SingleOrDefault(x => x.DocumentType == doc.DocumentType);
-                if (config == null) throw (new Exception(String.Format("err: document with id={0} has no config", id)));
+                if (config == null) throw (new Exception(String.Format("error: document with id={0} has no config", id)));
 
                 if (config.RegisterAtSave && string.IsNullOrEmpty(doc.RegNumber))
                 {
@@ -123,7 +123,6 @@ namespace PortalApp.API.Data
             }
 
             var minCopyList = new List<WorkflowProcessItem>();
-            //////////////////////////////////////
             if( min > 0)
             {
                 minCopyList = wfitems.Where(
@@ -166,7 +165,7 @@ namespace PortalApp.API.Data
             }
             var author = currentDoc?.Author;
 
-            var isMemoDoc = currentDoc.DocumentType== "Memo_RecieverApprove";
+            var isMemoDoc = currentDoc.DocumentType== "Memo";
 
             var notStarted = new List<WorkflowProcessItem>();
 
