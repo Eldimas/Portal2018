@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PortalApp.API.Migrations
 {
-    public partial class InitialOne : Migration
+    public partial class Portal32423423423 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,22 +21,6 @@ namespace PortalApp.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ContentConfigsSerialized",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    FieldName = table.Column<string>(nullable: true),
-                    FieldDisplayName = table.Column<string>(nullable: true),
-                    Formula = table.Column<string>(nullable: true),
-                    Group = table.Column<string>(nullable: true),
-                    ContentType = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ContentConfigsSerialized", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,6 +48,18 @@ namespace PortalApp.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OUForListDto",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OUForListDto", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Regions",
                 columns: table => new
                 {
@@ -75,6 +71,20 @@ namespace PortalApp.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Regions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserInfo",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    DepartmentName = table.Column<string>(nullable: true),
+                    Position = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserInfo", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,42 +140,17 @@ namespace PortalApp.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WfProcessIteration",
+                name: "WfProcessInfo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Id = table.Column<Guid>(nullable: false),
+                    NeedRegister = table.Column<bool>(nullable: false),
+                    Started = table.Column<DateTime>(nullable: false),
+                    Ended = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WfProcessIteration", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "WfProcessResult",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WfProcessResult", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "WfProcessType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WfProcessType", x => x.Id);
+                    table.PrimaryKey("PK_WfProcessInfo", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -259,22 +244,39 @@ namespace PortalApp.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WfConfigsSerialized",
+                name: "Documents",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    AuthorId = table.Column<Guid>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Modified = table.Column<DateTime>(nullable: true),
+                    Title = table.Column<string>(nullable: false),
+                    TimeStamp = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    ReadOnly = table.Column<bool>(nullable: false),
+                    Deleted = table.Column<bool>(nullable: false),
+                    Control = table.Column<DateTime>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
+                    DocumentType = table.Column<string>(nullable: true),
+                    RegNumber = table.Column<string>(nullable: true),
+                    RegDate = table.Column<DateTime>(nullable: true),
                     Priority = table.Column<int>(nullable: false),
-                    ProcessTypeId = table.Column<int>(nullable: true),
-                    Computed = table.Column<string>(nullable: true),
-                    Editable = table.Column<bool>(nullable: false)
+                    DocumentConfigVsId = table.Column<Guid>(nullable: false),
+                    WfInfoId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WfConfigsSerialized", x => x.Id);
+                    table.PrimaryKey("PK_Documents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WfConfigsSerialized_WfProcessType_ProcessTypeId",
-                        column: x => x.ProcessTypeId,
-                        principalTable: "WfProcessType",
+                        name: "FK_Documents_OUForListDto_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "OUForListDto",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Documents_WfProcessInfo_WfInfoId",
+                        column: x => x.WfInfoId,
+                        principalTable: "WfProcessInfo",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -315,21 +317,39 @@ namespace PortalApp.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserForListDto",
+                name: "WorkflowProcessItems",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Username = table.Column<string>(nullable: true),
-                    WfConfigsSerializedId = table.Column<Guid>(nullable: true)
+                    Id = table.Column<Guid>(nullable: false),
+                    Priority = table.Column<int>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: true),
+                    TaskDescription = table.Column<string>(nullable: true),
+                    Comment = table.Column<string>(nullable: true),
+                    ProcessType = table.Column<int>(nullable: false),
+                    ProcessResult = table.Column<int>(nullable: false),
+                    ProcessIteration = table.Column<int>(nullable: false),
+                    Added = table.Column<DateTime>(nullable: false),
+                    Submitted = table.Column<DateTime>(nullable: true),
+                    Register = table.Column<bool>(nullable: false),
+                    Opened = table.Column<bool>(nullable: false),
+                    Marked = table.Column<bool>(nullable: false),
+                    GroupBy = table.Column<string>(nullable: true),
+                    DocumentId = table.Column<Guid>(nullable: false),
+                    IsSavedInTask = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserForListDto", x => x.Id);
+                    table.PrimaryKey("PK_WorkflowProcessItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserForListDto_WfConfigsSerialized_WfConfigsSerializedId",
-                        column: x => x.WfConfigsSerializedId,
-                        principalTable: "WfConfigsSerialized",
+                        name: "FK_WorkflowProcessItems_Documents_DocumentId",
+                        column: x => x.DocumentId,
+                        principalTable: "Documents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_WorkflowProcessItems_UserInfo_UserId",
+                        column: x => x.UserId,
+                        principalTable: "UserInfo",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -437,7 +457,9 @@ namespace PortalApp.API.Migrations
                     Priority = table.Column<int>(nullable: false),
                     Disabled = table.Column<bool>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
-                    DepartmentVId = table.Column<Guid>(nullable: false)
+                    DepartmentVId = table.Column<Guid>(nullable: false),
+                    DeputyUserName = table.Column<string>(nullable: true),
+                    Position = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -516,9 +538,14 @@ namespace PortalApp.API.Migrations
                 column: "DocumentConfigId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserForListDto_WfConfigsSerializedId",
-                table: "UserForListDto",
-                column: "WfConfigsSerializedId");
+                name: "IX_Documents_AuthorId",
+                table: "Documents",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Documents_WfInfoId",
+                table: "Documents",
+                column: "WfInfoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserVs_DepartmentVId",
@@ -531,9 +558,14 @@ namespace PortalApp.API.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WfConfigsSerialized_ProcessTypeId",
-                table: "WfConfigsSerialized",
-                column: "ProcessTypeId");
+                name: "IX_WorkflowProcessItems_DocumentId",
+                table: "WorkflowProcessItems",
+                column: "DocumentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkflowProcessItems_UserId",
+                table: "WorkflowProcessItems",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -554,13 +586,7 @@ namespace PortalApp.API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ContentConfigsSerialized");
-
-            migrationBuilder.DropTable(
                 name: "DocumentConfigVs");
-
-            migrationBuilder.DropTable(
-                name: "UserForListDto");
 
             migrationBuilder.DropTable(
                 name: "UserTemps");
@@ -572,10 +598,7 @@ namespace PortalApp.API.Migrations
                 name: "Values");
 
             migrationBuilder.DropTable(
-                name: "WfProcessIteration");
-
-            migrationBuilder.DropTable(
-                name: "WfProcessResult");
+                name: "WorkflowProcessItems");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -584,16 +607,22 @@ namespace PortalApp.API.Migrations
                 name: "DocumentConfigs");
 
             migrationBuilder.DropTable(
-                name: "WfConfigsSerialized");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "WfProcessType");
+                name: "Documents");
+
+            migrationBuilder.DropTable(
+                name: "UserInfo");
 
             migrationBuilder.DropTable(
                 name: "DepartmentVs");
+
+            migrationBuilder.DropTable(
+                name: "OUForListDto");
+
+            migrationBuilder.DropTable(
+                name: "WfProcessInfo");
 
             migrationBuilder.DropTable(
                 name: "Departments");

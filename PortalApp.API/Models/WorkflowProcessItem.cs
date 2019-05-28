@@ -25,7 +25,9 @@ namespace PortalApp.API.Models
         [ForeignKey("Documents")]
         public Guid DocumentId { get; set; }
         public bool IsSavedInTask { get; set; }
+        [NotMapped]
         public ICollection<WorkflowProcessItem> RefBy { get; set; }
+        [NotMapped]
         public ICollection<WorkflowProcessItem> RefTo { get; set; }
         
     }

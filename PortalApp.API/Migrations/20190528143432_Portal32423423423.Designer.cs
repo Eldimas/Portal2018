@@ -10,8 +10,8 @@ using PortalApp.API.Data;
 namespace PortalApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190527152005_InitialOne")]
-    partial class InitialOne
+    [Migration("20190528143432_Portal32423423423")]
+    partial class Portal32423423423
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -91,41 +91,48 @@ namespace PortalApp.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("PortalApp.API.Dtos.UserForListDto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Username");
-
-                    b.Property<Guid?>("WfConfigsSerializedId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WfConfigsSerializedId");
-
-                    b.ToTable("UserForListDto");
-                });
-
-            modelBuilder.Entity("PortalApp.API.Models.ContentConfigsSerialized", b =>
+            modelBuilder.Entity("PortalApp.API.Dtos.OUForListDto", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ContentType");
-
-                    b.Property<string>("FieldDisplayName");
-
-                    b.Property<string>("FieldName");
-
-                    b.Property<string>("Formula");
-
-                    b.Property<string>("Group");
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContentConfigsSerialized");
+                    b.ToTable("OUForListDto");
+                });
+
+            modelBuilder.Entity("PortalApp.API.Dtos.UserInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DepartmentName");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Position");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserInfo");
+                });
+
+            modelBuilder.Entity("PortalApp.API.Dtos.WfProcessInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Ended");
+
+                    b.Property<bool>("NeedRegister");
+
+                    b.Property<DateTime>("Started");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WfProcessInfo");
                 });
 
             modelBuilder.Entity("PortalApp.API.Models.Department", b =>
@@ -184,6 +191,54 @@ namespace PortalApp.API.Migrations
                     b.HasIndex("RegionId");
 
                     b.ToTable("DepartmentVs");
+                });
+
+            modelBuilder.Entity("PortalApp.API.Models.Document", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("AuthorId");
+
+                    b.Property<DateTime?>("Control");
+
+                    b.Property<DateTime?>("Created")
+                        .IsRequired();
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<Guid>("DocumentConfigVsId");
+
+                    b.Property<string>("DocumentType");
+
+                    b.Property<DateTime?>("Modified");
+
+                    b.Property<int>("Priority");
+
+                    b.Property<bool>("ReadOnly");
+
+                    b.Property<DateTime?>("RegDate");
+
+                    b.Property<string>("RegNumber");
+
+                    b.Property<int>("Status");
+
+                    b.Property<byte[]>("TimeStamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<string>("Title")
+                        .IsRequired();
+
+                    b.Property<Guid?>("WfInfoId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("WfInfoId");
+
+                    b.ToTable("Documents");
                 });
 
             modelBuilder.Entity("PortalApp.API.Models.DocumentConfig", b =>
@@ -424,6 +479,8 @@ namespace PortalApp.API.Migrations
 
                     b.Property<Guid>("DepartmentVId");
 
+                    b.Property<string>("DeputyUserName");
+
                     b.Property<bool>("Disabled");
 
                     b.Property<string>("DisplayNameEng");
@@ -437,6 +494,8 @@ namespace PortalApp.API.Migrations
                     b.Property<string>("FromNameKaz");
 
                     b.Property<string>("FromNameRus");
+
+                    b.Property<string>("Position");
 
                     b.Property<int>("Priority");
 
@@ -470,63 +529,48 @@ namespace PortalApp.API.Migrations
                     b.ToTable("Values");
                 });
 
-            modelBuilder.Entity("PortalApp.API.Models.WfConfigsSerialized", b =>
+            modelBuilder.Entity("PortalApp.API.Models.WorkflowProcessItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Computed");
+                    b.Property<DateTime>("Added");
 
-                    b.Property<bool>("Editable");
+                    b.Property<string>("Comment");
+
+                    b.Property<Guid>("DocumentId");
+
+                    b.Property<string>("GroupBy");
+
+                    b.Property<bool>("IsSavedInTask");
+
+                    b.Property<bool>("Marked");
+
+                    b.Property<bool>("Opened");
 
                     b.Property<int>("Priority");
 
-                    b.Property<int?>("ProcessTypeId");
+                    b.Property<int>("ProcessIteration");
+
+                    b.Property<int>("ProcessResult");
+
+                    b.Property<int>("ProcessType");
+
+                    b.Property<bool>("Register");
+
+                    b.Property<DateTime?>("Submitted");
+
+                    b.Property<string>("TaskDescription");
+
+                    b.Property<Guid?>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProcessTypeId");
+                    b.HasIndex("DocumentId");
 
-                    b.ToTable("WfConfigsSerialized");
-                });
+                    b.HasIndex("UserId");
 
-            modelBuilder.Entity("PortalApp.API.Models.WfProcessIteration", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WfProcessIteration");
-                });
-
-            modelBuilder.Entity("PortalApp.API.Models.WfProcessResult", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WfProcessResult");
-                });
-
-            modelBuilder.Entity("PortalApp.API.Models.WfProcessType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WfProcessType");
+                    b.ToTable("WorkflowProcessItems");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -561,13 +605,6 @@ namespace PortalApp.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("PortalApp.API.Dtos.UserForListDto", b =>
-                {
-                    b.HasOne("PortalApp.API.Models.WfConfigsSerialized")
-                        .WithMany("Ous")
-                        .HasForeignKey("WfConfigsSerializedId");
-                });
-
             modelBuilder.Entity("PortalApp.API.Models.DepartmentV", b =>
                 {
                     b.HasOne("PortalApp.API.Models.Department", "Department")
@@ -579,6 +616,18 @@ namespace PortalApp.API.Migrations
                         .WithMany("DepartmentVs")
                         .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PortalApp.API.Models.Document", b =>
+                {
+                    b.HasOne("PortalApp.API.Dtos.OUForListDto", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PortalApp.API.Dtos.WfProcessInfo", "WfInfo")
+                        .WithMany()
+                        .HasForeignKey("WfInfoId");
                 });
 
             modelBuilder.Entity("PortalApp.API.Models.DocumentConfigVs", b =>
@@ -622,11 +671,16 @@ namespace PortalApp.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("PortalApp.API.Models.WfConfigsSerialized", b =>
+            modelBuilder.Entity("PortalApp.API.Models.WorkflowProcessItem", b =>
                 {
-                    b.HasOne("PortalApp.API.Models.WfProcessType", "ProcessType")
+                    b.HasOne("PortalApp.API.Models.Document")
+                        .WithMany("WorkflowProcessItems")
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PortalApp.API.Dtos.UserInfo", "User")
                         .WithMany()
-                        .HasForeignKey("ProcessTypeId");
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }
